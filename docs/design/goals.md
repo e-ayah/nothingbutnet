@@ -16,4 +16,4 @@ I kept the cream background and burnt-orange buttons to match the other screens.
 
 Sample values and optimal ranges are illustrative. Progress is the portion of the starting-to-target distance covered: elbow (86.2−68)/(95−68) ≈ 68%; shoulder (49−40)/(60−40) = 45%.
 
-These are editable design mockups, not working forms. Figma showed a reconnect warning during editing, so cloud sync still needs to be confirmed.
+These are editable design mockups, not working forms. Figma sync verified: the latest designs were checked in the browser and match the desktop file.

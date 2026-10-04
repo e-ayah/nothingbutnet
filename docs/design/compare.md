@@ -15,4 +15,4 @@ The design is in my personal file and can be copied into the team file.
 
 I chose warm cream and burnt orange for a simple, sporty feel. Dates and scores sit side by side so the comparison is easy to scan. Color, arrows, and written labels explain whether each angle moved closer to its target.
 
-The target ranges and practice values are illustrative. These are editable mockups, not working session selectors. Cloud saving still needs verification because Figma showed a reconnect warning during editing.
+The target ranges and practice values are illustrative. These are editable mockups, not working session selectors. Figma sync verified: the latest designs were checked in the browser and match the desktop file.

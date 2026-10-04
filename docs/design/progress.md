@@ -26,4 +26,4 @@ Sample data, in degrees:
 
 Illustrative optimal ranges: elbow 90–100°, knee 140–150°, shoulder 55–65°. Charts use individually labeled angle scales. These are sample design values, not validated coaching guidance.
 
-The screens are editable design mockups. Cloud saving needs verification because Figma showed a reconnect warning during editing. This notes file still needs placing in the project repository at docs/design/progress.md.
+The screens are editable design mockups. Figma sync verified: the latest designs were checked in the browser and match the desktop file.
