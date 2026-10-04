@@ -52,12 +52,13 @@ def extract_pose(video_path: str, min_visibility: float=0.5, alpha: float=0.7) -
             ret, frame = cap.read() #reading capture -> ret is True if frame was grabbed; frame is BGR image array in shape (height,width,3)
             if not ret:
                 break
-            results = pose.process(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)) #run pose model on current frame
+            results = pose.process(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)) #run pose model on current frame (we need RGB so we converted BGR->RGB)
             if(results.pose_landmarks is None):
                 all_frame_data.append({'frame': frame_number,
                                        'landmarks': None})
             else:
                 h,w = frame.shape[:2] #height & width in px
+                #MediaPipe returns 33 joints with x & y as 0-1 fractions; * size = px
                 current_landmarks = [{'x': lm.x*w,
                                       'y': lm.y*h,
                                       'visibility': lm.visibility}
@@ -66,6 +67,7 @@ def extract_pose(video_path: str, min_visibility: float=0.5, alpha: float=0.7) -
                 for i, c in enumerate(current_landmarks):
                     p = previous_landmarks[i] if previous_landmarks is not None else None
                     has_prev = p is not None and p['x'] is not None
+                    #checks & flags visibility confidence level & reliability
                     if(c['visibility'] < min_visibility):
                         x = p['x'] if has_prev else None
                         y = p['y'] if has_prev else None
