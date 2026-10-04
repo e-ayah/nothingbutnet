@@ -15,8 +15,8 @@ output format of extract_pose(): dict
             'landmarks': list        | 33* of MediaPipe joints; None if no person found
             [
                 {
-                'x': float or None   | px
-                'y': float or None   | px (increases downwards)
+                'x': float or None   | px position
+                'y': float or None   | px position (increases downwards)
                 'visibility': float  | 0->1; measures MediaPipe's confidence that the joint is visible
                 'reliable': bool     | False if visibility<min_visibility
                 }
