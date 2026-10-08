@@ -8,7 +8,7 @@ y_no_smooth = []
 frames_smooth = []
 y_smooth = []
 
-file_location = os.path.join(os.getcwd(), "nothingbutnet", "ml", "LandmarkProcessing")
+file_location = os.path.dirname(os.path.abspath(__file__))  # same folder as example.py output
 
 # Load non-smoothed data
 with open(os.path.join(file_location, "landmarksNoSmooth.csv"), "r") as file:
