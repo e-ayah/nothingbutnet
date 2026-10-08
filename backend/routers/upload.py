@@ -3,6 +3,6 @@ from fastapi import APIRouter
 router = APIRouter()
 
 
-@router.get("/ping")
+@router.get("/upload/ping")
 def ping():
     return {"router": "upload"}
