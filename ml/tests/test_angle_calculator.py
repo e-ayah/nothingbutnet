@@ -1,4 +1,4 @@
-from angle_calculator import angles_for_frame
+from ml.angle_calculator import angles_for_frame
 
 def create_mock_test():
     mock_frame = []
@@ -11,54 +11,32 @@ def create_mock_test():
     mock_frame[16] = {'x': 0.7, 'y': 0.7, 'visibility': 1.0} # wrist
     return mock_frame
 
-def tests():
-    print("---STARTING TESTS---")
-    #Test 1 90° angle
-    print("Test 1: 90°")
-    frame1 = create_mock_test()
-    result1 = angles_for_frame(frame1, 'right')
-    if result1['elbow_angle'] == 90.0:
-        print("Test 1: 90° --> PASSED")
-    else:
-        print("Test 1: 90° --> FAILED - Got:", result1['elbow_angle'])
+def test_90_degree_angle():
+    frame = create_mock_test()
+    result = angles_for_frame(frame, 'right')
+    assert result['elbow_angle'] == 90.0
 
-    #Test 2 180° angle
-    print("Test 2: 180°")
-    frame2 = create_mock_test()
-    frame2[16] = {'x': 0.5, 'y': 0.9, 'visibility': 1.0} # move wrist so joints are in a straight line
-    result2 = angles_for_frame(frame2, 'right')
-    if result2['elbow_angle'] == 180.0:
-        print("Test 2: 180° --> PASSED")
-    else:
-        print("Test 2: 180° --> FAILED - Got:", result2['elbow_angle'])
+def test_180_degree_angle():
+    frame = create_mock_test()
+    frame[16] = {'x': 0.5, 'y': 0.9, 'visibility': 1.0} # move wrist so joints are in a straight line
+    result = angles_for_frame(frame, 'right')
+    assert result['elbow_angle'] == 180.0
 
-    #Test 3 fake left-handed shooter
-    print("Test 3: Left-handed Shooter")
-    frame3 = create_mock_test()
+def test_left_handed_shooter():
+    frame = create_mock_test()
     # reset right joints
-    frame3[12] = {'x': 0.0, 'y': 0.0, 'visibility': 1.0}
-    frame3[14] = {'x': 0.0, 'y': 0.0, 'visibility': 1.0}
-    frame3[16] = {'x': 0.0, 'y': 0.0, 'visibility': 1.0}
+    frame[12] = {'x': 0.0, 'y': 0.0, 'visibility': 1.0}
+    frame[14] = {'x': 0.0, 'y': 0.0, 'visibility': 1.0}
+    frame[16] = {'x': 0.0, 'y': 0.0, 'visibility': 1.0}
     # create left-handed joints at 90° angle
-    frame3[11] = {'x': 0.5, 'y': 0.5, 'visibility': 1.0}
-    frame3[13] = {'x': 0.5, 'y': 0.7, 'visibility': 1.0}
-    frame3[15] = {'x': 0.7, 'y': 0.7, 'visibility': 1.0}
-    result3 = angles_for_frame(frame3, 'left')
-    if result3['elbow_angle'] == 90.0:
-        print("Test 3: Left-handed Shooter --> PASSED")
-    else:
-        print("Test 3: Left-handed Shooter --> FAILED - Got:", result3['elbow_angle'])
+    frame[11] = {'x': 0.5, 'y': 0.5, 'visibility': 1.0}
+    frame[13] = {'x': 0.5, 'y': 0.7, 'visibility': 1.0}
+    frame[15] = {'x': 0.7, 'y': 0.7, 'visibility': 1.0}
+    result = angles_for_frame(frame, 'left')
+    assert result['elbow_angle'] == 90.0
 
-    #Test 4 missing elbow
-    print("Test 4: Missing Elbow")
-    frame4 = create_mock_test()
-    frame4[14]['visibility'] = 0.1 # set visibility low enough to be unreliable
-    result4 = angles_for_frame(frame4, 'right')
-    if result4['elbow_angle'] == None:
-        print("Test 4: Missing Elbow --> PASSED")
-    else:
-        print("Test 4: Missing Elbow --> FAILED - Got:", result4['elbow_angle'])
-
-    print("---END OF TESTS---")
-
-tests()
+def test_missing_elbow():
+    frame = create_mock_test()
+    frame[14]['visibility'] = 0.1 # set visibility low enough to be unreliable
+    result = angles_for_frame(frame, 'right')
+    assert result['elbow_angle'] is None
