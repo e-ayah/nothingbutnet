@@ -1,8 +1,11 @@
+import os
+
 import pytest
 
 from ml.video_io import video_info, read_frames
 
-VIDEO_PATH = "ml/tests/data/tiny.mp4"
+DATA_DIR = os.path.join(os.path.dirname(__file__), "data")
+VIDEO_PATH = os.path.join(DATA_DIR, "tiny.mp4")
 
 def test_video_info():
     info = video_info(VIDEO_PATH)
@@ -21,4 +24,4 @@ def test_read_frames():
 
 def test_missing_file():
     with pytest.raises(ValueError):
-        video_info("ml/tests/data/does_not_exist.mp4")
+        video_info(os.path.join(DATA_DIR, "does_not_exist.mp4"))

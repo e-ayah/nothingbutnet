@@ -10,7 +10,7 @@ def video_info(path):
     height = int(capture.get(cv2.CAP_PROP_FRAME_HEIGHT))
     frame_count = int(capture.get(cv2.CAP_PROP_FRAME_COUNT))
 
-    duration_s = frame_count / fps
+    duration_s = frame_count / fps if fps else 0.0  # some files report 0 fps
 
     capture.release()
 
