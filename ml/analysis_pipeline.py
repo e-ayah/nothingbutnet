@@ -1,5 +1,6 @@
 def analyze(video_path):
     # Returns fake analysis data in the format that the backend expects
+    # (POST /analysis/analyze). The backend fills in session_id.
     result = {
         "session_id": None,
         "release_frame": 45,
@@ -21,5 +22,5 @@ def analyze(video_path):
         "processed_at": "2026-09-15T10:30:00Z"
     }
 
-    return result, video_path
+    return result
 
