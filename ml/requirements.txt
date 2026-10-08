@@ -1,0 +1,6 @@
+# ML dependencies. Needs Python 3.11 or 3.12 (mediapipe 0.10.21 has no build for 3.13+).
+# mediapipe is pinned because newer releases removed mp.solutions, which our pose code uses.
+mediapipe==0.10.21
+opencv-python==4.11.0.86
+numpy==1.26.4
+pytest
