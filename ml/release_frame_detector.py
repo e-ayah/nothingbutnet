@@ -1,7 +1,19 @@
+# The elbow stays almost straight through the follow-through, so the single
+# biggest angle usually lands late in the follow-through. Release is the first
+# frame that gets within this many degrees of the biggest angle instead.
+RELEASE_TOLERANCE = 10
+
+
 def find_release_frame(frames, angles, side):
+    '''
+    frames: pose_extractor's result['frames']
+    angles: elbow angle per frame, same order as frames (None if unknown),
+            e.g. [a['elbow_angle'] for a in angles_for_video(frames)]
+    side: 'left' or 'right' (shooting hand)
+    returns (frame number, '') or (None, reason)
+    '''
     wrist_idx, shoulder_idx = (16, 12) if side == 'right' else (15, 11)
-    best_frame = None
-    best_angle = None
+    candidates = []  # (frame number, elbow angle) for frames with the wrist above the shoulder
 
     for i, frame in enumerate(frames):
         landmarks = frame['landmarks']
@@ -14,14 +26,18 @@ def find_release_frame(frames, angles, side):
 
         wrist_y = landmarks[wrist_idx]['y']
         shoulder_y = landmarks[shoulder_idx]['y']
+        if wrist_y is None or shoulder_y is None:
+            # joint not seen in this frame
+            continue
         if wrist_y >= shoulder_y:
             continue
 
-        if best_angle is None or angle > best_angle:
-            best_angle = angle
-            best_frame = frame['frame']
+        candidates.append((frame['frame'], angle))
 
-    if best_frame is None:
+    if not candidates:
         return (None, 'Wrist never goes above the shoulder')
 
-    return (best_frame, '')
+    best_angle = max(angle for _, angle in candidates)
+    for frame_number, angle in candidates:
+        if angle >= best_angle - RELEASE_TOLERANCE:
+            return (frame_number, '')
