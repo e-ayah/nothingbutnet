@@ -7,7 +7,7 @@ Takes in three points, one being the point where the angle lies and the other tw
 1. Sets each given point to be an array instead for future calculations
 2. Builds the first vector from the midpoint to the first point
 3. Builds the second vector from the midpoint to the third point
-4. Divides the dot product by the product of the two lengths to get the cosine value
+4. Divides the dot product by the product of the two lengths to get the cosine value (if either length is 0, i.e. two joints are at the same spot, it returns None instead)
 5. Clips the cosine value so that it remains between -1 and 1 due to potential floating point rounding errors
 6. Changes the radians angle into degrees
 7. Rounds the answer to one decimal place
