@@ -4,8 +4,8 @@ about: Report a problem so the team can reproduce and fix it.
 labels: bug
 ---
 
-## Title
-[Short description of the bug]
+## Environment
+[App version or commit, device, and test environment (e.g. iPhone 13 / Expo Go, Chrome, staging)]
 
 ## Steps to reproduce
 1. [First step]
@@ -19,10 +19,10 @@ labels: bug
 [What actually happened]
 
 ## Severity
-Critical / High / Medium / Low
+Critical / High / Medium / Low (also add the matching `severity:` label)
 
 ## Area
-ML / Backend / Frontend / Design
+ML / Backend / Frontend / Design (also add the matching area label)
 
 ## Screenshot/video
 [Attach if possible]
