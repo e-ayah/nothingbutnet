@@ -32,12 +32,16 @@ points_lost = 2
 # points for every degree it is outside. Angles inside the range on the 
 # boundaries do not lose and points and the final score is kept 
 # between 0 and 100 and returned as an int.
+# Angles that are missing or None (joint not visible) are skipped: no
+# feedback item and no points lost.
 def evaluate_form(angles:dict) -> dict:
     feedback = []
     score = 100
 
     for key, rule in ANGLE_RANGES.items():
-        angle = angles[key]
+        angle = angles.get(key)
+        if angle is None:
+            continue
 
         if angle < rule["min"]:
             degrees_off = rule["min"] - angle
