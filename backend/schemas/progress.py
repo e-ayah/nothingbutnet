@@ -1,6 +1,6 @@
 from typing import List
 from pydantic import BaseModel
-from backend.schemas.analysis import Angles
+from schemas.analysis import Angles
 
 class ProgressSession(BaseModel): # used as list for sessions in ProgressResponse
     session_id: str
