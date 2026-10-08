@@ -1,11 +1,15 @@
+# joints not given in points sit here (low in the frame), not at (0, 0) -
+# a joint at y=0 looks like the highest wrist and fools detect_shooting_side
+DEFAULT_POINT = (300, 450)
+
 def make_landmarks(points):
     # creates a list of 33 dictionaries for the pose landmarks
     landmarks = []
 
     for i in range(33):
         landmark = {
-            "x": 0,
-            "y": 0,
+            "x": DEFAULT_POINT[0],
+            "y": DEFAULT_POINT[1],
             "visibility": 1.0
         }
         if i in points:
@@ -29,7 +33,7 @@ def make_shot(n_frames, side='right'):
         wrist = 16
 
     for n in range(n_frames):
-        progress = n / (n_frames - 1)
+        progress = n / (n_frames - 1) if n_frames > 1 else 1.0
 
         wrist_y = 350 - 250 * progress
         elbow_x = 300 + 50 * progress
