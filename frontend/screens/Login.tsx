@@ -21,7 +21,8 @@ export default function LoginScreen() {
   //runs after "Log in"
   const handleSubmit = async () => {
     //validation
-    const eErr = email.includes("@") ? "" : "Enter a valid email";
+    const cleanEmail = email.trim();
+    const eErr = cleanEmail.includes("@") ? "" : "Enter a valid email";
     const pErr = password ? "" : "Password is required";
     setEmailError(eErr);
     setPasswordError(pErr);
@@ -31,11 +32,15 @@ export default function LoginScreen() {
     setFormError("");
     setLoading(true);
     try {
-      const res = await login(email, password);
-      setAuth(res.token, { id: res.user_id, name: "", email });
+      const res = await login(cleanEmail, password);
+      setAuth(res.token, { id: res.user_id, name: "", email: cleanEmail });
       navigation.reset({ index: 0, routes: [{ name: "Home" }] });
     } catch (err: any) {
-      setFormError(err?.message ?? "Login failed");
+      //show a readable message instead of axios's "Request failed with status code 401"
+      const status = err?.response?.status;
+      if (status === 401) setFormError("Invalid email or password");
+      else if (!err?.response) setFormError("Can't reach the server. Check your connection.");
+      else setFormError("Login failed. Please try again.");
     } finally {
       setLoading(false);
     }
