@@ -20,7 +20,9 @@ unavailable features as blocked, not passed.
 | ML calculations | Check known joint angles, shooting-hand detection, missing joints, feedback rules, and scores. | Automated tests using sample joint data |
 | Video-reading helpers | Check frame reading, frame rate, dimensions, and duration against a known small clip. | Provided test script |
 | Broadcast footage | Check pose detection on crowded scenes, camera cuts, replays, wrong angles, and cropped players. | Pose-detection script and visual review |
-| Design and labeling | Review the three design directions for the planned screens and confirm the labeling guide separates shooting form from made/missed outcomes. | Web browser || GitHub templates | Confirm issue and PR templates appear after activation on the default branch. Create and close a clearly marked test issue. | Web browser |
+| Design and labeling | Review the three design directions for the planned screens and confirm the labeling guide separates shooting form from made/missed outcomes. | Web browser |
+| GitHub templates | Confirm issue and PR templates appear after activation on the default branch. Create and close a clearly marked test issue. | Web browser |
+
 Login and Signup use mock data during this sprint. Real authentication
 integration will be tested when the backend endpoints are available.
 
