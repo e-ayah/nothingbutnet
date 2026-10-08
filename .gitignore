@@ -8,3 +8,4 @@ node_modules/
 !ml/tests/data/*.mp4
 ml/LandmarkProcessing/*.csv
 .expo/
+ml/output*.jpg
