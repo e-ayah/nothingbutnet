@@ -6,6 +6,18 @@ As our model is based on professionals, the outcome (made/missed) is labeled sep
 
 Thus, expect most clips to be 'good', and 'needs_work' will only be used for visible flaws, and 'unsure' otherwise.
 
+## Columns in `data/labels_template.csv`
+
+| Column | Allowed values |
+|---|---|
+| `filename` | clip file name |
+| `uploader` | who added the clip |
+| `outcome` | `made` / `missed` |
+| `usable` | `y` / `n` (see checklist below) |
+| `unusable_reason` | short note, only if `usable` is `n` |
+| `form_label` | `good` / `needs_work` / `unsure` |
+| `form_reason` | short note on why |
+
 ## Usability Checklist
 
 - Camera angle is filmed from the side that the player's shooting (dominant) hand is fully shown
