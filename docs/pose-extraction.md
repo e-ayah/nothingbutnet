@@ -7,7 +7,7 @@ cv2.VideoCapture() - manages inputs, outputs for video[creates a object belongin
             EX:
                 cv2.VideoCapture('path_to_file')    Video File
                 cv2.VideoCapture(0)     Webcam
-        .released() - closes connection with file/camera
+        .release() - closes connection with file/camera
             Returns None
 
 BGR => RGB
@@ -15,7 +15,7 @@ BGR => RGB
 
 pose.process
     Input:
-        Accepts a single image or video gram in the form of a 3D NumPy array
+        Accepts a single image or video frame in the form of a 3D NumPy array (RGB)
     Output:
         Returns a NamedTuple object which returns each point with an x, y coordinate, z, and visibility
 
@@ -55,13 +55,15 @@ formula: new = float * current + (1 - float) * previous
     the new position is the weighted average of the previous prediction step and the current predicted location
     if alpha/float is 1.0, the previous predictions do not matter and on the contrary, if it is 0.3, then the previous hold a lot of weight so the prediction location will be behind
 
+![Right wrist y position, smoothed vs. not smoothed](Figure_1.png)
+
 
 SMOOTHING OPTIONS
 Exponential Moving Average
     Description: Works recursively, meaning it gives the current frame a value while taking the previous value a certain value
-    Formula = ax_t + (1 - a) x_(t + 1)
-    Pros: Could be extremely Lag Tradeoff
-    Cons: Fixes Jittering
+    Formula = a * x_t + (1 - a) * s_(t - 1)   (s_(t - 1) = previous smoothed value)
+    Pros: Fixes jittering, works in real time (only needs past frames)
+    Cons: Lags behind fast movement - lower a means more lag
 Centered Moving Average
     Description: Takes a fixed group of value saround the current point and then averages them to find the point
     Formula = [x_(t - 1) + x_(t) + x_(t + 1)] / 3
