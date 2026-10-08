@@ -8,7 +8,11 @@ def calculate_angle(point_a, point_b, point_c):
     a, b, c = np.array(point_a), np.array(point_b), np.array(point_c)
     vector_ba = a - b
     vector_bc = c - b
-    cosine = np.dot(vector_ba, vector_bc) / (np.linalg.norm(vector_ba) * np.linalg.norm(vector_bc))
+    lengths = np.linalg.norm(vector_ba) * np.linalg.norm(vector_bc)
+    if lengths == 0:
+        # two joints at the same spot -> no angle (avoids nan)
+        return None
+    cosine = np.dot(vector_ba, vector_bc) / lengths
     cosine = np.clip(cosine, -1.0, 1.0)
     angle = np.degrees(np.arccos(cosine))
     return round(angle, 1)
@@ -19,10 +23,16 @@ def detect_shooting_side(frames):
     L = mp_pose.PoseLandmark
     for item in frames:
         landmarks = item['landmarks']
-        # left wrist is index 15
-        l_wrist = min(l_wrist, landmarks[L.LEFT_WRIST.value]['y'])
-        # right wrist is index 16
-        r_wrist = min(r_wrist, landmarks[L.RIGHT_WRIST.value]['y'])
+        if landmarks is None:
+            # no person found in this frame
+            continue
+        # left wrist is index 15, right wrist is index 16 (y is None if the joint wasn't seen)
+        l_y = landmarks[L.LEFT_WRIST.value]['y']
+        r_y = landmarks[L.RIGHT_WRIST.value]['y']
+        if l_y is not None:
+            l_wrist = min(l_wrist, l_y)
+        if r_y is not None:
+            r_wrist = min(r_wrist, r_y)
     if l_wrist < r_wrist:
         return 'left'
     else:
@@ -77,7 +87,11 @@ def angles_for_video(frames):
     n = 0
     for item in frames:
         landmarks = item['landmarks']
-        angles = angles_for_frame(landmarks, side)
+        if landmarks is None:
+            # no person found in this frame -> no angles
+            angles = {'elbow_angle': None, 'knee_angle': None, 'shoulder_angle': None}
+        else:
+            angles = angles_for_frame(landmarks, side)
         # final result
         result += [{'frame': n, 'elbow_angle': angles['elbow_angle'], 'knee_angle': angles['knee_angle'], 'shoulder_angle': angles['shoulder_angle']}]
         n += 1
