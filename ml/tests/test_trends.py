@@ -72,3 +72,23 @@ def test_none_value_is_skipped():
 
     assert result["labels"]["elbow_angle"] == "improving"
     assert result["trends"]["elbow_angle"] == [110, 105, 102, 98]
+
+def test_session_without_angles_is_skipped():
+    # processing/failed sessions have angles=None
+    sessions = [
+        make_session(110),
+        {"angles": None},
+        make_session(105),
+        make_session(102),
+    ]
+
+    result = trends(sessions)
+
+    assert result["trends"]["elbow_angle"] == [110, 105, 102]
+    assert result["labels"]["elbow_angle"] == "improving"
+
+
+def test_ranges_match_feedback_rules():
+    from ml.feedback_rules import ANGLE_RANGES
+    from ml.trend_analyzer import RANGES
+    assert RANGES == {k: (v["min"], v["max"]) for k, v in ANGLE_RANGES.items()}
