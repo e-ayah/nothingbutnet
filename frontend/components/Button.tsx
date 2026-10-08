@@ -1,7 +1,8 @@
 import React from 'react';
 import { ActivityIndicator, Pressable, Text } from 'react-native';
 
-const PRIMARY_COLOR = '#2563eb';
+// keep in sync with `primary` in tailwind.config.js (spinner color can't use className)
+const PRIMARY_COLOR = '#1a1a2e';
 
 type ButtonProps = {
   title: string;
