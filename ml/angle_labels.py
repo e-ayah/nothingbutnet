@@ -23,13 +23,17 @@ def draw_angle_labels(frame, landmarks, angles, side):
         frame with angle labels drawn on it
     """
 
+    if landmarks is None:
+        # no person in this frame - nothing to label
+        return frame
+
     height, width = frame.shape[:2]
 
-    # Make font size depend on image width
+    # Make font size depend on image width (about 0.4 at 480px, 0.9 at 1080px)
 
     font = cv2.FONT_HERSHEY_SIMPLEX
-    thickness = min(3, width // 200)
-    font_scale = min(3, width // 200)
+    font_scale = max(0.4, width / 1200)
+    thickness = max(1, round(width / 600))
 
     L = mp_pose.PoseLandmark
 
@@ -59,6 +63,8 @@ def draw_angle_labels(frame, landmarks, angles, side):
             continue
 
         landmark = landmarks[landmark_type.value]
+        if landmark['x'] is None or landmark['y'] is None:
+            continue
 
         x = int(landmark['x'])
         y = int(landmark['y'])
