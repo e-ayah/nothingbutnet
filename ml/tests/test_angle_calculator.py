@@ -1,4 +1,4 @@
-from ml.angle_calculator import angles_for_frame
+from ml.angle_calculator import angles_for_frame, angles_for_video, calculate_angle, detect_shooting_side
 
 def create_mock_test():
     mock_frame = []
@@ -40,3 +40,23 @@ def test_missing_elbow():
     frame[14]['visibility'] = 0.1 # set visibility low enough to be unreliable
     result = angles_for_frame(frame, 'right')
     assert result['elbow_angle'] is None
+
+
+def test_same_point_returns_none():
+    # two joints at the same spot -> no angle instead of nan
+    assert calculate_angle([1, 1], [1, 1], [2, 2]) is None
+
+def test_video_with_no_person_frame():
+    # pose_extractor gives landmarks=None when no person is found
+    frame = create_mock_test()
+    frame[15] = {'x': 0.1, 'y': 0.9, 'visibility': 1.0} # left wrist low so right side is picked
+    frames = [{'frame': 0, 'landmarks': None}, {'frame': 1, 'landmarks': frame}]
+    result = angles_for_video(frames)
+    assert result[0]['elbow_angle'] is None
+    assert result[1]['elbow_angle'] == 90.0
+
+def test_side_detection_skips_unseen_wrist():
+    # an unseen joint comes through as x/y None
+    frame = create_mock_test()
+    frame[15] = {'x': None, 'y': None, 'visibility': 0.1}
+    assert detect_shooting_side([{'frame': 0, 'landmarks': frame}]) == 'right'
