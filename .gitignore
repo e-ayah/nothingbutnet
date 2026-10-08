@@ -1,3 +1,10 @@
-node_modules/
-.expo/
+venv/
+.env
+__pycache__/
+*.pyc
 .DS_Store
+node_modules/
+*.mp4
+!ml/tests/data/*.mp4
+ml/LandmarkProcessing/*.csv
+.expo/
