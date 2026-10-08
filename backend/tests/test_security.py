@@ -39,3 +39,10 @@ def test_edited_token_fails():
     tampered = f"{header}.{new_first}{payload[1:]}.{sig}"
     with pytest.raises(ValueError):
         decode_access_token(tampered)
+
+#empty SECRET_KEY refuses to sign (otherwise anyone could forge tokens)
+def test_empty_secret_key_fails(monkeypatch):
+    import services.security as security
+    monkeypatch.setattr(security, "SECRET_KEY", "")
+    with pytest.raises(RuntimeError):
+        create_access_token(42)
