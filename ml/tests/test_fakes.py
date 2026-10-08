@@ -1,24 +1,5 @@
-import numpy as np
+from ml.angle_calculator import calculate_angle
 from ml.testing.fakes import make_landmarks, make_shot
-
-
-def calculate_angle(point_a, point_b, point_c):
-    a = np.array(point_a)
-    b = np.array(point_b)
-    c = np.array(point_c)
-
-    vector_ba = a - b
-    vector_bc = c - b
-
-    cosine = np.dot(vector_ba, vector_bc) / (
-        np.linalg.norm(vector_ba) * np.linalg.norm(vector_bc)
-    )
-
-    cosine = np.clip(cosine, -1.0, 1.0)
-
-    angle = np.degrees(np.arccos(cosine))
-
-    return round(angle, 1)
 
 
 def test_make_landmarks():
@@ -45,3 +26,19 @@ def test_make_shot_left():
     last_wrist = shots[29]["landmarks"][15]
 
     assert last_wrist["y"] < first_wrist["y"]
+
+def test_make_shot_works_with_real_pipeline():
+    # the fakes are shared test data, so they must work with the real ML code
+    from ml.angle_calculator import angles_for_video, detect_shooting_side
+    from ml.release_frame_detector import find_release_frame
+    for side in ('right', 'left'):
+        shots = make_shot(30, side)
+        assert detect_shooting_side(shots) == side
+        elbows = [a['elbow_angle'] for a in angles_for_video(shots)]
+        assert elbows[-1] > elbows[0]  # arm extends during the shot
+        frame, reason = find_release_frame(shots, elbows, side)
+        assert frame is not None
+
+
+def test_make_shot_single_frame():
+    assert len(make_shot(1)) == 1
