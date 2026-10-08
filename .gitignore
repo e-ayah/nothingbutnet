@@ -6,3 +6,4 @@ __pycache__/
 node_modules/
 *.mp4
 !ml/tests/data/*.mp4
+ml/LandmarkProcessing/*.csv
