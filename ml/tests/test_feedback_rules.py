@@ -33,3 +33,10 @@ def test_elbow_exactly_100_is_good():
     result = evaluate_form({**IN_RANGE, "elbow_angle": 100})
     assert get_item(result, "elbow_angle")["status"] == "good"
     assert result["overall_score"] == 100
+
+def test_missing_angle_is_skipped():
+    # angle_calculator returns None when a joint isn't visible
+    result = evaluate_form({**IN_RANGE, "knee_angle": None})
+    assert get_item(result, "knee_angle") is None
+    assert len(result["feedback"]) == 2
+    assert result["overall_score"] == 100
