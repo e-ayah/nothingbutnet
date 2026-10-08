@@ -11,6 +11,12 @@ ALGORITHM = "HS256"
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
+#returns SECRET_KEY, or errors if it's missing/empty (an empty key lets anyone forge tokens)
+def _secret_key():
+    if not SECRET_KEY:
+        raise RuntimeError("SECRET_KEY is not set - add it to backend/.env")
+    return SECRET_KEY
+
 #input: password (str)
 #return: hashed password (str)
 def hash_password(pw):
@@ -28,14 +34,14 @@ def verify_password(pw, hashed):
 def create_access_token(user_id, minutes=60 * 24 * 7):
     expire = datetime.now(timezone.utc) + timedelta(minutes=minutes)
     payload = {"sub": str(user_id), "exp": expire} 
-    return jwt.encode(payload, SECRET_KEY, algorithm=ALGORITHM)
+    return jwt.encode(payload, _secret_key(), algorithm=ALGORITHM)
 
 #makes sure that token is valid
 #input: token (str)
 #return: str -> user_id if token is valid
 def decode_access_token(token):
     try:
-        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM]) #checks signature + exp
+        payload = jwt.decode(token, _secret_key(), algorithms=[ALGORITHM]) #checks signature + exp
     except JWTError as e:
         raise ValueError("Invalid or expired token") from e
 
