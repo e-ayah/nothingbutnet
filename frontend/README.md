@@ -3,8 +3,6 @@ Running the app:
     npm install
     npx expo start
     >Scan the qr code to access on mobile through Expo Go
-    >To access through the web, run:
-    npx expo install react-dom react-native-web
-    and click w to access
+    >To access through the web, press w in the terminal (react-dom and react-native-web are already installed)
     >If phone can't access due to wifi, run:
     npx expo start --tunnel
