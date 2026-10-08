@@ -1,15 +1,15 @@
 import numpy as np
 
+from ml.feedback_rules import ANGLE_RANGES
 
-RANGES = {
-    "elbow_angle": (85, 100),
-    "knee_angle": (150, 175),
-    "shoulder_angle": (45, 75),
-}
+
+# same optimal ranges as the feedback, e.g. {"elbow_angle": (85, 100), ...}
+RANGES = {name: (rule["min"], rule["max"]) for name, rule in ANGLE_RANGES.items()}
 
 SLOPE_THRESHOLD = 0.5
 
 
+# sessions: oldest first, each with an "angles" dict (None for processing/failed sessions)
 def trends(sessions, ranges=RANGES):
     labels = {}
     trend_values = {}
@@ -18,7 +18,8 @@ def trends(sessions, ranges=RANGES):
         values = []
 
         for session in sessions:
-            value = session["angles"].get(angle_name)
+            angles = session.get("angles") or {}  # skip sessions with no angles
+            value = angles.get(angle_name)
 
             if value is not None:
                 values.append(value)
