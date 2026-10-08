@@ -23,9 +23,13 @@ def draw_skeleton(frame, landmarks, statuses, side):
     GOOD = (0, 170, 0)
     NEEDS_WORK = (0, 120, 255)
 
+    if landmarks is None:
+        # no person in this frame - nothing to draw
+        return frame
+
     height, width = frame.shape[:2]
-    radius = max(3, width // 200)
-    thickness = max(1, width // 300)
+    radius = max(3, width // 120)
+    thickness = max(2, width // 200)
 
     # Decide color from checkpoint status
     def get_color(checkpoint):
@@ -38,7 +42,7 @@ def draw_skeleton(frame, landmarks, statuses, side):
         if landmark is None:
             return None
 
-        if landmark["visibility"] < 0.5:
+        if landmark["visibility"] < 0.5 or landmark["x"] is None or landmark["y"] is None:
             return None
 
         return (int(landmark["x"]), int(landmark["y"]))
