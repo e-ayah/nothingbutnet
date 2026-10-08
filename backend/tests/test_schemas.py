@@ -1,8 +1,8 @@
-from backend.schemas.auth import SignupRequest, LoginRequest, AuthResponse
-from backend.schemas.analysis import AnalysisResponse
-from backend.schemas.sessions import UploadResponse, SessionSummary, SessionDetail
-from backend.schemas.progress import ProgressResponse
-from backend.schemas.goals import GoalCreate, GoalOut
+from schemas.auth import SignupRequest, LoginRequest, AuthResponse
+from schemas.analysis import AnalysisResponse
+from schemas.sessions import UploadResponse, SessionSummary, SessionDetail
+from schemas.progress import ProgressResponse
+from schemas.goals import GoalCreate, GoalOut
 # import everything in order to test everything!
 
 """
@@ -54,6 +54,10 @@ def test_sessions():
         score=67, status="processing",
     )
     assert detail.angles is None
+    # while processing there's no score or annotated video yet
+    pending = SessionDetail(session_id="abc123", video_url="x", status="processing")
+    assert pending.score is None
+    SessionSummary(session_id="abc123", created_at="2026-09-15", status="processing")
 
 
 def test_progress():
