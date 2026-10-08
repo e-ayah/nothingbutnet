@@ -4,9 +4,13 @@ import os
 
 VIDEO_LOCATION = "first_5_seconds.mp4"
 
-video_path = os.path.join(os.getcwd(), "nothingbutnet", "ml", "LandmarkProcessing", VIDEO_LOCATION)
+# paths are relative to this file, so it runs from any folder
+file_path = os.path.dirname(os.path.abspath(__file__))
 
-file_path = os.path.join(os.getcwd(), "nothingbutnet", "ml", "LandmarkProcessing")
+# the clip isn't committed (videos are gitignored) - put your own copy here
+video_path = os.path.join(file_path, VIDEO_LOCATION)
+if not os.path.exists(video_path):
+    raise SystemExit(f"No video at {video_path} - add a local clip named {VIDEO_LOCATION}")
 
 landmark_data_smooth = extract_pose_from_video_smoothing(video_path)
 landmark_data_no_smooth = extract_pose_from_video_no_smoothing(video_path)
