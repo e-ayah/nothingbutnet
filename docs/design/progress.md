@@ -27,3 +27,5 @@ Sample data, in degrees:
 Illustrative optimal ranges: elbow 90–100°, knee 140–150°, shoulder 55–65°. Charts use individually labeled angle scales. These are sample design values, not validated coaching guidance.
 
 The screens are editable design mockups. Figma sync verified: the latest designs were checked in the browser and match the desktop file.
+
+**For developers:** the app's real target ranges are in `ml/feedback_rules.py` (`ANGLE_RANGES`: elbow 85–100°, knee 150–175°, shoulder 45–75°). Use those, not the illustrative values above.
