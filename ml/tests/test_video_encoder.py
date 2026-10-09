@@ -3,11 +3,11 @@ import os
 import cv2 as cv
 from ml.video_encoder import encode_video
 
-def test_video_encoder():
+def test_video_encoder(tmp_path):
     num_frames = 30
     fps = 30
     width, height = 200, 200
-    out_path = "test_output.mp4"
+    out_path = str(tmp_path / "test_output.mp4")  # temp folder, not the repo
 
     # creating mock frames of cyan 20 x 20 square moving diagonally across screen
     frames = []
@@ -40,3 +40,9 @@ def test_video_encoder():
     finally:
         if os.path.exists(out_path):
             os.remove(out_path)
+
+
+def test_no_frames_raises(tmp_path):
+    import pytest
+    with pytest.raises(ValueError):
+        encode_video([], 30, str(tmp_path / "empty.mp4"))
