@@ -21,6 +21,9 @@ def encode_video(frames, fps, out_path):
         None
             The output video is saved directly at out_path
     """
+    if len(frames) == 0:
+        raise ValueError("No frames to encode")
+
     height, width, channels = frames[0].shape
 
     with tempfile.NamedTemporaryFile(suffix='.mp4', delete=False) as temp_file:
@@ -34,7 +37,8 @@ def encode_video(frames, fps, out_path):
             out.write(frame)
         out.release()
 
-        subprocess.run([imageio_ffmpeg.get_ffmpeg_exe(), '-y', '-i', temp_path, '-c:v', 'libx264', '-pix_fmt', 'yuv420p', '-movflags', '+faststart', out_path], check=True)
+        # -loglevel error: only print real problems (ffmpeg's normal output is ~40 lines per video)
+        subprocess.run([imageio_ffmpeg.get_ffmpeg_exe(), '-y', '-loglevel', 'error', '-i', temp_path, '-c:v', 'libx264', '-pix_fmt', 'yuv420p', '-movflags', '+faststart', out_path], check=True)
 
     finally:
         if os.path.exists(temp_path):
