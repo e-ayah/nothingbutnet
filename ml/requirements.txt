@@ -3,4 +3,5 @@
 mediapipe==0.10.21
 numpy<2
 opencv-contrib-python<5
+imageio-ffmpeg  # bundled ffmpeg for H.264 encoding in video_encoder.py
 pytest
