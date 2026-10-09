@@ -16,3 +16,5 @@ The design is in my personal file and can be copied into the team file.
 I chose warm cream and burnt orange for a simple, sporty feel. Dates and scores sit side by side so the comparison is easy to scan. Color, arrows, and written labels explain whether each angle moved closer to its target.
 
 The target ranges and practice values are illustrative. These are editable mockups, not working session selectors. Figma sync verified: the latest designs were checked in the browser and match the desktop file.
+
+**For developers:** the app's real target ranges are in `ml/feedback_rules.py` (`ANGLE_RANGES`: elbow 85–100°, knee 150–175°, shoulder 45–75°). Use those, not the illustrative values above.
