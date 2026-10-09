@@ -2,12 +2,14 @@
 # general errrs rather than a random three that they occasionally
 # miss in a row
 
+# sessions: oldest first, so latest_tip is the most recent one
 def recurring(sessions, min_count=3):
     counts = {}
     latest_tips = {}
 
     for session in sessions:
-        for item in session["feedback"]:
+        # processing/failed sessions have feedback=None
+        for item in session.get("feedback") or []:
             if item["status"] == "needs_work":
                 name = item["checkpoint"]
                 counts[name] = counts.get(name, 0) + 1
