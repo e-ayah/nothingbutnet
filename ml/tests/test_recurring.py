@@ -25,3 +25,9 @@ def test_knee_flagged_in_3_of_4_sessions():
     assert len(result) == 1
     assert result[0]["checkpoint"] == "knee_bend"
     assert result[0]["count"] == 3
+
+def test_session_without_feedback_is_skipped():
+    # processing/failed sessions have feedback=None
+    sessions = [make_session("needs_work") for _ in range(3)] + [{"feedback": None}]
+    result = recurring(sessions)
+    assert result[0]["count"] == 3
