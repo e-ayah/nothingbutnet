@@ -2,7 +2,7 @@
 
 Figma: https://www.figma.com/design/IQVHZ6RXr0zA6EzIyTMcix/Design?node-id=1-3
 
-The design is in my personal file. Originals are preserved as “Week 1 version - Progress Mobile/Desktop”. Copies are named “Cavs11 - Progress Mobile/Desktop”. The copies retain the existing personal aesthetic at Ryan’s request; the chosen team look and Cavs#07 component swap are pending.
+The design is in my personal file. Originals are preserved as “Week 1 version - Progress Mobile/Desktop”. Copies are named “Cavs11 - Progress Mobile/Desktop”. The copies now use the peach/orange reference supplied by Ryan; the shared Cavs#07 component/style links are still pending.
 
 - Mobile: 393 × 852. Desktop: 1440 × 900.
 - The headline shows elbow improvement from 84° to 86.2° (+2.2°).
@@ -11,9 +11,9 @@ The design is in my personal file. Originals are preserved as “Week 1 version 
 - Empty, loading, and error layouts are below the main screens. The empty example has one saved session and explains that two are needed.
 - Both main frames use Auto Layout. Each mobile chart is now a reusable component (elbow, knee, shoulder); desktop charts and remaining repeated controls still need component reuse.
 - Font: Inter. Card radius: 12.
-- Colors: cream #FFF8F0, burnt orange #B93815, brown #2D201B, secondary text #6F5D55, green #1F7A4D, pale green #E8F3EC, orange #B45309, pale orange #FFF0DC, white #FFFFFF, borders #DCCFC7.
+- Colors: peach #FFD3AF, dark orange #A34A00, black #000000, secondary text #573317, green #1F7A4D, pale green #E8F3EC, orange #B45309, pale orange #FFF0DC, white #FFFFFF, borders #DCCFC7.
 
-The Cavs copies use Upload, History, and Progress navigation because Compare and Goals were cut. Compare and Goals pages are renamed “ARCHIVED – …”; no Feedback page exists in this personal file. I kept the warm colors and Inter font consistent with the new States and Onboarding screens. Separate charts keep each checkpoint easy to read, while the shaded bands show where the target range sits. The orange card gives the user one clear thing to focus on next practice.
+The Cavs copies use Upload, History, and Progress navigation because Compare and Goals were cut. Compare and Goals pages are renamed “ARCHIVED – …”; no Feedback page exists in this personal file. The peach background, dark-orange chart lines, black text, and Inter font match the new States and Onboarding screens. The mobile navigation uses #E8AE7E; the desktop sidebar is black. Green target bands remain distinct from the decorative orange palette. Separate charts keep each checkpoint easy to read, while the shaded bands show where the target range sits. The orange card gives the user one clear thing to focus on next practice.
 
 Sample data, in degrees:
 

@@ -2,28 +2,32 @@
 
 Figma: https://www.figma.com/design/IQVHZ6RXr0zA6EzIyTMcix/Design?node-id=37-835
 
-Page: Onboarding. Three editable 393 × 852 screens; primary buttons are local components with Auto Layout. The flow is a visual design, not a clickable prototype.
+Reference: https://www.figma.com/design/5SPHJTMmgRV8kCDiWZvTcR/NothingButNet-Onboarding-Desktop?node-id=0-1
 
-1. **Onboarding 01 - Welcome**: “Build a better free throw.” Explains recording a shot, reviewing angles, and seeing progress. Primary action: “Get started”. Secondary: “Already set up? Skip intro”.
-2. **Onboarding 02 - Recording setup**: “Set up your shot.” Film from the side, keep the whole body visible, use a steady camera with good lighting, and capture the full free throw. Primary action: “Continue”. Secondary: “Back”.
-3. **Onboarding 03 - First session**: “Make your first shot count.” Upload a side-view video; analysis takes about a minute. Explains elbow, knee, and shoulder feedback and that Progress unlocks after two sessions. Primary action: “Analyze a shot”. Secondary: “Back”.
+The current collection is “Cavs11 - Onboarding - Peach reference”, inside “Onboarding - Current and previous versions”. The earlier cream draft is preserved below as “Week 1 version - Cream Onboarding”.
 
-## Intended flow
+## Screens and exact main copy
 
-Get started → Recording setup → First session → Upload. Back returns one step. Skip intro opens Upload. Recording illustrations are editable vectors.
+Three steps, each with a 393 × 852 iPhone version and a 1440 × 900 desktop version:
 
-The three screens introduce the value, give practical filming guidance, then offer a clear first action. Cream backgrounds, orange buttons, and short instructions follow the personal design used on the other pages.
+1. “Get instant feedback on your free throw form!” — Next.
+2. “How to film your free throw:” — Face your shooting side towards the camera; Keep your whole body in the frame; Use good lighting; Keep your phone steady while filming. — Next.
+3. “After uploading your video, you will see:” — Form score: 78/100; Great elbow and shoulder alignment!; Try bending your knees more. — Get Started.
 
-## Current style
+Next advances a step; Get Started opens Upload. Three dots show the current step. These are editable visual mockups, not wired prototype interactions.
 
-Personal cream/orange design, requested by Ryan. This is not yet verified against the chosen team aesthetic or Cavs#07 styles/components.
+## Style and structure
 
-- Inter; primary text #2D201B; secondary text #6F5D55.
-- Background #FFF8F0; surfaces #FFFFFF; primary action #B93815 with white text.
-- Success #1F7A4D on #E8F3EC; warning #B45309 on #FFF0DC.
-- State icon background #F5E6D6; error icon background #FDEBE7; skeleton #E8DDD6.
-- Mobile frames: 393 × 852. Screen headings 28–32 px; body 13–17 px; action labels 16 px.
+- Inter; main text black #000000; white #FFFFFF button labels and inactive dots.
+- Peach #FFD3AF background; dark-orange #A34A00 buttons, active dots, and score heading.
+- Layered orange curves: #A34A00, #BD5C08, #D57521, #EF913B.
+- Results card #E8AE7E; green angle labels #00D75A.
+- Button radius 8 px; results card radius 12 px.
+- Mobile headings 24–30 px; body 14–17 px; button labels 16 px. Desktop headings 34–38 px; body 20–24 px.
+- Each new screen is a local Figma component, with editable text and vector illustration.
+
+The design follows the supplied reference’s peach background, layered orange shapes, three-step content, and compact buttons. The results preview uses an original editable player illustration in place of the reference’s video image; its sample score and feedback retain the reference wording.
 
 ## Handoff status
 
-This is new proposed content: the personal Onboarding page was blank, and the existing team/Bulls Onboarding screens were not available. It has not been checked for content parity with the team original. Shared Cavs#07 styles/components and team-file transfer remain pending. Verify cloud sync for these new changes before handoff.
+Reference styling is applied. Shared Cavs#07 component/style links and transfer to the team file are pending. Verify cloud sync for these latest changes before handoff. The previous source Figma link is retained above for comparison.

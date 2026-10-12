@@ -1,6 +1,6 @@
 # Cavs#11 — Loading, error, and empty states
 
-Figma: https://www.figma.com/design/IQVHZ6RXr0zA6EzIyTMcix/Design?node-id=38-910
+Figma: https://www.figma.com/design/IQVHZ6RXr0zA6EzIyTMcix/Design?node-id=38-1515
 
 Page: States. Eight editable mobile state components sit in the named collection. These are visual mockups, not wired interactions.
 
@@ -32,14 +32,16 @@ State cards use a 20 px radius; actions use 12 px. Text and recovery actions exp
 
 ## Current style
 
-Personal cream/orange design, requested by Ryan. This is not yet verified against the chosen team aesthetic or Cavs#07 styles/components.
+Matched to the Onboarding reference screenshot supplied by Ryan on October 11.
 
-- Inter; primary text #2D201B; secondary text #6F5D55.
-- Background #FFF8F0; surfaces #FFFFFF; primary action #B93815 with white text.
-- Success #1F7A4D on #E8F3EC; warning #B45309 on #FFF0DC.
-- State icon background #F5E6D6; error icon background #FDEBE7; skeleton #E8DDD6.
-- Mobile frames: 393 × 852. Screen headings 28–32 px; body 13–17 px; action labels 16 px.
+- Inter. Black #000000 headings and body; secondary text #573317.
+- Peach background #FFD3AF; white surfaces #FFFFFF.
+- Dark-orange action #A34A00 with white text; button radius 12 px.
+- Layered decoration: #A34A00, #BD5C08, #D57521, #EF913B.
+- Skeleton #E8AE7E; neutral icon #F6B77F; error icon #FDEBE7.
+- Mobile components: 393 × 852; state cards have 20 px corners.
+- Headings 19–28 px; body 13–16 px; action labels 16 px.
 
 ## Handoff status
 
-Created in the personal file. Shared Cavs#07 styles/components and the team-file transfer are pending. Verify these new changes are available online before handoff; earlier sync verification predates this work.
+Created in the personal file. Reference-based styling is applied. Linking to shared Cavs#07 styles/components and the team-file transfer are pending. Verify these new changes are available online before handoff; earlier sync verification predates this work.
