@@ -1,8 +1,7 @@
-RANGES = {
-    "elbow_angle": (85, 100),
-    "knee_angle": (150, 175),
-    "shoulder_angle": (45,75),
-}
+from ml.feedback_rules import ANGLE_RANGES
+
+# same optimal ranges as the feedback, e.g. {"elbow_angle": (85, 100), ...}
+RANGES = {name: (rule["min"], rule["max"]) for name, rule in ANGLE_RANGES.items()}
 
 def distance_to_range(angle, low, high):
     if low <= angle and angle <= high:
@@ -16,8 +15,9 @@ def compare(older, newer, ranges=RANGES):
     results = []
     
     for checkpoint, (low, high) in ranges.items():
-        before = older["angles"].get(checkpoint)
-        after = newer["angles"].get(checkpoint)
+        # processing/failed sessions have angles=None -> direction "unknown"
+        before = (older.get("angles") or {}).get(checkpoint)
+        after = (newer.get("angles") or {}).get(checkpoint)
         if before == None or after == None:
             delta = None
             direction = "unknown"
