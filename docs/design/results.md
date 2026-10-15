@@ -1,18 +1,9 @@
-# Results Screen
+# Figma link: https://www.figma.com/design/n0f04S7L3M112u22E1ju54/NothingButNet-Results--Uploading--and-History-Pages?node-id=0-1&t=NvkQNsyMKyQxXgWB-1
 
-**Figma link:** https://www.figma.com/design/MOv9M4eo1kh6if9cXqNaWL/Results-page?node-id=0-1&t=QqRg9oy4VxQ04cpf-1
-
-## Color choices
-
-- `#FFC250`
-- `#000000`
-- `#181818`
-- `#FFFFFF`
-
-## Font
-
-Geom
-
-## Design choices
-
-I chose the following color palettes because they are mostly monochromatic and cause less of a distraction for viewers when figuring out where to look on the screen. The font is sharp and doesn't have extra stylistic designs, making it easy to read the text.
+# Font used: Inter
+# Colors used:
+# Background: FFD3AF
+# "Good" angle card: 00D75A, 50% opacity
+# "Needs work" angle card: D79E00, 50% opacity
+# Dark orange: A34A00
+# Light orange: A34A00, 25% opacity
