@@ -23,7 +23,7 @@ def ping():
 def upload(
     file: UploadFile = File(...),
     db: Session = Depends(get_db),
-    current_user: dict = Depends(get_current_user),
+    current_user=Depends(get_current_user),
 ):
     if not file.content_type or not file.content_type.startswith("video/"):
         raise HTTPException(
@@ -59,7 +59,7 @@ def upload(
         file.file.close()
 
     session = ShotSession(
-        user_id=current_user["id"],
+        user_id=current_user.id,
         video_url=video_url,
         status="processing",
     )
