@@ -1,0 +1,7 @@
+# ML deps. mediapipe is pinned: newer releases (1.x) dropped mediapipe.python.solutions (used by angle_calculator).
+# mediapipe brings opencv-contrib-python (provides cv2) - do not also install opencv-python.
+mediapipe==0.10.21
+numpy<2
+opencv-contrib-python<5
+imageio-ffmpeg  # bundled ffmpeg for H.264 encoding in video_encoder.py
+pytest
