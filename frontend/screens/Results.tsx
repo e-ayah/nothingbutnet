@@ -57,10 +57,7 @@ export default function ResultsScreen({ route }: { route: any }) {
   }
 
   const hasAngles = session.angles !== undefined && session.angles !== null;
-  const rawUri = session.annotated_video_url || session.video_url || '';
-  const videoUri = (rawUri.includes('file-examples.com') || rawUri === '')
-    ? 'local-fallback'
-    : rawUri;
+  const videoUri = session.annotated_video_url || session.video_url || '';
 
   const currentScore = session.score ?? '--';
   const elbowAngle = session.angles?.elbow_angle ?? '--';

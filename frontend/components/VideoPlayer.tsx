@@ -36,13 +36,18 @@ export default function VideoPlayer({ uri }: VideoPlayerProps) {
   }, [player]);
 
   if (Platform.OS === 'web') {
-    const assetSource = require('../assets/demo.mp4');
-    const videoSrc = typeof assetSource === 'object' && assetSource.uri ? assetSource.uri : assetSource;
+    if (!uri || !uri.startsWith('http')) {
+      return (
+        <View className="w-full relative bg-black overflow-hidden items-center justify-center" style={{ aspectRatio: 16 / 9 }}>
+          <Text className="text-white text-base font-semibold text-center">Couldn't load this video</Text>
+        </View>
+      );
+    }
 
     return (
       <View className="w-full relative bg-black overflow-hidden" style={{ aspectRatio: 16 / 9 }}>
         <video
-          src={videoSrc}
+          src={uri}
           controls
           autoPlay
           muted
