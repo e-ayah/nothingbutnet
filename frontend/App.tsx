@@ -6,7 +6,7 @@ import { View, Text, Button } from "react-native";
 import AppButton from "./components/Button";
 import { useStore } from "./store/useStore";
 
-import UploadScreen from "./screens/Upload";
+import UploadScreen from "./screens/UploadScreen";
 import ResultsScreen from "./screens/Results";
 import HistoryScreen from "./screens/History";
 import ProfileScreen from "./screens/Profile";
