@@ -4,7 +4,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { View, Text, Button } from "react-native";
 
-import UploadScreen from "./screens/Upload";
+import UploadScreen from "./screens/UploadScreen";
 import ResultsScreen from "./screens/Results";
 import HistoryScreen from "./screens/History";
 import ProfileScreen from "./screens/Profile";
