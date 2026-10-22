@@ -18,26 +18,6 @@ from ml.video_io import iter_frames
 ANGLE_KEYS = ("elbow_angle", "knee_angle", "shoulder_angle")
 
 
-def _pixel_landmarks(landmarks, width, height):
-    """Convert normalized pose coordinates to pixel coordinates."""
-    if landmarks is None:
-        return None
-
-    converted = []
-    for landmark in landmarks:
-        point = dict(landmark)
-
-        x = point.get("x")
-        y = point.get("y")
-
-        point["x"] = int(x * width) if x is not None else None
-        point["y"] = int(y * height) if y is not None else None
-
-        converted.append(point)
-
-    return converted
-
-
 def _json_number(value):
     """Convert NumPy numeric values to ordinary Python numbers."""
     if value is None:
@@ -111,16 +91,12 @@ def analyze(video_path):
 
     # Draw annotations on each original video frame.
     annotated_frames = []
-    width = pose["width"]
-    height = pose["height"]
 
     for frame_number, frame in iter_frames(video_path):
         if frame_number < len(frames):
-            landmarks = _pixel_landmarks(
-                frames[frame_number]["landmarks"],
-                width,
-                height,
-            )
+            # extract_pose already returns pixel coordinates; the draw
+            # functions expect pixels, so pass the landmarks straight through.
+            landmarks = frames[frame_number]["landmarks"]
             frame_angles = per_frame[frame_number]
         else:
             landmarks = None
