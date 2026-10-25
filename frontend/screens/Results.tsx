@@ -19,10 +19,23 @@ export default function ResultsScreen({ route }: { route: any }) {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
+  const load = useCallback(() => {
+    getSession(sessionId, token || '')
+      .then((data) => { setSession({data}); setError(null); })
+      .catch((err) => setError(friendlyError(err)))
+      .finally(() => setLoading(false));
+  }, [sessionId, token]);
+
+  const retry = () => { setLoading(true); load(); };
+
+  useEffect(() => { setLoading(true); load(); }, [load]);
+
+  // check again every 3 seconds while still analyzing
   useEffect(() => {
-    let ignore = false;
-    setLoading(true);
-    setError(null);
+    if (session?.status !== 'processing') return;
+    const id = setInterval(load, 3000);
+    return () => clearInterval(id); // stops when done, failed, or the screen closes
+  }, [session?.status, load]);
 
   getSession(sessionId, token || '')
   .then((data) => {
@@ -42,20 +55,22 @@ export default function ResultsScreen({ route }: { route: any }) {
     };
   }, [sessionId, token]);
 
-  if (loading) {
-    return (
-      <View className="flex-1 items-center justify-center bg-[#FDF6ED]">
-        <Text className="text-lg font-bold text-amber-950">Loading…</Text>
-      </View>
-    );
-  }
+  if (loading) return <LoadingSpinner />;
 
   if (error || !session) {
+    return <ErrorMessage error={error ?? 'Session not found'} onRetry={retry} />;
+  }
+
+  if (session.status === 'processing') {
+    return <LoadingSpinner message="Still analyzing…" />;
+  }
+
+  if (session.status === 'failed') {
     return (
       <View className="flex-1 items-center justify-center p-6 bg-[#FDF6ED]">
-        <Text className="text-lg font-medium text-red-600 text-center">
-          {error || 'Session not found'}
-        </Text>
+        <ErrorMessage message={session.error} />
+        {/* filming tips, wording from docs/design/states.md */}
+        <Button title="Try another video" onPress={() => navigation.navigate('Upload')} />
       </View>
     );
   }
