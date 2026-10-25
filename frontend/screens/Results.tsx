@@ -3,6 +3,10 @@ import { View, Text, ScrollView, TouchableOpacity, useWindowDimensions } from "r
 import { useStore } from '../store/useStore'; 
 import { getSession } from '../services/api';
 import VideoPlayer from '../components/VideoPlayer';
+import ScoreCircle from '../components/ScoreCircle';
+import AngleCard from '../components/AngleCard';
+import FeedbackItem from '../components/FeedbackItem';
+import { RANGES } from '../constants/ranges';
 
 export default function ResultsScreen({ route }: { route: any }) {
   const sessionId = route?.params?.sessionId || 'mock-session-id';
@@ -59,15 +63,6 @@ export default function ResultsScreen({ route }: { route: any }) {
   const hasAngles = session.angles !== undefined && session.angles !== null;
   const videoUri = session.annotated_video_url || session.video_url || '';
 
-  const currentScore = session.score ?? '--';
-  const elbowAngle = session.angles?.elbow_angle ?? '--';
-  const shoulderAngle = session.angles?.shoulder_angle ?? '--';
-  const kneeAngle = session.angles?.knee_angle ?? '--';
-
-  const isElbowOptimal = typeof elbowAngle === 'number' && elbowAngle >= 85 && elbowAngle <= 100;
-  const isShoulderOptimal = typeof shoulderAngle === 'number' && shoulderAngle >= 45 && shoulderAngle <= 75;
-  const isKneeOptimal = typeof kneeAngle === 'number' && kneeAngle >= 150 && kneeAngle <= 175;
-
   return (
     <ScrollView style={{ flex: 1, backgroundColor: '#FFD3AF' }} contentContainerStyle={{ paddingBottom: 40, alignItems: 'center' }}>
       <View className="flex-1 w-full items-center justify-start px-8 py-10">
@@ -78,33 +73,21 @@ export default function ResultsScreen({ route }: { route: any }) {
 
             <VideoPlayer uri={videoUri} />
             {hasAngles && (
-              <View className="flex-row justify-between w-full space-x-2 pt-2 pb-2">
-                {/* Elbow Card */}
-                <View className={isElbowOptimal 
-                  ? "flex-1 bg-[#00D75A80] p-3 rounded-xl items-center justify-center" 
-                  : "flex-1 bg-[#D79E0080] p-3 rounded-xl items-center justify-center"}
-                >
-                  <Text className="text-[11px] font-bold font-sans text-white text-center mb-1">Elbow Angle:</Text>
-                  <Text className="text-lg font-bold font-sans text-white">{elbowAngle}°</Text>
-                </View>
-
-                {/* Shoulder Card */}
-                <View className={isShoulderOptimal 
-                  ? "flex-1 bg-[#00D75A80] p-3 rounded-xl items-center justify-center ml-2 mr-2" 
-                  : "flex-1 bg-[#D79E0080] p-3 rounded-xl items-center justify-center ml-2 mr-2"}
-                >
-                  <Text className="text-[11px] font-bold font-sans text-white text-center mb-1">Shoulder Angle:</Text>
-                  <Text className="text-lg font-bold font-sans text-white">{shoulderAngle}°</Text>
-                </View>
-
-                {/* Knee Card */}
-                <View className={isKneeOptimal 
-                  ? "flex-1 bg-[#00D75A80] p-3 rounded-xl items-center justify-center" 
-                  : "flex-1 bg-[#D79E0080] p-3 rounded-xl items-center justify-center"}
-                >
-                  <Text className="text-[11px] font-bold font-sans  text-white text-center mb-1">Knee Angle:</Text>
-                  <Text className="text-lg font-bold font-sans text-white">{kneeAngle}°</Text>
-                </View>
+              <View className="w-full space-y-3 pt-2">
+                {(Object.keys(RANGES) as (keyof typeof RANGES)[]).map((key) => {
+                  const r = RANGES[key];
+                  const fb = session.feedback?.find((f: any) => f.checkpoint === r.checkpoint);
+                  return (
+                    <AngleCard
+                      key={key}
+                      name={r.label}
+                      value={session.angles?.[key] ?? null}
+                      min={r.min}
+                      max={r.max}
+                      status={fb?.status ?? 'needs_work'}
+                    />
+                  );
+                })}
               </View>
             )}
 
@@ -113,10 +96,8 @@ export default function ResultsScreen({ route }: { route: any }) {
           <View className={isMobile ? "w-full space-y-[16px]" : "w-[48%] space-y-[16px]"}>
             
             {/* Form Score*/}
-            <View className="w-full bg-[#A34A0040] p-8 rounded-[16px] flex-row items-center justify-start mb-2">
-              <View className="w-32 h-32 rounded-full border-8 border-[#A34A00] items-center justify-center bg-white/20">
-                  <Text className="text-[36px] font-sans font-bold text-[#A34A00]">{currentScore}</Text>
-                </View>
+            <View className="w-full bg-[#A34A0040]40 p-8 rounded-[16px] flex-row items-center justify-start mb-2">
+              <ScoreCircle score={session.score ?? null} />
               <View>
                 <Text className="text-[48px] font-sans font-bold text-[#A34A00] ml-[24px]">Form</Text>
                 <Text className="text-[48px] font-sans font-bold text-[#A34A00] ml-[24px]">Score</Text>
@@ -126,13 +107,10 @@ export default function ResultsScreen({ route }: { route: any }) {
             {/*Feedback*/}
             <View style={{ backgroundColor: 'rgba(255, 255, 255, 0.5)' }} className="w-full p-6 rounded-2xl flex-1 justify-start">
               <Text className="text-[24px] font-sans font-bold text-[#000000] mb-4">Feedback</Text>
-                {session.feedback && Array.isArray(session.feedback) && session.feedback.length > 0 ? (
-                  <View className="space-y-3">
-                  {session.feedback.map((tip: any, index: number) => (
-                    <Text key={index} className="text-[18px] text-[#000000] leading-relaxed">
-                      • {tip.tip || tip.message || tip.text || String(tip)}
-                    </Text>
-                  ))}
+                {session.feedback && session.feedback.length > 0 ? (
+                <View className="space-y-3">
+                  {session.feedback.map((f: any) => (
+                    <FeedbackItem key={f.checkpoint} item={f} />                  ))}
                 </View>
               ) : (
                 <Text className="text-[18px] text-[#000000]">No feedback comments recorded</Text>
