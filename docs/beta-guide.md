@@ -1,16 +1,13 @@
 # Beta Guide
 
-## 1. What NothingButNey does
+## 1. What NothingButNet does
 Teaches beginners how to improve in playing basketball. The app gives feedback on player's freethrow form based on clip uploaded by user.
 
-## 2. Open the app: <web link> (any phone or laptop). Make an account with any email.
-
-## 3. Film a free throw: the filming-tips graphic + 5 bullet points.
-=======
 ## 2. Open the app: <[web link](http://localhost:8081/)> (any phone or laptop). Make an account with any email.
 
-## 3. Film a free throw: 
-![Filming Tips Graphic] (https://imgur.com/a/mw5vGN4)
+## 3. Film a free throw: the filming-tips graphic + 5 bullet points.
+
+[Filming Tips Graphic] (https://imgur.com/a/mw5vGN4)
 - Film side ways
 - Whole body and ball must be in frame
 - Film in good lighting
@@ -21,4 +18,4 @@ Teaches beginners how to improve in playing basketball. The app gives feedback o
 
 ## 5. Things we know: the first load can take a minute; analysis can take a few minutes.
 
-## 6. Tell us what you think: [<form link>](https://forms.gle/d76Ve3R4DwmqWG4Q6). Beta runs Fri 10/30 – Sun 11/8.
+## 6. Tell us what you think: https://forms.gle/d76Ve3R4DwmqWG4Q6. Beta runs Fri 10/30 – Sun 11/8.
