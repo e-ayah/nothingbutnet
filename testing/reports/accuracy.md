@@ -8,12 +8,12 @@
 
 ### 1. Kelvin_Huang_05_Missed.mp4
 - **Frame error:** 55 frames (ground truth: 63, detected: 118)
-- **Observation:** The detected frame was well after the actual release. By frame 118, the ball had traveled closer to the net and had been out of the player's fingertips for some time. The camera angle and shooting position is reasonable. The video may appear a bit blurry though.
+- **Observation:** The detected frame was well after the actual release. By frame 118, the ball had traveled closer to the net and had been out of the player's fingertips for some time. The video may appear a bit blurry though.
 - **Possible explanation:** The ball may have blended into the background after release, making it harder for the detector to identify the correct release timing.
 
 ### 2. Veronica_made_05.mp4
 - **Frame error:** 40 frames (ground truth: 84, detected: 44)
-- **Observation:** The detected frame occurred before the actual release, immediately after the video transitioned from an intro clip featuring a different person to the actual side-view footage. The actual player's pose and camera angle seems to be reasonable.
+- **Observation:** The detected frame occurred before the actual release, immediately after the video transitioned from an intro clip featuring a different person to the actual side-view footage. 
 - **Possible explanation:** The transition between clips may have affected pose extraction or release-frame detection, causing the detector to select a frame from the beginning of the actual shooting footage rather than the release.
 
 ### 3. Kelvin_Huang_08_Missed.mp4
