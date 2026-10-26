@@ -3,9 +3,9 @@
 ## 1. What NothingButNet does
 Teaches beginners how to improve in playing basketball. The app gives feedback on player's freethrow form based on clip uploaded by user.
 
-## 2. Open the app: <[web link](http://localhost:8081/)> (any phone or laptop). Make an account with any email.
+## 2. Open the app: [web link](http://localhost:8081/) (any phone or laptop). Make an account with any email.
 
-## 3. Film a free throw: the filming-tips graphic + 5 bullet points.
+## 3. Film a free throw: the filming-tips graphic 
 
 [Filming Tips Graphic] (https://imgur.com/a/mw5vGN4)
 - Film side ways
