@@ -38,7 +38,7 @@ export const mockSessions: SessionSummary[] = [
 export const mockSession: SessionDetail = {
     session_id: 's1',
     video_url: "https://cloudinary.com/...",
-    annotated_video_url: "https://file-examples.com/storage/fef447ccea6abefa1a29bd2/2017/04/file_example_MP4_480_1_5MG.mp4",
+    annotated_video_url: "https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/360/Big_Buck_Bunny_360_10s_1MB.mp4",
     angles: mockAngles,
     feedback: mockFeedback,
     score: 67,
@@ -54,7 +54,7 @@ export const mockAnalysis: Analysis = {
     { checkpoint: 'elbow_alignment', angle: 92.3, status: 'good', tip: 'Great elbow alignment' }
     ],
     overall_score: 67,
-    annotated_video_url: "https://file-examples.com/storage/fef447ccea6abefa1a29bd2/2017/04/file_example_MP4_480_1_5MG.mp4",
+    annotated_video_url: "https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/360/Big_Buck_Bunny_360_10s_1MB.mp4",
     processed_at: '2026-09-15T10:30:00Z'
 };
 

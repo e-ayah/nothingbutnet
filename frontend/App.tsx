@@ -3,6 +3,8 @@ import "./global.css";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { View, Text, Button } from "react-native";
+import AppButton from "./components/Button";
+import { useStore } from "./store/useStore";
 
 import UploadScreen from "./screens/UploadScreen";
 import ResultsScreen from "./screens/Results";
@@ -27,8 +29,6 @@ function HomeScreen({ navigation }: any) {
       <Button title="Results" onPress={() => navigation.navigate("Results")} />
       <Button title="History" onPress={() => navigation.navigate("History")} />
       <Button title="Profile" onPress={() => navigation.navigate("Profile")} />
-      <Button title="Login" onPress={() => navigation.navigate("Login")} />
-      <Button title="Signup" onPress={() => navigation.navigate("Signup")} />
       <Button title="Progress" onPress={() => navigation.navigate("Progress")} />
       <Button title="Compare" onPress={() => navigation.navigate("Compare")} />
       <Button title="Goals" onPress={() => navigation.navigate("Goals")} />
@@ -39,21 +39,33 @@ function HomeScreen({ navigation }: any) {
 }
 
 export default function App() {
+  const token = useStore((s) => s.token);
+  const logout = useStore((s) => s.logout);
+
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen name="Home" component={HomeScreen} />
-        <Stack.Screen name="Upload" component={UploadScreen} />
-        <Stack.Screen name="Results" component={ResultsScreen} />
-        <Stack.Screen name="History" component={HistoryScreen} />
-        <Stack.Screen name="Profile" component={ProfileScreen} />
-        <Stack.Screen name="Login" component={LoginScreen} />
-        <Stack.Screen name="Signup" component={SignupScreen} />
-        <Stack.Screen name="Progress" component={ProgressScreen} />
-        <Stack.Screen name="Compare" component={CompareScreen} />
-        <Stack.Screen name="Goals" component={GoalsScreen} />
-        <Stack.Screen name="Onboarding" component={OnboardingScreen} />
-        <Stack.Screen name="Feedback" component={FeedbackScreen} />
+        {token == null ? (
+          <>
+            <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="Signup" component={SignupScreen} />
+          </>
+        ) : (
+          <Stack.Group screenOptions={{
+            headerRight: () => <AppButton title="Log out" variant="secondary" onPress={logout} />,
+          }}>
+            <Stack.Screen name="Home" component={HomeScreen} />
+            <Stack.Screen name="Upload" component={UploadScreen} />
+            <Stack.Screen name="Results" component={ResultsScreen} />
+            <Stack.Screen name="History" component={HistoryScreen} />
+            <Stack.Screen name="Profile" component={ProfileScreen} />
+            <Stack.Screen name="Progress" component={ProgressScreen} />
+            <Stack.Screen name="Compare" component={CompareScreen} />
+            <Stack.Screen name="Goals" component={GoalsScreen} />
+            <Stack.Screen name="Onboarding" component={OnboardingScreen} />
+            <Stack.Screen name="Feedback" component={FeedbackScreen} />
+          </Stack.Group>
+        )}
       </Stack.Navigator>
     </NavigationContainer>
   );
