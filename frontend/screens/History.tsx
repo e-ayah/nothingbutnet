@@ -16,6 +16,12 @@ import * as api from "../services/api";
 import { USE_MOCKS } from "../services/config";
 import type { SessionSummary } from "../services/types";
 import { useStore } from "../store/useStore";
+import { useFocusEffect } from '@react-navigation/native';
+import LoadingSpinner from "../components/LoadingSpinner";
+import ErrorMessage from "../components/ErrorMessage";
+import EmptyState from "../components/EmptyState";
+import SessionCard from "../components/SessionCard";
+
 
 const COLORS = {
   peach: "#FFD3AF",
@@ -66,7 +72,7 @@ function LoadingRows() {
 }
 
 function ScoreSummary({ sessions }: { sessions: SessionSummary[] }) {
-  const scores = sessions
+  const s = sessions
     .filter(
       (session) =>
         session.overall_score != null &&
@@ -74,7 +80,12 @@ function ScoreSummary({ sessions }: { sessions: SessionSummary[] }) {
     )
     .slice(0, 6)
     .reverse();
-
+  const sortedSessions = [...s].sort(
+  (a, b) =>
+    new Date(b.created_at).getTime() -
+    new Date(a.created_at).getTime()
+  );
+  const scores = sortedSessions
   const points = scores.map((session) => Number(session.overall_score));
   const chartWidth = 260;
   const chartHeight = 105;
@@ -182,36 +193,25 @@ export default function HistoryScreen() {
   const isDesktop = width >= 700;
 
   const token = useStore((state) => state.token);
+  //const token = useStore((s) => s.token);
+  const load = useCallback(async () => {
+    try {
+      setError(null);
+      const data = await api.getSessions(token);
+      setSessions([...data].sort((a, b) => b.created_at.localeCompare(a.created_at)));
+    } catch (e) {
+      setError(e);
+    } finally {
+      setLoading(false); setRefreshing(false);
+    }
+  }, [token]);
 
   const [sessions, setSessions] = useState<SessionSummary[]>([]);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const load = useCallback(async () => {
-    if (!token && !USE_MOCKS) {
-      setSessions([]);
-      setError("Please log in to view your history.");
-      setLoading(false);
-      setRefreshing(false);
-      return;
-    }
 
-    setRefreshing(true);
-    setError(null);
-
-    try {
-      // Mock mode does not require a real authentication token.
-      const data = await api.getSessions(token ?? "mock-token");
-      setSessions(data);
-    } catch (err) {
-      console.error("Failed to load sessions:", err);
-      setError("Couldn't load your sessions. Pull down to try again.");
-    } finally {
-      setLoading(false);
-      setRefreshing(false);
-    }
-  }, [token]);
 
   useEffect(() => {
     load();
@@ -257,7 +257,11 @@ export default function HistoryScreen() {
       </Pressable>
     );
   };
-
+  useFocusEffect(
+    useCallback(() => {
+      load();
+    }, [load])
+  );
   const sessionsList = (
     <FlatList
       style={styles.sessionsList}
@@ -269,9 +273,14 @@ export default function HistoryScreen() {
       renderItem={renderSession}
       refreshing={refreshing}
       onRefresh={load}
+
+
+      
       ListEmptyComponent={
         loading ? (
-          <LoadingRows />
+          <View style={styles.emptyContainer}>
+            <LoadingSpinner />
+          </View>
         ) : error ? (
           <View style={styles.emptyContainer}>
             <Text style={styles.emptyTitle}>Couldn't load your history</Text>
@@ -281,7 +290,13 @@ export default function HistoryScreen() {
             </Pressable>
           </View>
         ) : (
-          <EmptyView onUpload={openUpload} />
+          <View style={styles.emptyContainer}>
+            <Text style={styles.emptyTitle}>No shots yet</Text>
+            <Text style={styles.emptyText}>Analyze your first free throw</Text>
+            <Pressable onPress={openUpload} style={styles.primaryButton}>
+              <Text style={styles.primaryButtonText}>Analyze a shot</Text>
+            </Pressable>
+          </View>
         )
       }
     />
