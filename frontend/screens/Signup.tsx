@@ -5,6 +5,7 @@ import TextField from "../components/TextField";
 import Button from "../components/Button";
 import { signup } from "../services/api";
 import { useStore } from "../store/useStore";
+import { friendlyError } from "../services/errorMessages";
 
 export default function SignupScreen() {
   const navigation = useNavigation<any>();
@@ -45,12 +46,7 @@ export default function SignupScreen() {
       setAuth(res.token, { id: res.user_id, name: cleanName, email: cleanEmail });
       navigation.reset({ index: 0, routes: [{ name: "Home" }] });
     } catch (err: any) {
-      //show a readable message instead of axios's "Request failed with status code 409"
-      const status = err?.response?.status;
-      if (status === 409) setFormError("An account with this email already exists");
-      else if (status === 400) setFormError("Please check your details and try again.");
-      else if (!err?.response) setFormError("Can't reach the server. Check your connection.");
-      else setFormError("Sign up failed. Please try again.");
+      setFormError(friendlyError(err));
     } finally {
       setLoading(false);
     }
