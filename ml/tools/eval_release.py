@@ -1,4 +1,3 @@
-
 import csv
 import sys
 from pathlib import Path
@@ -10,9 +9,10 @@ from ml.release_frame_detector import find_release_frame
 
 def main():
     if len(sys.argv) != 3:
+        # run as a module from the repo root so `import ml...` works
         print(
-            "Usage: python ml/tools/eval_release.py "
-            "CLIPS_DIR ANSWER_KEY.csv"
+            "Usage (from the repo root): python -m ml.tools.eval_release "
+            "CLIPS_DIR data/release_frames.csv"
         )
         return
 
