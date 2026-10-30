@@ -37,7 +37,9 @@ export default function LoginScreen() {
       setAuth(res.token, { id: res.user_id, name: "", email: cleanEmail });
       navigation.reset({ index: 0, routes: [{ name: "Home" }] });
     } catch (err: any) {
-      setFormError(friendlyError(err))
+      // on this screen a 401 means a wrong password, not an expired login
+      const status = err?.response?.status;
+      setFormError(status === 401 ? "Wrong email or password" : friendlyError(err));
     } finally {
       setLoading(false);
     }
