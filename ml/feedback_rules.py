@@ -1,7 +1,7 @@
 from ml.tips import get_tip
 
-NO_ANGLE_TIP = "We couldn't measure this angle. Film from the side with your whole body in view."
-
+# Boundaries are inclusive (85 and 100 both count as good for the elbow).
+# Tip wording lives in ml/tips.py.
 ANGLE_RANGES = {
     "elbow_angle": {
         "checkpoint": "elbow_alignment",
@@ -22,6 +22,13 @@ ANGLE_RANGES = {
 
 points_lost = 2
 
+# Scoring Rules:
+# Start at 100 and for each angle outside its range subtract points_lost
+# points for every degree it is outside. Angles inside the range or on the
+# boundaries lose no points, and the final score is kept between 0 and 100
+# and returned as an int.
+# Angles that are missing or None (joint not visible) are skipped: no
+# feedback item and no points lost.
 def evaluate_form(angles: dict) -> dict:
     feedback = []
     score = 100
@@ -44,7 +51,7 @@ def evaluate_form(angles: dict) -> dict:
             status = "needs_work"
             score -= degrees_off * points_lost
 
-        tip = NO_ANGLE_TIP if angle is None else get_tip(rule["checkpoint"], angle, rule["min"], rule["max"])
+        tip = get_tip(rule["checkpoint"], angle, rule["min"], rule["max"])
 
         feedback.append(
             {
