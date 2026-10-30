@@ -1,4 +1,3 @@
-
 import threading
 import traceback
 import uuid
@@ -14,6 +13,13 @@ from pydantic import BaseModel
 
 router = APIRouter()
 _one_at_a_time = threading.Lock()
+
+# Shown to the user when the session fails (ticket: "failed with a readable error").
+NO_SHOT_ERROR = (
+    "We couldn't find a full shot in this video. "
+    "Try filming from the side with your whole body in view."
+)
+RETRY_ERROR = "Something went wrong while analyzing your video. Please try again."
 class AnalyzeRequest(BaseModel):
     session_id: str
     video_url: str
@@ -51,6 +57,14 @@ def run_analysis(session_id, video_url):
         if session is None:
             return
 
+        # The pipeline returns release_frame=None (instead of raising) when it
+        # can't find the shot - that's a filming problem, not a server error.
+        if result.get("release_frame") is None:
+            session.status = "failed"
+            session.error = NO_SHOT_ERROR
+            db.commit()
+            return
+
         save_results(db, session, result)
         session.status = "done"
         session.error = None
@@ -63,10 +77,7 @@ def run_analysis(session_id, video_url):
         session = db.get(ShotSession, session_id)
         if session is not None:
             session.status = "failed"
-            session.error = (
-                "We couldn't find a full shot in this video. "
-                "Try filming from the side with your whole body in view."
-            )
+            session.error = RETRY_ERROR  # download/upload/server problem - retrying can work
             db.commit()
     finally:
         db.close()
