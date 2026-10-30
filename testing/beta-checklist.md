@@ -1,6 +1,6 @@
 # Beta go/no-go — Thu 10/29
 
-Server: https://nothingbutnet-010a.onrender.com/health → ok, db: true · https://nothingbutnet-010a.onrender.com/health/ml → ok
+Server: https://nothingbutnet-0l0a.onrender.com/health → ok, db: true · https://nothingbutnet-0l0a.onrender.com/health/ml → ok
 Web: https://nothingbutnet-op.vercel.app
 
 | # | Step | iPhone (Expo Go) | Web (phone browser) | Web (laptop) | Notes |
