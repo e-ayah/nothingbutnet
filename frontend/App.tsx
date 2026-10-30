@@ -1,5 +1,6 @@
 import "./global.css";
 
+import { useEffect, useState } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { View, Text, Button } from "react-native";
@@ -39,8 +40,16 @@ function HomeScreen({ navigation }: any) {
 }
 
 export default function App() {
+  const [ready, setReady] = useState(useStore.persist.hasHydrated());
+  useEffect(() => {
+    const unsubscribe = useStore.persist.onFinishHydration(() => setReady(true));
+    setReady(useStore.persist.hasHydrated());
+    return unsubscribe;
+  }, []);
   const token = useStore((s) => s.token);
   const logout = useStore((s) => s.logout);
+
+  if (!ready) return null;
 
   return (
     <NavigationContainer>

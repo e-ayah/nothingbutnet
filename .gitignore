@@ -9,3 +9,5 @@ node_modules/
 ml/LandmarkProcessing/*.csv
 .expo/
 ml/output*.jpg
+# Expo env files with your own settings (frontend/.env.local) - never commit
+.env*.local
