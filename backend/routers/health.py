@@ -1,5 +1,3 @@
-
-import resource
 import time
 
 import numpy as np
@@ -36,12 +34,21 @@ def health_ml():
             np.zeros((256, 256, 3), dtype=np.uint8)
         )
 
+    # `resource` only exists on Mac/Linux - importing it at the top would stop
+    # the whole backend from starting on Windows laptops.
+    try:
+        import resource
+        import sys
+        peak = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss
+        # Linux (Render) reports KB, macOS reports bytes
+        peak_memory_mb = round(peak / (1024 * 1024 if sys.platform == "darwin" else 1024))
+    except ImportError:
+        peak_memory_mb = None
+
     return {
         "ok": True,
         "mediapipe": mp.__version__,
         "opencv": cv2.__version__,
         "seconds": round(time.perf_counter() - t, 2),
-        "peak_memory_mb": round(
-            resource.getrusage(resource.RUSAGE_SELF).ru_maxrss / 1024
-        ),
+        "peak_memory_mb": peak_memory_mb,
     }
