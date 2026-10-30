@@ -4,16 +4,22 @@ import os, sys, tempfile
 from pathlib import Path
 import requests
 
+# Render's free plan has 512 MB. Measured on a 1080x1920 clip: 640 px peaked at
+# ~510-590 MB (too close), 480 px at ~380 MB with the same release frame.
+MAX_WIDTH = 480
+MAX_SECONDS = 10
+
+
 def shrink_video(src: str) -> str:
-    """Copy of the video at most 640 px wide and 10 s long."""
+    """Copy of the video at most MAX_WIDTH px wide and MAX_SECONDS long."""
     out = tempfile.NamedTemporaryFile(suffix=".mp4", delete=False).name
 
     subprocess.run(
         [
             imageio_ffmpeg.get_ffmpeg_exe(),
             "-y", "-i", src,
-            "-t", "10",
-            "-vf", "scale='min(640,iw)':-2",
+            "-t", str(MAX_SECONDS),
+            "-vf", f"scale='min({MAX_WIDTH},iw)':-2",
             "-an", out
         ],
         check=True,
@@ -45,7 +51,6 @@ def run(video_url: str, session_id: str) -> dict:
         else:
             result = output
             annotated = None
-            small = None
         result["session_id"] = session_id
         result["annotated_video_url"] = upload_video(annotated) if annotated and annotated != src else video_url
         return result
