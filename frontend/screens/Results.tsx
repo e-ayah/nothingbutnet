@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { View, Text, ScrollView, TouchableOpacity, useWindowDimensions } from "react-native";
 import { useStore } from '../store/useStore'; 
 import { getSession } from '../services/api';
@@ -7,10 +7,16 @@ import ScoreCircle from '../components/ScoreCircle';
 import AngleCard from '../components/AngleCard';
 import FeedbackItem from '../components/FeedbackItem';
 import { RANGES } from '../constants/ranges';
+import LoadingSpinner from '../components/LoadingSpinner';
+import ErrorMessage from '../components/ErrorMessage';
+import Button from '../components/Button';
+import { friendlyError } from '../services/errorMessages';
+import { useNavigation } from '@react-navigation/native';
 
 export default function ResultsScreen({ route }: { route: any }) {
   const sessionId = route?.params?.sessionId || 'mock-session-id';
   const token = useStore((state: any) => state.token);
+  const navigation = useNavigation<any>();
   
   const { width } = useWindowDimensions();
   const isMobile = width < 768;
@@ -21,7 +27,7 @@ export default function ResultsScreen({ route }: { route: any }) {
 
   const load = useCallback(() => {
     getSession(sessionId, token || '')
-      .then((data) => { setSession({data}); setError(null); })
+      .then((data) => { setSession(data); setError(null); })
       .catch((err) => setError(friendlyError(err)))
       .finally(() => setLoading(false));
   }, [sessionId, token]);
@@ -37,28 +43,10 @@ export default function ResultsScreen({ route }: { route: any }) {
     return () => clearInterval(id); // stops when done, failed, or the screen closes
   }, [session?.status, load]);
 
-  getSession(sessionId, token || '')
-  .then((data) => {
-    if (!ignore) {
-      setSession(data);
-      setLoading(false);
-    }
-  })
-  .catch((err) => {
-      if (!ignore) {
-        setError(err?.message || 'Failed to fetch analysis details');
-        setLoading(false);
-      }
-    });
-    return () => {
-      ignore = true;
-    };
-  }, [sessionId, token]);
-
   if (loading) return <LoadingSpinner />;
 
   if (error || !session) {
-    return <ErrorMessage error={error ?? 'Session not found'} onRetry={retry} />;
+    return <ErrorMessage message={error ?? 'Session not found'} onRetry={retry} />;
   }
 
   if (session.status === 'processing') {
@@ -68,8 +56,10 @@ export default function ResultsScreen({ route }: { route: any }) {
   if (session.status === 'failed') {
     return (
       <View className="flex-1 items-center justify-center p-6 bg-[#FDF6ED]">
-        <ErrorMessage message={session.error} />
-        {/* filming tips, wording from docs/design/states.md */}
+        <Text className="text-xl font-bold text-black mb-2">Analysis failed</Text>
+        <ErrorMessage message={session.error ?? "We couldn't find a player — film from the side."} />
+        {/* filming tip, wording from docs/design/states.md */}
+        <Text className="text-base text-black text-center mb-4">Keep your full body visible, then try again.</Text>
         <Button title="Try another video" onPress={() => navigation.navigate('Upload')} />
       </View>
     );
@@ -111,7 +101,7 @@ export default function ResultsScreen({ route }: { route: any }) {
           <View className={isMobile ? "w-full space-y-[16px]" : "w-[48%] space-y-[16px]"}>
             
             {/* Form Score*/}
-            <View className="w-full bg-[#A34A0040]40 p-8 rounded-[16px] flex-row items-center justify-start mb-2">
+            <View className="w-full bg-[#A34A0040] p-8 rounded-[16px] flex-row items-center justify-start mb-2">
               <ScoreCircle score={session.score ?? null} />
               <View>
                 <Text className="text-[48px] font-sans font-bold text-[#A34A00] ml-[24px]">Form</Text>
