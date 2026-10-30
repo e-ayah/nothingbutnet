@@ -1,3 +1,9 @@
+# Accuracy Report: Release Frame + Angles (Valkyries#07)
+
+Compares the detected release frame with the hand-marked answer key (`data/release_frames.csv`) on the 10 test clips in `testing/test-videos.md`.
+
+To rerun: download the clips into one folder, then from the repo root run `python -m ml.tools.eval_release <clips folder> data/release_frames.csv`.
+
 ## Summary
 
 - **Average absolute frame error:** 22.7 frames across 9 detected clips
