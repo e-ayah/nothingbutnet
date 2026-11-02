@@ -2,10 +2,16 @@ services:
   - type: web
     name: nothingbutnet-api
     runtime: python
-    rootDir: backend
+    plan: free
     branch: develop
-    buildCommand: pip install -r requirements.txt -r ../ml/requirements.txt
-    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+
+    buildCommand: >-
+      pip install -r backend/requirements.txt &&
+      pip uninstall -y opencv-contrib-python opencv-python &&
+      pip install --no-deps --force-reinstall opencv-contrib-python-headless==4.10.0.84
+
+    startCommand: uvicorn main:app --app-dir backend --host 0.0.0.0 --port $PORT
+
     envVars:
       - key: PYTHON_VERSION
         value: 3.11.9

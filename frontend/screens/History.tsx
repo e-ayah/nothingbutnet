@@ -1,11 +1,10 @@
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import {
   View,
   Text,
   FlatList,
   Pressable,
-  ActivityIndicator,
   useWindowDimensions,
   StyleSheet,
 } from "react-native";
@@ -13,9 +12,15 @@ import Svg, { Line, Polyline, Circle } from "react-native-svg";
 import { useNavigation } from "@react-navigation/native";
 
 import * as api from "../services/api";
-import { USE_MOCKS } from "../services/config";
 import type { SessionSummary } from "../services/types";
 import { useStore } from "../store/useStore";
+import { friendlyError } from "../services/errorMessages";
+import { useFocusEffect } from '@react-navigation/native';
+import LoadingSpinner from "../components/LoadingSpinner";
+import ErrorMessage from "../components/ErrorMessage";
+import EmptyState from "../components/EmptyState";
+import SessionCard from "../components/SessionCard";
+
 
 const COLORS = {
   peach: "#FFD3AF",
@@ -28,53 +33,16 @@ const COLORS = {
   black: "#000000",
 };
 
-function EmptyView({ onUpload }: { onUpload: () => void }) {
-  return (
-    <View style={styles.emptyContainer}>
-      <Text style={styles.emptyTitle}>No shots yet</Text>
-
-      <Text style={styles.emptyText}>
-        Analyze your first free throw.
-        {"\n"}
-        Your past shots will appear here.
-      </Text>
-
-      <Pressable
-        onPress={onUpload}
-        style={styles.primaryButton}
-      >
-        <Text style={styles.primaryButtonText}>Analyze a shot</Text>
-      </Pressable>
-    </View>
-  );
-}
-
-function LoadingRows() {
-  return (
-    <View>
-      {[1, 2, 3].map((row) => (
-        <View key={row} style={styles.sessionRow}>
-          <View style={styles.thumbnail} />
-          <View style={styles.sessionDetails}>
-            <View style={[styles.skeletonLine, { width: "75%" }]} />
-            <View style={[styles.skeletonLine, { width: "55%" }]} />
-          </View>
-        </View>
-      ))}
-    </View>
-  );
-}
-
 function ScoreSummary({ sessions }: { sessions: SessionSummary[] }) {
-  const scores = sessions
+  const s = sessions
     .filter(
       (session) =>
         session.overall_score != null &&
         Number.isFinite(Number(session.overall_score))
     )
     .slice(0, 6)
-    .reverse();
-
+    .reverse(); // 6 newest scores, drawn oldest -> newest
+  const scores = s;
   const points = scores.map((session) => Number(session.overall_score));
   const chartWidth = 260;
   const chartHeight = 105;
@@ -189,75 +157,42 @@ export default function HistoryScreen() {
   const [error, setError] = useState<string | null>(null);
 
   const load = useCallback(async () => {
-    if (!token && !USE_MOCKS) {
-      setSessions([]);
-      setError("Please log in to view your history.");
-      setLoading(false);
-      setRefreshing(false);
-      return;
-    }
-
-    setRefreshing(true);
-    setError(null);
-
     try {
-      // Mock mode does not require a real authentication token.
-      const data = await api.getSessions(token ?? "mock-token");
-      setSessions(data);
-    } catch (err) {
-      console.error("Failed to load sessions:", err);
-      setError("Couldn't load your sessions. Pull down to try again.");
+      setError(null);
+      const data = await api.getSessions(token ?? "");
+      // newest first
+      setSessions([...data].sort((a, b) => b.created_at.localeCompare(a.created_at)));
+    } catch (e) {
+      setError(friendlyError(e));
     } finally {
       setLoading(false);
       setRefreshing(false);
     }
   }, [token]);
 
-  useEffect(() => {
+  // pull to refresh: show the spinner while loading
+  const refresh = () => {
+    setRefreshing(true);
     load();
-  }, [load]);
+  };
 
   const openUpload = () => {
     navigation.navigate("Upload");
   };
 
-  const renderSession = ({ item }: { item: SessionSummary }) => {
-    const isProcessing = item.status
-      ?.toLowerCase()
-      .includes("process");
+  const renderSession = ({ item }: { item: SessionSummary }) => (
+    <SessionCard
+      {...item}
+      onPress={() => navigation.navigate("Results", { sessionId: item.session_id })}
+    />
+  );
 
-    return (
-      <Pressable
-        onPress={() =>
-          navigation.navigate("Results", {
-            sessionId: item.session_id,
-          })
-        }
-        style={styles.sessionRow}
-      >
-        <View style={styles.thumbnail} />
-
-        <View style={styles.sessionDetails}>
-          <Text style={styles.sessionDate}>
-            {new Date(item.created_at).toLocaleString([], {
-              month: "long",
-              day: "numeric",
-              year: "numeric",
-              hour: "numeric",
-              minute: "2-digit",
-            })}
-          </Text>
-
-          <Text style={styles.sessionScore}>
-            {isProcessing ? "—" : `Form score: ${item.overall_score ?? "—"}`}
-          </Text>
-
-          <Text style={styles.sessionStatus}>{item.status}</Text>
-        </View>
-      </Pressable>
-    );
-  };
-
+  // loads when the screen opens and again each time you come back to it
+  useFocusEffect(
+    useCallback(() => {
+      load();
+    }, [load])
+  );
   const sessionsList = (
     <FlatList
       style={styles.sessionsList}
@@ -268,20 +203,26 @@ export default function HistoryScreen() {
       keyExtractor={(item) => item.session_id}
       renderItem={renderSession}
       refreshing={refreshing}
-      onRefresh={load}
+      onRefresh={refresh}
       ListEmptyComponent={
         loading ? (
-          <LoadingRows />
+          <View style={styles.emptyContainer}>
+            <LoadingSpinner />
+          </View>
         ) : error ? (
           <View style={styles.emptyContainer}>
-            <Text style={styles.emptyTitle}>Couldn't load your history</Text>
-            <Text style={styles.emptyText}>{error}</Text>
-            <Pressable onPress={load} style={styles.primaryButton}>
-              <Text style={styles.primaryButtonText}>Try again</Text>
-            </Pressable>
+            <ErrorMessage message={error} onRetry={refresh} />
           </View>
         ) : (
-          <EmptyView onUpload={openUpload} />
+          <View style={styles.emptyContainer}>
+            {/* wording from docs/design/states.md */}
+            <EmptyState
+              title="No shots yet"
+              message="Analyze your first free throw. Your past shots will appear here."
+              actionLabel="Analyze a shot"
+              onAction={openUpload}
+            />
+          </View>
         )
       }
     />
