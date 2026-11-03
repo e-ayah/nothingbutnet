@@ -1,0 +1,1167 @@
+{
+  "video": ".\\clips\\small\\clip03_480.mp4",
+  "timings_seconds": {
+    "pose": 13.89450399999987,
+    "angles": 0.0034937999998874147,
+    "release": 2.5800000003073364e-05
+  },
+  "shooting_side": "left",
+  "angles": [
+    {
+      "frame": 0,
+      "elbow_angle": 21.6,
+      "knee_angle": null,
+      "shoulder_angle": 13.4
+    },
+    {
+      "frame": 1,
+      "elbow_angle": 22.1,
+      "knee_angle": null,
+      "shoulder_angle": 12.8
+    },
+    {
+      "frame": 2,
+      "elbow_angle": 22.5,
+      "knee_angle": null,
+      "shoulder_angle": 12.1
+    },
+    {
+      "frame": 3,
+      "elbow_angle": 23.0,
+      "knee_angle": null,
+      "shoulder_angle": 11.6
+    },
+    {
+      "frame": 4,
+      "elbow_angle": 23.3,
+      "knee_angle": null,
+      "shoulder_angle": 11.4
+    },
+    {
+      "frame": 5,
+      "elbow_angle": 23.4,
+      "knee_angle": null,
+      "shoulder_angle": 11.3
+    },
+    {
+      "frame": 6,
+      "elbow_angle": 23.4,
+      "knee_angle": null,
+      "shoulder_angle": 11.2
+    },
+    {
+      "frame": 7,
+      "elbow_angle": 23.3,
+      "knee_angle": null,
+      "shoulder_angle": 11.2
+    },
+    {
+      "frame": 8,
+      "elbow_angle": 23.2,
+      "knee_angle": null,
+      "shoulder_angle": 11.2
+    },
+    {
+      "frame": 9,
+      "elbow_angle": 23.2,
+      "knee_angle": null,
+      "shoulder_angle": 11.3
+    },
+    {
+      "frame": 10,
+      "elbow_angle": 23.1,
+      "knee_angle": null,
+      "shoulder_angle": 11.3
+    },
+    {
+      "frame": 11,
+      "elbow_angle": 23.1,
+      "knee_angle": null,
+      "shoulder_angle": 11.2
+    },
+    {
+      "frame": 12,
+      "elbow_angle": 23.1,
+      "knee_angle": null,
+      "shoulder_angle": 11.2
+    },
+    {
+      "frame": 13,
+      "elbow_angle": 23.0,
+      "knee_angle": null,
+      "shoulder_angle": 11.2
+    },
+    {
+      "frame": 14,
+      "elbow_angle": 22.9,
+      "knee_angle": null,
+      "shoulder_angle": 11.2
+    },
+    {
+      "frame": 15,
+      "elbow_angle": 22.8,
+      "knee_angle": null,
+      "shoulder_angle": 11.2
+    },
+    {
+      "frame": 16,
+      "elbow_angle": 22.7,
+      "knee_angle": null,
+      "shoulder_angle": 11.3
+    },
+    {
+      "frame": 17,
+      "elbow_angle": 22.6,
+      "knee_angle": null,
+      "shoulder_angle": 11.3
+    },
+    {
+      "frame": 18,
+      "elbow_angle": 22.6,
+      "knee_angle": null,
+      "shoulder_angle": 11.3
+    },
+    {
+      "frame": 19,
+      "elbow_angle": 22.6,
+      "knee_angle": null,
+      "shoulder_angle": 11.4
+    },
+    {
+      "frame": 20,
+      "elbow_angle": 22.5,
+      "knee_angle": null,
+      "shoulder_angle": 11.4
+    },
+    {
+      "frame": 21,
+      "elbow_angle": 22.5,
+      "knee_angle": null,
+      "shoulder_angle": 11.4
+    },
+    {
+      "frame": 22,
+      "elbow_angle": 22.5,
+      "knee_angle": null,
+      "shoulder_angle": 11.4
+    },
+    {
+      "frame": 23,
+      "elbow_angle": 22.5,
+      "knee_angle": null,
+      "shoulder_angle": 11.4
+    },
+    {
+      "frame": 24,
+      "elbow_angle": 22.4,
+      "knee_angle": null,
+      "shoulder_angle": 11.5
+    },
+    {
+      "frame": 25,
+      "elbow_angle": 22.4,
+      "knee_angle": null,
+      "shoulder_angle": 11.7
+    },
+    {
+      "frame": 26,
+      "elbow_angle": 21.8,
+      "knee_angle": null,
+      "shoulder_angle": 12.1
+    },
+    {
+      "frame": 27,
+      "elbow_angle": 21.3,
+      "knee_angle": null,
+      "shoulder_angle": 12.4
+    },
+    {
+      "frame": 28,
+      "elbow_angle": 21.0,
+      "knee_angle": null,
+      "shoulder_angle": 12.6
+    },
+    {
+      "frame": 29,
+      "elbow_angle": 20.8,
+      "knee_angle": null,
+      "shoulder_angle": 12.8
+    },
+    {
+      "frame": 30,
+      "elbow_angle": 20.4,
+      "knee_angle": null,
+      "shoulder_angle": 13.0
+    },
+    {
+      "frame": 31,
+      "elbow_angle": 20.0,
+      "knee_angle": null,
+      "shoulder_angle": 13.0
+    },
+    {
+      "frame": 32,
+      "elbow_angle": 19.8,
+      "knee_angle": null,
+      "shoulder_angle": 12.9
+    },
+    {
+      "frame": 33,
+      "elbow_angle": 19.3,
+      "knee_angle": null,
+      "shoulder_angle": 13.0
+    },
+    {
+      "frame": 34,
+      "elbow_angle": 19.0,
+      "knee_angle": null,
+      "shoulder_angle": 13.1
+    },
+    {
+      "frame": 35,
+      "elbow_angle": 18.6,
+      "knee_angle": null,
+      "shoulder_angle": 13.2
+    },
+    {
+      "frame": 36,
+      "elbow_angle": 18.3,
+      "knee_angle": null,
+      "shoulder_angle": 13.3
+    },
+    {
+      "frame": 37,
+      "elbow_angle": 17.7,
+      "knee_angle": null,
+      "shoulder_angle": 13.7
+    },
+    {
+      "frame": 38,
+      "elbow_angle": 16.7,
+      "knee_angle": null,
+      "shoulder_angle": 14.2
+    },
+    {
+      "frame": 39,
+      "elbow_angle": 16.0,
+      "knee_angle": null,
+      "shoulder_angle": 13.9
+    },
+    {
+      "frame": 40,
+      "elbow_angle": 15.3,
+      "knee_angle": null,
+      "shoulder_angle": 13.6
+    },
+    {
+      "frame": 41,
+      "elbow_angle": 14.8,
+      "knee_angle": null,
+      "shoulder_angle": 13.3
+    },
+    {
+      "frame": 42,
+      "elbow_angle": 14.6,
+      "knee_angle": null,
+      "shoulder_angle": 13.1
+    },
+    {
+      "frame": 43,
+      "elbow_angle": 32.4,
+      "knee_angle": null,
+      "shoulder_angle": 52.9
+    },
+    {
+      "frame": 44,
+      "elbow_angle": null,
+      "knee_angle": null,
+      "shoulder_angle": null
+    },
+    {
+      "frame": 45,
+      "elbow_angle": null,
+      "knee_angle": null,
+      "shoulder_angle": null
+    },
+    {
+      "frame": 46,
+      "elbow_angle": null,
+      "knee_angle": null,
+      "shoulder_angle": null
+    },
+    {
+      "frame": 47,
+      "elbow_angle": null,
+      "knee_angle": null,
+      "shoulder_angle": null
+    },
+    {
+      "frame": 48,
+      "elbow_angle": null,
+      "knee_angle": null,
+      "shoulder_angle": null
+    },
+    {
+      "frame": 49,
+      "elbow_angle": null,
+      "knee_angle": null,
+      "shoulder_angle": null
+    },
+    {
+      "frame": 50,
+      "elbow_angle": null,
+      "knee_angle": null,
+      "shoulder_angle": null
+    },
+    {
+      "frame": 51,
+      "elbow_angle": 8.9,
+      "knee_angle": null,
+      "shoulder_angle": 38.0
+    },
+    {
+      "frame": 52,
+      "elbow_angle": 111.9,
+      "knee_angle": null,
+      "shoulder_angle": 16.2
+    },
+    {
+      "frame": 53,
+      "elbow_angle": 148.3,
+      "knee_angle": null,
+      "shoulder_angle": 19.5
+    },
+    {
+      "frame": 54,
+      "elbow_angle": 123.5,
+      "knee_angle": null,
+      "shoulder_angle": 27.9
+    },
+    {
+      "frame": 55,
+      "elbow_angle": 103.7,
+      "knee_angle": null,
+      "shoulder_angle": 29.4
+    },
+    {
+      "frame": 56,
+      "elbow_angle": 100.9,
+      "knee_angle": null,
+      "shoulder_angle": 27.5
+    },
+    {
+      "frame": 57,
+      "elbow_angle": 102.2,
+      "knee_angle": null,
+      "shoulder_angle": 25.9
+    },
+    {
+      "frame": 58,
+      "elbow_angle": 114.8,
+      "knee_angle": null,
+      "shoulder_angle": 24.4
+    },
+    {
+      "frame": 59,
+      "elbow_angle": null,
+      "knee_angle": 172.8,
+      "shoulder_angle": 25.0
+    },
+    {
+      "frame": 60,
+      "elbow_angle": null,
+      "knee_angle": 173.2,
+      "shoulder_angle": 25.0
+    },
+    {
+      "frame": 61,
+      "elbow_angle": null,
+      "knee_angle": 173.7,
+      "shoulder_angle": 25.9
+    },
+    {
+      "frame": 62,
+      "elbow_angle": null,
+      "knee_angle": 173.5,
+      "shoulder_angle": 25.4
+    },
+    {
+      "frame": 63,
+      "elbow_angle": null,
+      "knee_angle": 173.3,
+      "shoulder_angle": 25.2
+    },
+    {
+      "frame": 64,
+      "elbow_angle": null,
+      "knee_angle": 173.1,
+      "shoulder_angle": 25.3
+    },
+    {
+      "frame": 65,
+      "elbow_angle": null,
+      "knee_angle": 173.0,
+      "shoulder_angle": 25.5
+    },
+    {
+      "frame": 66,
+      "elbow_angle": null,
+      "knee_angle": 172.8,
+      "shoulder_angle": 25.6
+    },
+    {
+      "frame": 67,
+      "elbow_angle": null,
+      "knee_angle": 172.6,
+      "shoulder_angle": 25.9
+    },
+    {
+      "frame": 68,
+      "elbow_angle": null,
+      "knee_angle": 172.7,
+      "shoulder_angle": 26.3
+    },
+    {
+      "frame": 69,
+      "elbow_angle": null,
+      "knee_angle": 172.7,
+      "shoulder_angle": 26.1
+    },
+    {
+      "frame": 70,
+      "elbow_angle": null,
+      "knee_angle": 172.6,
+      "shoulder_angle": 25.8
+    },
+    {
+      "frame": 71,
+      "elbow_angle": null,
+      "knee_angle": 172.6,
+      "shoulder_angle": 25.7
+    },
+    {
+      "frame": 72,
+      "elbow_angle": null,
+      "knee_angle": 172.5,
+      "shoulder_angle": 25.5
+    },
+    {
+      "frame": 73,
+      "elbow_angle": null,
+      "knee_angle": 172.4,
+      "shoulder_angle": 25.3
+    },
+    {
+      "frame": 74,
+      "elbow_angle": null,
+      "knee_angle": 172.3,
+      "shoulder_angle": 24.4
+    },
+    {
+      "frame": 75,
+      "elbow_angle": null,
+      "knee_angle": 172.2,
+      "shoulder_angle": 23.4
+    },
+    {
+      "frame": 76,
+      "elbow_angle": null,
+      "knee_angle": 172.1,
+      "shoulder_angle": 21.1
+    },
+    {
+      "frame": 77,
+      "elbow_angle": null,
+      "knee_angle": 172.1,
+      "shoulder_angle": 19.6
+    },
+    {
+      "frame": 78,
+      "elbow_angle": null,
+      "knee_angle": 171.8,
+      "shoulder_angle": 19.1
+    },
+    {
+      "frame": 79,
+      "elbow_angle": null,
+      "knee_angle": 171.6,
+      "shoulder_angle": 19.6
+    },
+    {
+      "frame": 80,
+      "elbow_angle": null,
+      "knee_angle": 170.7,
+      "shoulder_angle": 21.7
+    },
+    {
+      "frame": 81,
+      "elbow_angle": null,
+      "knee_angle": 170.0,
+      "shoulder_angle": 22.9
+    },
+    {
+      "frame": 82,
+      "elbow_angle": null,
+      "knee_angle": 168.6,
+      "shoulder_angle": 23.8
+    },
+    {
+      "frame": 83,
+      "elbow_angle": null,
+      "knee_angle": 167.6,
+      "shoulder_angle": 24.2
+    },
+    {
+      "frame": 84,
+      "elbow_angle": null,
+      "knee_angle": 166.2,
+      "shoulder_angle": 24.2
+    },
+    {
+      "frame": 85,
+      "elbow_angle": null,
+      "knee_angle": 164.5,
+      "shoulder_angle": 24.2
+    },
+    {
+      "frame": 86,
+      "elbow_angle": null,
+      "knee_angle": 163.3,
+      "shoulder_angle": 24.4
+    },
+    {
+      "frame": 87,
+      "elbow_angle": null,
+      "knee_angle": 160.5,
+      "shoulder_angle": 26.1
+    },
+    {
+      "frame": 88,
+      "elbow_angle": null,
+      "knee_angle": 158.7,
+      "shoulder_angle": 28.0
+    },
+    {
+      "frame": 89,
+      "elbow_angle": null,
+      "knee_angle": 155.7,
+      "shoulder_angle": 30.0
+    },
+    {
+      "frame": 90,
+      "elbow_angle": null,
+      "knee_angle": 153.9,
+      "shoulder_angle": 31.8
+    },
+    {
+      "frame": 91,
+      "elbow_angle": null,
+      "knee_angle": 151.7,
+      "shoulder_angle": 32.7
+    },
+    {
+      "frame": 92,
+      "elbow_angle": null,
+      "knee_angle": 149.9,
+      "shoulder_angle": 34.0
+    },
+    {
+      "frame": 93,
+      "elbow_angle": null,
+      "knee_angle": 149.1,
+      "shoulder_angle": 33.2
+    },
+    {
+      "frame": 94,
+      "elbow_angle": null,
+      "knee_angle": 148.7,
+      "shoulder_angle": 29.9
+    },
+    {
+      "frame": 95,
+      "elbow_angle": null,
+      "knee_angle": 149.0,
+      "shoulder_angle": 25.0
+    },
+    {
+      "frame": 96,
+      "elbow_angle": null,
+      "knee_angle": 149.3,
+      "shoulder_angle": 21.9
+    },
+    {
+      "frame": 97,
+      "elbow_angle": null,
+      "knee_angle": 151.3,
+      "shoulder_angle": 20.5
+    },
+    {
+      "frame": 98,
+      "elbow_angle": null,
+      "knee_angle": 152.6,
+      "shoulder_angle": 19.6
+    },
+    {
+      "frame": 99,
+      "elbow_angle": null,
+      "knee_angle": 153.8,
+      "shoulder_angle": 22.1
+    },
+    {
+      "frame": 100,
+      "elbow_angle": null,
+      "knee_angle": 154.4,
+      "shoulder_angle": 24.0
+    },
+    {
+      "frame": 101,
+      "elbow_angle": null,
+      "knee_angle": 160.0,
+      "shoulder_angle": 30.2
+    },
+    {
+      "frame": 102,
+      "elbow_angle": null,
+      "knee_angle": 161.6,
+      "shoulder_angle": 40.4
+    },
+    {
+      "frame": 103,
+      "elbow_angle": null,
+      "knee_angle": 165.0,
+      "shoulder_angle": 45.2
+    },
+    {
+      "frame": 104,
+      "elbow_angle": null,
+      "knee_angle": 167.0,
+      "shoulder_angle": 41.3
+    },
+    {
+      "frame": 105,
+      "elbow_angle": null,
+      "knee_angle": 166.0,
+      "shoulder_angle": 36.3
+    },
+    {
+      "frame": 106,
+      "elbow_angle": null,
+      "knee_angle": 164.6,
+      "shoulder_angle": 32.2
+    },
+    {
+      "frame": 107,
+      "elbow_angle": null,
+      "knee_angle": 165.4,
+      "shoulder_angle": 32.6
+    },
+    {
+      "frame": 108,
+      "elbow_angle": null,
+      "knee_angle": 163.8,
+      "shoulder_angle": 32.9
+    },
+    {
+      "frame": 109,
+      "elbow_angle": null,
+      "knee_angle": 163.0,
+      "shoulder_angle": 32.5
+    },
+    {
+      "frame": 110,
+      "elbow_angle": null,
+      "knee_angle": 155.8,
+      "shoulder_angle": 27.7
+    },
+    {
+      "frame": 111,
+      "elbow_angle": null,
+      "knee_angle": 136.1,
+      "shoulder_angle": 27.0
+    },
+    {
+      "frame": 112,
+      "elbow_angle": null,
+      "knee_angle": 136.7,
+      "shoulder_angle": 17.6
+    },
+    {
+      "frame": 113,
+      "elbow_angle": null,
+      "knee_angle": 133.5,
+      "shoulder_angle": 16.6
+    },
+    {
+      "frame": 114,
+      "elbow_angle": null,
+      "knee_angle": 135.7,
+      "shoulder_angle": 13.3
+    },
+    {
+      "frame": 115,
+      "elbow_angle": null,
+      "knee_angle": 140.8,
+      "shoulder_angle": 14.8
+    },
+    {
+      "frame": 116,
+      "elbow_angle": null,
+      "knee_angle": 141.7,
+      "shoulder_angle": 19.3
+    },
+    {
+      "frame": 117,
+      "elbow_angle": null,
+      "knee_angle": 143.0,
+      "shoulder_angle": 22.2
+    },
+    {
+      "frame": 118,
+      "elbow_angle": null,
+      "knee_angle": 152.6,
+      "shoulder_angle": 13.8
+    },
+    {
+      "frame": 119,
+      "elbow_angle": null,
+      "knee_angle": 152.9,
+      "shoulder_angle": 8.8
+    },
+    {
+      "frame": 120,
+      "elbow_angle": null,
+      "knee_angle": 151.6,
+      "shoulder_angle": 13.7
+    },
+    {
+      "frame": 121,
+      "elbow_angle": null,
+      "knee_angle": 154.8,
+      "shoulder_angle": 15.9
+    },
+    {
+      "frame": 122,
+      "elbow_angle": null,
+      "knee_angle": 171.3,
+      "shoulder_angle": 16.3
+    },
+    {
+      "frame": 123,
+      "elbow_angle": null,
+      "knee_angle": 174.5,
+      "shoulder_angle": 27.1
+    },
+    {
+      "frame": 124,
+      "elbow_angle": null,
+      "knee_angle": 179.7,
+      "shoulder_angle": 16.7
+    },
+    {
+      "frame": 125,
+      "elbow_angle": null,
+      "knee_angle": 176.8,
+      "shoulder_angle": 9.2
+    },
+    {
+      "frame": 126,
+      "elbow_angle": null,
+      "knee_angle": 178.8,
+      "shoulder_angle": null
+    },
+    {
+      "frame": 127,
+      "elbow_angle": null,
+      "knee_angle": 175.0,
+      "shoulder_angle": null
+    },
+    {
+      "frame": 128,
+      "elbow_angle": null,
+      "knee_angle": 167.4,
+      "shoulder_angle": null
+    },
+    {
+      "frame": 129,
+      "elbow_angle": null,
+      "knee_angle": 162.2,
+      "shoulder_angle": null
+    },
+    {
+      "frame": 130,
+      "elbow_angle": null,
+      "knee_angle": 163.0,
+      "shoulder_angle": null
+    },
+    {
+      "frame": 131,
+      "elbow_angle": null,
+      "knee_angle": 162.1,
+      "shoulder_angle": null
+    },
+    {
+      "frame": 132,
+      "elbow_angle": null,
+      "knee_angle": null,
+      "shoulder_angle": null
+    },
+    {
+      "frame": 133,
+      "elbow_angle": null,
+      "knee_angle": null,
+      "shoulder_angle": null
+    },
+    {
+      "frame": 134,
+      "elbow_angle": null,
+      "knee_angle": null,
+      "shoulder_angle": null
+    },
+    {
+      "frame": 135,
+      "elbow_angle": null,
+      "knee_angle": null,
+      "shoulder_angle": null
+    },
+    {
+      "frame": 136,
+      "elbow_angle": null,
+      "knee_angle": null,
+      "shoulder_angle": null
+    },
+    {
+      "frame": 137,
+      "elbow_angle": null,
+      "knee_angle": null,
+      "shoulder_angle": null
+    },
+    {
+      "frame": 138,
+      "elbow_angle": null,
+      "knee_angle": null,
+      "shoulder_angle": null
+    },
+    {
+      "frame": 139,
+      "elbow_angle": null,
+      "knee_angle": null,
+      "shoulder_angle": null
+    },
+    {
+      "frame": 140,
+      "elbow_angle": null,
+      "knee_angle": null,
+      "shoulder_angle": null
+    },
+    {
+      "frame": 141,
+      "elbow_angle": null,
+      "knee_angle": null,
+      "shoulder_angle": null
+    },
+    {
+      "frame": 142,
+      "elbow_angle": null,
+      "knee_angle": null,
+      "shoulder_angle": null
+    },
+    {
+      "frame": 143,
+      "elbow_angle": null,
+      "knee_angle": null,
+      "shoulder_angle": null
+    },
+    {
+      "frame": 144,
+      "elbow_angle": null,
+      "knee_angle": null,
+      "shoulder_angle": null
+    },
+    {
+      "frame": 145,
+      "elbow_angle": null,
+      "knee_angle": null,
+      "shoulder_angle": null
+    },
+    {
+      "frame": 146,
+      "elbow_angle": null,
+      "knee_angle": 177.9,
+      "shoulder_angle": null
+    },
+    {
+      "frame": 147,
+      "elbow_angle": null,
+      "knee_angle": null,
+      "shoulder_angle": null
+    },
+    {
+      "frame": 148,
+      "elbow_angle": null,
+      "knee_angle": null,
+      "shoulder_angle": null
+    },
+    {
+      "frame": 149,
+      "elbow_angle": null,
+      "knee_angle": 167.2,
+      "shoulder_angle": null
+    },
+    {
+      "frame": 150,
+      "elbow_angle": null,
+      "knee_angle": 146.3,
+      "shoulder_angle": null
+    },
+    {
+      "frame": 151,
+      "elbow_angle": null,
+      "knee_angle": 167.9,
+      "shoulder_angle": null
+    },
+    {
+      "frame": 152,
+      "elbow_angle": null,
+      "knee_angle": 179.4,
+      "shoulder_angle": null
+    },
+    {
+      "frame": 153,
+      "elbow_angle": null,
+      "knee_angle": 159.1,
+      "shoulder_angle": null
+    },
+    {
+      "frame": 154,
+      "elbow_angle": null,
+      "knee_angle": null,
+      "shoulder_angle": null
+    },
+    {
+      "frame": 155,
+      "elbow_angle": null,
+      "knee_angle": null,
+      "shoulder_angle": null
+    },
+    {
+      "frame": 156,
+      "elbow_angle": null,
+      "knee_angle": null,
+      "shoulder_angle": null
+    },
+    {
+      "frame": 157,
+      "elbow_angle": null,
+      "knee_angle": null,
+      "shoulder_angle": 172.9
+    },
+    {
+      "frame": 158,
+      "elbow_angle": null,
+      "knee_angle": null,
+      "shoulder_angle": null
+    },
+    {
+      "frame": 159,
+      "elbow_angle": null,
+      "knee_angle": null,
+      "shoulder_angle": null
+    },
+    {
+      "frame": 160,
+      "elbow_angle": null,
+      "knee_angle": null,
+      "shoulder_angle": null
+    },
+    {
+      "frame": 161,
+      "elbow_angle": 150.3,
+      "knee_angle": null,
+      "shoulder_angle": 128.4
+    },
+    {
+      "frame": 162,
+      "elbow_angle": 173.3,
+      "knee_angle": 151.2,
+      "shoulder_angle": 89.2
+    },
+    {
+      "frame": 163,
+      "elbow_angle": 179.2,
+      "knee_angle": 154.6,
+      "shoulder_angle": 96.9
+    },
+    {
+      "frame": 164,
+      "elbow_angle": 163.3,
+      "knee_angle": 163.1,
+      "shoulder_angle": 109.3
+    },
+    {
+      "frame": 165,
+      "elbow_angle": null,
+      "knee_angle": null,
+      "shoulder_angle": null
+    },
+    {
+      "frame": 166,
+      "elbow_angle": 170.6,
+      "knee_angle": 174.7,
+      "shoulder_angle": 138.2
+    },
+    {
+      "frame": 167,
+      "elbow_angle": 173.0,
+      "knee_angle": 166.1,
+      "shoulder_angle": 133.1
+    },
+    {
+      "frame": 168,
+      "elbow_angle": 169.5,
+      "knee_angle": 161.4,
+      "shoulder_angle": 63.2
+    },
+    {
+      "frame": 169,
+      "elbow_angle": 153.1,
+      "knee_angle": 143.3,
+      "shoulder_angle": 9.8
+    },
+    {
+      "frame": 170,
+      "elbow_angle": 149.5,
+      "knee_angle": 139.3,
+      "shoulder_angle": 5.3
+    },
+    {
+      "frame": 171,
+      "elbow_angle": 147.4,
+      "knee_angle": 135.0,
+      "shoulder_angle": 11.7
+    },
+    {
+      "frame": 172,
+      "elbow_angle": 136.0,
+      "knee_angle": 131.1,
+      "shoulder_angle": 6.9
+    },
+    {
+      "frame": 173,
+      "elbow_angle": 130.8,
+      "knee_angle": 127.9,
+      "shoulder_angle": 6.0
+    },
+    {
+      "frame": 174,
+      "elbow_angle": 122.2,
+      "knee_angle": 129.9,
+      "shoulder_angle": 9.0
+    },
+    {
+      "frame": 175,
+      "elbow_angle": 130.9,
+      "knee_angle": 129.2,
+      "shoulder_angle": 12.9
+    },
+    {
+      "frame": 176,
+      "elbow_angle": 130.4,
+      "knee_angle": 124.3,
+      "shoulder_angle": 12.5
+    },
+    {
+      "frame": 177,
+      "elbow_angle": null,
+      "knee_angle": 121.8,
+      "shoulder_angle": 12.5
+    },
+    {
+      "frame": 178,
+      "elbow_angle": null,
+      "knee_angle": 120.7,
+      "shoulder_angle": 7.5
+    },
+    {
+      "frame": 179,
+      "elbow_angle": 108.7,
+      "knee_angle": 120.3,
+      "shoulder_angle": 2.9
+    },
+    {
+      "frame": 180,
+      "elbow_angle": 131.2,
+      "knee_angle": 118.0,
+      "shoulder_angle": 0.6
+    },
+    {
+      "frame": 181,
+      "elbow_angle": 141.3,
+      "knee_angle": 117.3,
+      "shoulder_angle": 0.3
+    },
+    {
+      "frame": 182,
+      "elbow_angle": 143.3,
+      "knee_angle": 116.2,
+      "shoulder_angle": 0.4
+    },
+    {
+      "frame": 183,
+      "elbow_angle": 144.8,
+      "knee_angle": 116.5,
+      "shoulder_angle": 2.1
+    },
+    {
+      "frame": 184,
+      "elbow_angle": 152.6,
+      "knee_angle": 115.3,
+      "shoulder_angle": 1.9
+    },
+    {
+      "frame": 185,
+      "elbow_angle": 154.8,
+      "knee_angle": 113.9,
+      "shoulder_angle": 2.0
+    },
+    {
+      "frame": 186,
+      "elbow_angle": 157.6,
+      "knee_angle": 111.3,
+      "shoulder_angle": 3.7
+    },
+    {
+      "frame": 187,
+      "elbow_angle": 122.7,
+      "knee_angle": 110.7,
+      "shoulder_angle": 14.7
+    },
+    {
+      "frame": 188,
+      "elbow_angle": 131.8,
+      "knee_angle": 109.8,
+      "shoulder_angle": 14.8
+    },
+    {
+      "frame": 189,
+      "elbow_angle": 135.8,
+      "knee_angle": 108.6,
+      "shoulder_angle": 4.7
+    },
+    {
+      "frame": 190,
+      "elbow_angle": 133.9,
+      "knee_angle": 105.4,
+      "shoulder_angle": 1.5
+    },
+    {
+      "frame": 191,
+      "elbow_angle": 137.9,
+      "knee_angle": 108.7,
+      "shoulder_angle": 0.4
+    }
+  ],
+  "release": [
+    43,
+    ""
+  ]
+}
