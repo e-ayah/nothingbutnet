@@ -271,3 +271,234 @@ Error responses:
 | Code | Message |
 |---|---|
 | 401 | Authentication required |
+
+**## PATCH /sessions/:id**
+
+- **Token required:** Yes
+- **Request:** `{ made }` — `made` is a boolean (`true` or `false`)
+- **Response:** the updated session, including `made`
+
+Error responses:
+
+| Code | Message |
+|---|---|
+| 401 | Authentication required |
+| 403 | Session belongs to another user |
+| 404 | Session not found |
+
+---
+
+**## POST /friends/requests**
+
+- **Token required:** Yes
+- **Request:** `{ username }`
+- **Response:** `{ request_id, status }` — `status` is `"pending"`
+
+Example response:
+
+```json
+{
+  "request_id": "request-001",
+  "status": "pending"
+}
+```
+
+Error responses:
+
+| Code | Message |
+|---|---|
+| 400 | Already friends or cannot send a friend request to yourself |
+| 401 | Authentication required |
+| 404 | User not found |
+| 409 | A pending friend request already exists |
+
+---
+
+**## GET /friends/requests**
+
+- **Token required:** Yes
+- **Response:** `{ incoming, outgoing }` — `incoming` contains requests received, and `outgoing` contains requests sent.
+
+Example response:
+
+```json
+{
+  "incoming": [
+    {
+      "request_id": "request-001",
+      "from": {
+        "user_id": "user-001",
+        "name": "John Doe",
+        "username": "johndoe"
+      }
+    }
+  ],
+  "outgoing": [
+    {
+      "request_id": "request-002",
+      "to": {
+        "user_id": "user-002",
+        "name": "Jane Doe",
+        "username": "janedoe"
+      }
+    }
+  ]
+}
+```
+
+Error responses:
+
+| Code | Message |
+|---|---|
+| 401 | Authentication required |
+
+---
+
+**## POST /friends/requests/:id/accept**
+
+- **Token required:** Yes
+- **Response:** `{ friend: { user_id, name, username } }`
+
+Example response:
+
+```json
+{
+  "friend": {
+    "user_id": "user-001",
+    "name": "John Doe",
+    "username": "johndoe"
+  }
+}
+```
+
+Error responses:
+
+| Code | Message |
+|---|---|
+| 401 | Authentication required |
+| 403 | User is not the recipient of this request |
+| 404 | Friend request not found |
+
+---
+
+**## POST /friends/requests/:id/decline**
+
+- **Token required:** Yes
+- **Response:** `204 No Content`
+
+Error responses:
+
+| Code | Message |
+|---|---|
+| 401 | Authentication required |
+| 403 | User is not the recipient of this request |
+| 404 | Friend request not found |
+
+---
+
+**## GET /friends**
+
+- **Token required:** Yes
+- **Response:** list of `{ user_id, name, username }`
+
+Example response:
+
+```json
+[
+  {
+    "user_id": "user-001",
+    "name": "John Doe",
+    "username": "johndoe"
+  }
+]
+```
+
+Returns an empty array (`[]`) if the user has no friends.
+
+Error responses:
+
+| Code | Message |
+|---|---|
+| 401 | Authentication required |
+
+---
+
+**## DELETE /friends/:user_id**
+
+- **Token required:** Yes
+- **Response:** `204 No Content`
+
+Error responses:
+
+| Code | Message |
+|---|---|
+| 401 | Authentication required |
+| 404 | Friend not found |
+
+---
+
+**## GET /leaderboard?period=week\|all**
+
+- **Token required:** Yes
+- **Response:** list of `{ rank, user_id, name, made, attempts, make_pct, avg_score, is_me }`
+
+Definitions:
+- `week` = current calendar week.
+- `all` = all-time statistics.
+- `made` = number of successful shots.
+- `attempts` = total number of attempts.
+- `make_pct` = successful shots divided by total attempts.
+- `avg_score` = average session score.
+- `is_me` = whether the entry belongs to the authenticated user.
+- `rank` = position ordered by `avg_score` (descending). Tied users receive the same rank.
+
+Example response:
+
+```json
+[
+  {
+    "rank": 1,
+    "user_id": "user-001",
+    "name": "John Doe",
+    "made": 12,
+    "attempts": 20,
+    "make_pct": 0.60,
+    "avg_score": 85.5,
+    "is_me": false
+  },
+  {
+    "rank": 2,
+    "user_id": "user-002",
+    "name": "Jane Doe",
+    "made": 15,
+    "attempts": 20,
+    "make_pct": 0.75,
+    "avg_score": 82.3,
+    "is_me": true
+  }
+]
+```
+
+Error responses:
+
+| Code | Message |
+|---|---|
+| 401 | Authentication required |
+
+---
+
+**## GET /sessions/compare?a=<id>&b=<id>**
+
+- **Token required:** Yes
+- **Response:** `{ a: SessionDetail, b: SessionDetail, changes }` — `changes` contains the differences between the two sessions, calculated as `b - a`. Positive values indicate increases; negative values indicate decreases. Missing measurements return `null`.
+
+Example response:
+
+```json
+{
+  "a": {
+    "session_id": "session-001",
+    "score": 70
+  },
+  "b": {
+   
