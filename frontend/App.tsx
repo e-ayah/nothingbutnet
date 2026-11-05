@@ -3,7 +3,8 @@ import "./global.css";
 import { useEffect, useState } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { View, Text, Button } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import HomeScreen from "./screens/Home";
 import AppButton from "./components/Button";
 import { useStore } from "./store/useStore";
 
@@ -21,24 +22,6 @@ import FeedbackScreen from "./screens/Feedback";
 
 const Stack = createNativeStackNavigator();
 
-function HomeScreen({ navigation }: any) {
-  return (
-    <View>
-      <Text className="text-primary text-2xl">Home</Text>
-
-      <Button title="Upload" onPress={() => navigation.navigate("Upload")} />
-      <Button title="Results" onPress={() => navigation.navigate("Results")} />
-      <Button title="History" onPress={() => navigation.navigate("History")} />
-      <Button title="Profile" onPress={() => navigation.navigate("Profile")} />
-      <Button title="Progress" onPress={() => navigation.navigate("Progress")} />
-      <Button title="Compare" onPress={() => navigation.navigate("Compare")} />
-      <Button title="Goals" onPress={() => navigation.navigate("Goals")} />
-      <Button title="Onboarding" onPress={() => navigation.navigate("Onboarding")} />
-      <Button title="Feedback" onPress={() => navigation.navigate("Feedback")} />
-    </View>
-  );
-}
-
 export default function App() {
   const [ready, setReady] = useState(useStore.persist.hasHydrated());
   useEffect(() => {
@@ -46,16 +29,31 @@ export default function App() {
     setReady(useStore.persist.hasHydrated());
     return unsubscribe;
   }, []);
+  const [onboarded, setOnboarded] = useState<boolean | null>(null);
+  useEffect(() => {
+    let active = true;
+    AsyncStorage.getItem("nbn-onboarded")
+      .then((value) => { if (active) setOnboarded(value === "yes"); })
+      .catch(() => { if (active) setOnboarded(false); });
+    return () => { active = false; };
+  }, []);
   const token = useStore((s) => s.token);
   const logout = useStore((s) => s.logout);
 
-  if (!ready) return null;
+  if (!ready || onboarded === null) return null;
 
   return (
     <NavigationContainer>
       <Stack.Navigator>
         {token == null ? (
           <>
+            {!onboarded && (
+              <Stack.Screen name="Onboarding" options={{ headerShown: false }}>
+                {(props) => (
+                  <OnboardingScreen {...props} onComplete={() => setOnboarded(true)} />
+                )}
+              </Stack.Screen>
+            )}
             <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
             <Stack.Screen name="Signup" component={SignupScreen} />
           </>
@@ -71,7 +69,6 @@ export default function App() {
             <Stack.Screen name="Progress" component={ProgressScreen} />
             <Stack.Screen name="Compare" component={CompareScreen} />
             <Stack.Screen name="Goals" component={GoalsScreen} />
-            <Stack.Screen name="Onboarding" component={OnboardingScreen} />
             <Stack.Screen name="Feedback" component={FeedbackScreen} />
           </Stack.Group>
         )}
