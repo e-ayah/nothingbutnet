@@ -34,7 +34,7 @@ export default function Button({
       ].join(' ')}
     >
       {loading ? (
-        <ActivityIndicator color={isPrimary ? '#1a1a2e' : PRIMARY_COLOR} />
+        <ActivityIndicator color={isPrimary ? WHITE : PRIMARY_COLOR} />
       ) : (
         <Text
           className={isPrimary ? 'text-white font-bold' : 'text-primary font-bold'}
