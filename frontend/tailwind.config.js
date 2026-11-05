@@ -16,6 +16,11 @@ module.exports = {
         background: "#f8f8ff",
         white: "#ffffff"
       },
+      fontFamily: {
+        sans: ['Inter_400Regular'],
+        bold: ['Inter_700Bold'],
+      },
+      borderRadius: { card: '16px' },
     },
   },
   plugins: [],

@@ -15,6 +15,7 @@
 import React from 'react';
 import { View, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useFonts, Inter_400Regular, Inter_700Bold } from '@expo-google-fonts/inter';
 
 interface ScreenProps {
   children: React.ReactNode;
@@ -22,6 +23,12 @@ interface ScreenProps {
 }
 
 export const Screen: React.FC<ScreenProps>= ({children, scroll = false}) => {
+  const [fontsLoaded] = useFonts({ Inter_400Regular, Inter_700Bold });
+
+  if (!fontsLoaded) {
+    return null;
+  }
+  
   let content;
   if (scroll === true) {
     content = (

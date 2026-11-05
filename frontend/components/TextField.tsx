@@ -46,16 +46,16 @@ export default function TextField({
 
 const styles = StyleSheet.create({
   container: { marginBottom: 16 },
-  label: { fontSize: 14, marginBottom: 6 },
+  label: { fontSize: 16, marginBottom: 6 },
   input: {
     borderWidth: 1,
-    borderColor: '#999999',
+    borderColor: '#4a4a8a',
     borderRadius: 8,
     paddingHorizontal: 12,
     paddingVertical: 10,
     fontSize: 16,
   },
-  inputFocused: {borderColor: '#00FF00'},
+  inputFocused: {borderColor: '#4a4a8a'},
   inputError: { borderColor: 'red' },
   errorText: { color: 'red', fontSize: 12, marginTop: 4 },
 });

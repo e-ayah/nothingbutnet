@@ -11,3 +11,5 @@ ml/LandmarkProcessing/*.csv
 ml/output*.jpg
 # Expo env files with your own settings (frontend/.env.local) - never commit
 .env*.local
+
+source/
