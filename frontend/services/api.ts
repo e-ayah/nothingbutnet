@@ -2,7 +2,7 @@ import axios from "axios";
 import { API_URL, MOCKS } from './config';
 import {
   mockAuth, mockUpload, mockAnalysis, mockSessions, mockSession,
-  mockProgress, mockGoals, mockGoal,
+  mockProgress, mockGoals, mockGoal, mockMe,
 } from './mocks';
 import {
   AuthResponse, UploadResponse, Analysis, SessionSummary, SessionDetail,
@@ -102,3 +102,10 @@ export const sendFeedback = async (
   MOCKS.sessions
     ? mock(undefined)
     : (await client.post('/feedback', data, authHeader(token))).data;
+
+export const getMe = async (
+  token: string
+): Promise<{ id: string; name: string; email: string }> =>
+  MOCKS.auth
+    ? mock(mockMe)
+    : (await client.get('/auth/me', authHeader(token))).data;
