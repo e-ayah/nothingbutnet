@@ -2,7 +2,7 @@ from ml.analysis_pipeline import analyze
 
 
 def test_analyze():
-    result = analyze("x.mp4")
+    result, output_path = analyze("ml/tests/data/tiny.mp4")
 
     assert result["session_id"] is None
     assert "release_frame" in result
