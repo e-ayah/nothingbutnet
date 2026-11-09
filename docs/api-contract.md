@@ -32,7 +32,7 @@ The shared agreement between the frontend and backend. Field names here must mat
 ## POST /auth/signup
 
 - **Token required:** No
-- **Request:** `{ email, password, name }`
+- **Request:** `{ email, password, name, username }` — `username` is optional
 - **Response:** `{ user_id, token }`
 
 Example response:
@@ -501,4 +501,41 @@ Example response:
     "score": 70
   },
   "b": {
-   
+    "session_id": "session-002",
+    "score": 75
+  },
+  "changes": {
+    "score": 5
+  }
+}
+```
+
+---
+
+**## GET /auth/me**
+
+- **Token required:** Yes
+- **Response:** `{ id, name, email, username }`
+
+Example response:
+```json
+{
+  "id": "12345",
+  "name": "Maya Player",
+  "email": "maya@example.com",
+  "username": "maya482"
+}
+```
+
+**## PATCH /auth/me**
+
+- **Token required:** Yes
+- **Request:** `{ username }`
+- **Response:** `{ id, name, email, username }`
+
+Error responses:
+
+| Code | Message |
+|---|---|
+| 400 | Username must be between 3 and 20 characters / Username already taken |
+| 401 | Authentication required |
