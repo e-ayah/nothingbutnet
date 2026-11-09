@@ -12,8 +12,9 @@ def test_elbow_70_to_90_is_better():
     result = compare(make_session(elbow=70), make_session(elbow=90))
     assert get(result, "elbow_angle")["direction"] == "better"
 
-def test_elbow_95_to_110_is_worse():
-    result = compare(make_session(elbow=95), make_session(elbow=110))
+# Sixers#02: updated for the new elbow range (115-165)
+def test_elbow_140_to_175_is_worse():
+    result = compare(make_session(elbow=140), make_session(elbow=175))
     assert get(result, "elbow_angle")["direction"] == "worse"
 
 def test_elbow_92_to_92_5_is_same():

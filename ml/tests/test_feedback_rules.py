@@ -1,7 +1,8 @@
 from ml.feedback_rules import ANGLE_RANGES, evaluate_form
 from ml.tips import TIPS
 
-IN_RANGE = {"elbow_angle": 90, "knee_angle": 150, "shoulder_angle": 60}
+# Sixers#02: values updated for the new ranges (elbow 115-165, knee 140-170, shoulder 10-150)
+IN_RANGE = {"elbow_angle": 140, "knee_angle": 150, "shoulder_angle": 60}
 
 def get_item(result, angle_key):
     checkpoint = ANGLE_RANGES[angle_key]["checkpoint"]
@@ -15,20 +16,20 @@ def test_all_in_range_all_good():
     assert all(item["status"] == "good" for item in result["feedback"])
     assert result["overall_score"] == 100
 
-def test_elbow_60_needs_work():
-    result = evaluate_form({**IN_RANGE, "elbow_angle": 60})
+def test_elbow_90_needs_work():
+    result = evaluate_form({**IN_RANGE, "elbow_angle": 90})
     assert get_item(result, "elbow_angle")["status"] == "needs_work"
     assert get_item(result, "knee_angle")["status"] == "good"
     assert get_item(result, "shoulder_angle")["status"] == "good"
     assert result["overall_score"] == 50
 
-def test_elbow_exactly_85_is_good():
-    result = evaluate_form({**IN_RANGE, "elbow_angle": 85})
+def test_elbow_exactly_115_is_good():
+    result = evaluate_form({**IN_RANGE, "elbow_angle": 115})
     assert get_item(result, "elbow_angle")["status"] == "good"
     assert result["overall_score"] == 100
 
-def test_elbow_exactly_100_is_good():
-    result = evaluate_form({**IN_RANGE, "elbow_angle": 100})
+def test_elbow_exactly_165_is_good():
+    result = evaluate_form({**IN_RANGE, "elbow_angle": 165})
     assert get_item(result, "elbow_angle")["status"] == "good"
     assert result["overall_score"] == 100
 

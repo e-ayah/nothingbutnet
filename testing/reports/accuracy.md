@@ -74,3 +74,22 @@ To rerun: download the clips into one folder, then from the repo root run `pytho
 **Tests:** updated 3 asserts in `ml/tests/test_release_frame.py` (14 → 13). They encoded the old skip-missing-frames behavior, which this ticket replaces with gap filling.
 
 **Not done yet:** 480 px measurements; Part 2 (ranges from 20+ made shots at hand-marked release frames) — ANGLE_RANGES unchanged.
+
+### Sixers#02 Part 2: feedback ranges
+
+Measured elbow, knee and shoulder at **hand-marked** release frames (`ml/tools/frame_viewer.py`, first frame the ball leaves the hand) on **20 made shots**: Veronica_made_01/03/04/05/07/08, Anisha_Made_01–06, Manoj_Made_01/06, Freya_Made_1/3/4/5/7/8. Range = 10th–90th percentile, rounded to 5°.
+
+| Angle | Old range | New range | Shots with a measured angle |
+|---|---|---|---:|
+| Elbow | 85–100 | **115–165** | 14 |
+| Knee | 150–175 | **140–170** | 15 |
+| Shoulder | 45–75 | **10–150** | 16 |
+
+Updated in `ml/feedback_rules.py` (ANGLE_RANGES) and `frontend/constants/ranges.ts` (same numbers).
+
+**Caveats**
+- Fewer than 20 values per angle: some joints weren't visible at the release frame.
+- Shoulder range (10–150) is very wide — likely bad shoulder/hip landmarks on some clips. Worth a follow-up.
+- Anisha_Made_06 (frame 8) and Freya_Made_5 (frame 3) were marked very early in the clip — worth a second look.
+
+**Tests updated for the new ranges:** `test_feedback_rules.py` (elbow values), plus `test_comparator.py` (1 test) and `test_trends.py` (elbow values +65) — these two aren't on the ticket's file list but hard-coded the old 85–100 elbow range.

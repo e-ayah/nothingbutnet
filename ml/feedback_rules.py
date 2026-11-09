@@ -1,22 +1,22 @@
 from ml.tips import get_tip
 
-# Boundaries are inclusive (85 and 100 both count as good for the elbow).
-# Tip wording lives in ml/tips.py.
+# Sixers#02: 10th–90th percentile of angles at hand-marked release frames
+# on 20 made shots (n = 14 elbow, 15 knee, 16 shoulder), rounded to 5°.
 ANGLE_RANGES = {
     "elbow_angle": {
         "checkpoint": "elbow_alignment",
-        "min": 85,
-        "max": 100,
+        "min": 115,
+        "max": 165,
     },
     "knee_angle": {
         "checkpoint": "knee_bend",
-        "min": 150,
-        "max": 175,
+        "min": 140,
+        "max": 170,
     },
     "shoulder_angle": {
         "checkpoint": "shoulder_position",
-        "min": 45,
-        "max": 75,
+        "min": 10,
+        "max": 150,
     },
 }
 
