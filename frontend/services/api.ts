@@ -20,10 +20,10 @@ const authHeader = (token?:string) =>
 const mock = <T>(data: T): Promise<T> =>
   new Promise((resolve) => setTimeout(() => resolve(data), 500));
 
-export const signup = async (email: string, password: string, name: string): Promise<AuthResponse> =>
+export const signup = async (email: string, password: string, name: string, username?: string): Promise<AuthResponse> =>
   MOCKS.auth
     ? mock(mockAuth)
-    : (await client.post('/auth/signup', { email, password, name })).data;
+    : (await client.post('/auth/signup', { email, password, name, username })).data;
 
 export const login = async (email: string, password: string): Promise<AuthResponse> =>
   MOCKS.auth
@@ -66,6 +66,9 @@ export const getSessions = async (token: string): Promise<SessionSummary[]> =>
   MOCKS.sessions
     ? mock(mockSessions)
     : (await client.get('/sessions', authHeader(token))).data;
+
+export const getMe = async (token: string) =>
+  (await client.get('/auth/me', authHeader(token))).data;
 
 export const getSession = async (id: string, token: string): Promise<SessionDetail> =>
   MOCKS.sessions

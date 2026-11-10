@@ -22,6 +22,7 @@ export default function SignupScreen() {
   const [confirmError, setConfirmError] = useState("");
   const [loading, setLoading] = useState(false);
   const [formError, setFormError] = useState("");
+  const [username, setUsername] = useState("");
 
   //runs after "Sign up"
   const handleSubmit = async () => {
@@ -33,6 +34,7 @@ export default function SignupScreen() {
     const pErr = password.length >= 8 ? "" : "Password must be at least 8 characters";
     const cErr = password === confirmPassword ? "" : "Passwords do not match";
     setNameError(nErr);
+    
     setEmailError(eErr);
     setPasswordError(pErr);
     setConfirmError(cErr);
@@ -42,7 +44,7 @@ export default function SignupScreen() {
     setFormError("");
     setLoading(true);
     try {
-      const res = await signup(cleanEmail, password, cleanName);
+      const res = await signup(name, email, password, username || undefined);
       setAuth(res.token, { id: res.user_id, name: cleanName, email: cleanEmail });
       navigation.reset({ index: 0, routes: [{ name: "Home" }] });
     } catch (err: any) {
@@ -59,6 +61,13 @@ export default function SignupScreen() {
 
       <TextField label="Name" value={name} onChangeText={setName}
         autoCapitalize="words" error={nameError} />
+      <TextField
+        label="Username"
+        value={username}
+        onChangeText={setUsername}
+        placeholder="Friends add you by this"
+        autoCapitalize="none"
+      />
       <TextField label="Email" value={email} onChangeText={setEmail}
         keyboardType="email-address" error={emailError} />
       <TextField label="Password" value={password} onChangeText={setPassword}
