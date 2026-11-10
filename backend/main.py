@@ -10,6 +10,7 @@ from routers import (
     progress,
     goals,
     feedback,
+    insights,
 )
 
 app = FastAPI(title="NothingButNet API")
@@ -31,3 +32,4 @@ app.include_router(analysis.router, prefix="/analysis")
 app.include_router(progress.router, prefix="/progress")
 app.include_router(goals.router, prefix="/goals")
 app.include_router(feedback.router, prefix="/feedback")
+app.include_router(insights.router, prefix="/insights", tags=["insights"])
