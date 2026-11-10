@@ -12,6 +12,7 @@ from routers import (
     feedback,
     insights,
     friends,
+    compare,
 )
 
 app = FastAPI(title="NothingButNet API")
@@ -28,6 +29,8 @@ app.add_middleware(
 app.include_router(health.router, prefix="/health")
 app.include_router(auth.router, prefix="/auth")
 app.include_router(upload.router, prefix="/sessions")
+# compare before sessions so GET /sessions/compare isn't captured by /sessions/{session_id}
+app.include_router(compare.router, prefix="/sessions")
 app.include_router(sessions.router, prefix="/sessions")
 app.include_router(analysis.router, prefix="/analysis")
 app.include_router(progress.router, prefix="/progress")
