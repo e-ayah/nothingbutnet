@@ -65,7 +65,7 @@ def get_session(session_id: uuid.UUID, user=Depends(get_current_user), db: Sessi
         error=s.error,
     )
 
-@router.patch("/session_id")
+@router.patch("/{session_id}")
 def patch_session(session_id: uuid.UUID, made: bool = Body(..., embed=True), user = Depends(get_current_user), db: Session = Depends(get_db)):
     s = db.get(ShotSession, session_id)
     if s is None or s.user_id != user.id:
