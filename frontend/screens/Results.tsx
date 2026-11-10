@@ -1,11 +1,13 @@
 import { useCallback, useEffect, useState } from 'react';
-import { View, Text, ScrollView, TouchableOpacity, useWindowDimensions } from "react-native";
+import { View, Text, ScrollView, TouchableOpacity, useWindowDimensions, Share } from "react-native";
 import { useStore } from '../store/useStore'; 
 import { getSession } from '../services/api';
+import { setMade } from '../services/madeApi';
 import VideoPlayer from '../components/VideoPlayer';
 import ScoreCircle from '../components/ScoreCircle';
 import AngleCard from '../components/AngleCard';
 import FeedbackItem from '../components/FeedbackItem';
+import MadeToggle from '../components/MadeToggle';
 import { RANGES } from '../constants/ranges';
 import LoadingSpinner from '../components/LoadingSpinner';
 import ErrorMessage from '../components/ErrorMessage';
@@ -25,6 +27,10 @@ export default function ResultsScreen({ route }: { route: any }) {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
+  const [made, setMadeValue] = useState<boolean | null>(null);
+  const [madeError, setMadeError] = useState<string | null>(null);
+  const [shareError, setShareError] = useState<string | null>(null);
+
   const load = useCallback(() => {
     getSession(sessionId, token || '')
       .then((data) => { setSession(data); setError(null); })
@@ -42,6 +48,32 @@ export default function ResultsScreen({ route }: { route: any }) {
     const id = setInterval(load, 3000);
     return () => clearInterval(id); // stops when done, failed, or the screen closes
   }, [session?.status, load]);
+
+  useEffect(() => {
+    if (session?.made !== undefined) setMadeValue(session.made);
+  }, [session?.made]);
+
+  const onToggleMade = async (value: boolean) => {
+    const previous = made;
+    setMadeValue(value);
+    setMadeError(null);
+    try {
+      await setMade(session.session_id, value, token);
+    } catch {
+      setMadeValue(previous);
+      setMadeError("Couldn't save — try again.");
+    }
+  };
+
+  const onShare = async () => {
+    try {
+      await Share.share({
+        message: `I scored ${session.score} on my free-throw form! ${session.annotated_video_url ?? ''}`,
+      });
+    } catch {
+      setShareError("Sharing isn't available here.");
+    }
+  };
 
   if (loading) return <LoadingSpinner />;
 
@@ -109,6 +141,13 @@ export default function ResultsScreen({ route }: { route: any }) {
               </View>
             </View>
 
+            {/* Did it go in? */}
+            <View style={{ backgroundColor: 'rgba(255, 255, 255, 0.5)' }} className="w-full p-6 rounded-2xl items-center">
+              <Text className="text-[20px] font-sans font-bold text-black mb-3">Did it go in?</Text>
+              <MadeToggle value={made} onChange={onToggleMade} />
+              {madeError ? <Text className="text-red-600 mt-2">{madeError}</Text> : null}
+            </View>
+
             {/*Feedback*/}
             <View style={{ backgroundColor: 'rgba(255, 255, 255, 0.5)' }} className="w-full p-6 rounded-2xl flex-1 justify-start">
               <Text className="text-[24px] font-sans font-bold text-[#000000] mb-4">Feedback</Text>
@@ -124,12 +163,20 @@ export default function ResultsScreen({ route }: { route: any }) {
           </View>
         </View>
 
+        {shareError ? <Text className="text-red-600 mt-4">{shareError}</Text> : null}
+
         <View className={isMobile ? "w-full justify-center px-6 mt-10 flex-col space-y-3 items-center" : "flex-row space-x-12 mt-10 w-full justify-center max-w-[1000px] px-6"}>
           {!isMobile && (
             <TouchableOpacity className="bg-[#A34A00] px-10 py-3 rounded-xl mr-[25rem]">
               <Text className="text-white text-base font-sans font-bold">Back</Text>
             </TouchableOpacity>
           )}
+          <TouchableOpacity
+            onPress={onShare}
+            className={isMobile ? "bg-white border border-[#A34A00] py-4 rounded-2xl items-center justify-center w-full max-w-[340px]" : "bg-white border border-[#A34A00] px-10 py-3 rounded-xl"}
+          >
+            <Text className="text-[#A34A00] text-base font-sans font-bold">Share</Text>
+          </TouchableOpacity>
           <TouchableOpacity className={isMobile ? "bg-[#A34A00] py-4 rounded-2xl items-center justify-center w-full max-w-[340px]" : "bg-[#A34A00] px-10 py-3 rounded-xl"}>
             <Text className="text-white text-base font-sans font-bold">Continue</Text>
           </TouchableOpacity>
