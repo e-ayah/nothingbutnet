@@ -1,149 +1,23 @@
-# NothingButNet Backend
+# NothingButNet API
 
-## Prerequisites
+FastAPI routes for authentication, video upload/analysis, sessions, progress, friends and comparison. PostgreSQL stores application records; Cloudinary stores video assets; ML runs in the API process as a background task.
 
-* Python 3.11
-* PostgreSQL
-* Git
-
-## Setup
-
-From the project root:
+Follow [the setup guide](../docs/setup.md#backend-and-database) for Python 3.11, PostgreSQL 16, environment variables and Alembic migrations. For the actual request/response shapes and current integration gaps, read the [API contract](../docs/api-contract.md).
 
 ```bash
-python3.11 -m venv venv
+# From the repository root, after setup:
 source venv/bin/activate
-pip install -r backend/requirements.txt
-```
-
-Create the PostgreSQL database:
-
-```bash
-createdb nothingbutnet
-```
-
-Create your local environment file:
-
-```bash
-cp backend/.env.example backend/.env
-```
-
-Do not commit the `.env` file.
-
-## Database
-
-Once the Alembic migrations from ticket 1-05 are available, run:
-
-```bash
 cd backend
 alembic upgrade head
+uvicorn main:app --reload --host 0.0.0.0
 ```
 
-## Start the Server
-
-From the project root:
+Open [local Swagger docs](http://localhost:8000/docs). `/health` reports database reachability in `db`; HTTP 200 by itself does not prove the database works. `/health/ml` initializes MediaPipe and reports dependency versions and peak memory.
 
 ```bash
-cd backend
-uvicorn main:app --reload
+# From the repository root; uses a disposable, correctly named test database:
+TEST_DATABASE_URL=postgresql://localhost/nothingbutnet_test \
+  SECRET_KEY=local-test-only python -m pytest backend/tests -q
 ```
 
-The API will be available at:
-
-http://127.0.0.1:8000
-
-Interactive API documentation:
-
-http://127.0.0.1:8000/docs
-
-Health check:
-
-http://127.0.0.1:8000/health
-
-A healthy database connection should return:
-
-```json
-{
-  "status": "ok",
-  "db": true
-}
-```
-
-## Run Tests
-
-From the project root:
-
-```bash
-python -m pytest
-```
-
-## Troubleshooting
-
-### `python3.11: command not found`
-
-Make sure Python 3.11 is installed and available on your PATH.
-
-### `ModuleNotFoundError`
-
-Make sure the virtual environment is activated:
-
-```bash
-source venv/bin/activate
-```
-
-Then reinstall dependencies:
-
-```bash
-pip install -r backend/requirements.txt
-```
-
-If you are starting Uvicorn manually, run it from the `backend` directory:
-
-```bash
-cd backend
-uvicorn main:app --reload
-```
-
-### `createdb: command not found`
-
-Make sure PostgreSQL is installed and its command-line tools are available.
-
-With Homebrew on macOS:
-
-```bash
-brew install postgresql
-brew services start postgresql
-```
-
-Then try:
-
-```bash
-createdb nothingbutnet
-```
-
-### Database connection errors
-
-Make sure PostgreSQL is running and that `backend/.env` contains:
-
-```text
-DATABASE_URL=postgresql://localhost/nothingbutnet
-```
-
-### `.env` is missing
-
-Create it from the example:
-
-```bash
-cp backend/.env.example backend/.env
-```
-
-Never commit `.env` to Git.
-
-### Alembic errors
-
-The database migrations are provided by ticket 1-05. Once those migrations are available, run:
-
-```bash
-cd backend
-alembic upgrade head
-```
+Tests drop/recreate tables in the test database. No Cloudinary keys are needed for the current API tests. Real upload/analysis needs all three Cloudinary variables. See [testing](../docs/testing.md), [architecture](../docs/architecture.md), and [Render deployment](../docs/deploy.md).
