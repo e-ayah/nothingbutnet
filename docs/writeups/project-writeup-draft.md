@@ -47,7 +47,7 @@ The app/server boundary needs executable tests: changing signup's wire shape bro
 
 ## What's left
 
-Finals #01/#02 connect social screens and fix app regressions; #03 hardens performance/video validation; #04 and #09–#11 supply final evaluation evidence; #05/#06 supply demo backups and full regression results; #07 completes security/privacy review. This ticket adds full-suite CI, setup/architecture docs and the corrected source contract. Its remaining sign-offs are hosted-green checks on this branch, comparison with responsive live `/docs`, and an independent new-contributor walkthrough of [setup](../setup.md#verification-and-teammate-walkthrough).
+Finals #01/#02 connect social screens and fix app regressions; #03 hardens performance/video validation; #04 and #09–#11 supply final evaluation evidence; #05/#06 supply demo backups and full regression results; #07 completes security/privacy review. This ticket adds full-suite CI, setup/architecture docs and the corrected source contract. Its remaining sign-offs are hosted-green checks on this branch, resolution of the verified live/source deployment drift, and an independent new-contributor walkthrough of [setup](../setup.md#verification-and-teammate-walkthrough).
 
 ## Team
 

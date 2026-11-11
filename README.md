@@ -32,7 +32,7 @@ npm start
 Press **w** for web; scan the QR code with a compatible Expo Go build for iPhone. A phone must use your computer's LAN IP for the API, not `localhost`.
 
 - [Web deployment](https://nothingbutnet-op.vercel.app) · [deployed API docs](https://nothingbutnet-0l0a.onrender.com/docs)
-- These addresses are recorded in the deployment guides; availability and deployment parity are not guaranteed. The API did not respond to the documentation audit's 60-second request on November 10, 2026.
+- These addresses are recorded in the deployment guides; availability and deployment parity are not guaranteed. The live schema responded on November 10, 2026 after earlier timeouts, but serves an older API; see the [verified deployment differences](docs/api-contract.md#verified-live-deployment-differences).
 
 ## What is implemented
 

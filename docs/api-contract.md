@@ -1,6 +1,6 @@
 # API contract — implemented snapshot
 
-Audited November 10, 2026 against `develop` **55b077f** by importing `backend/main.py` and generating the same OpenAPI schema used by `/docs`. This branch also includes the user-authorized signup regression fix described below. The live [Swagger UI](https://nothingbutnet-0l0a.onrender.com/docs) / [OpenAPI JSON](https://nothingbutnet-0l0a.onrender.com/openapi.json) did not respond to a 60-second request during this audit; **live parity is pending**, not verified.
+Audited November 10, 2026 against `develop` **55b077f** by importing `backend/main.py` and generating the same OpenAPI schema used by `/docs`. This branch also includes the user-authorized signup regression fix described below. The live [Swagger UI](https://nothingbutnet-0l0a.onrender.com/docs) / [OpenAPI JSON](https://nothingbutnet-0l0a.onrender.com/openapi.json) was subsequently fetched on November 10, 2026. It serves an older API; the verified deployment differences below distinguish it from this branch.
 
 Base URL: `http://localhost:8000` locally, or the configured deployment URL. UUIDs below are real UUID strings; human-readable IDs in old examples were placeholders.
 
@@ -186,4 +186,19 @@ The following former contract entries are **not implemented** on audited develop
 
 Do not treat a hypothetical schema for those routes as a live API promise. Clients currently reference some missing routes, and the Friends UI is pending PR #103. Friends/Leaderboard navigation registration is also pending. Track changes as Finals feature-owner PRs merge.
 
-Before marking the contract fully live-verified, fetch the deployed `/openapi.json`, compare its method/path pairs and component schemas with a fresh local `app.openapi()` on the latest develop, then confirm unmodeled response fields/statuses against the routers and authenticated requests. Swagger alone does not expose the comparison/recurring runtime defects or prove that mock-backed app calls are live. The schema audit performed here was read-only and created no production users/videos.
+### Verified live deployment differences
+
+The public deployed schema was successfully fetched and compared with this branch's generated schema on November 10, 2026, following earlier timeouts. It exposes **14 operations**, compared with **25** locally. These are observed schema differences, not inferred production behavior:
+
+| Area | Live `/openapi.json` | This branch / source |
+|---|---|---|
+| Signup | Flat `SignupRequest` with email/password/name only | Same flat shape plus optional username, with validation/default generation |
+| Analysis | `POST /analysis/analyze` advertises **200** | **202** background-task acceptance, then poll session detail |
+| Friends | No friends paths | Six friends operations registered |
+| Profile/session updates | No PATCH routes | `PATCH /auth/me`, `PATCH /sessions/{session_id}` |
+| Progress, insights, comparison | Only progress ping; no real routes | `GET /progress`, `/insights/recurring`, `/sessions/compare` |
+| ML diagnostics | No `/health/ml` | `GET /health/ml` |
+| Analysis ping | `GET /analysis/ping` exists | No analysis ping registered |
+| Session response schemas | Detail/summary fields match this branch | Shapes described above; runtime mapper caveats still apply |
+
+The deployment therefore needs an owner/PM update before the live service can be described as matching the latest source. This documentation/CI work does not deploy or merge application code. After deployment, repeat the method/path, field and status-code comparison and verify authenticated flows; Swagger alone does not expose the comparison/recurring runtime defects or prove mock-backed app calls are live. This live schema audit was read-only and created no production users/videos.
