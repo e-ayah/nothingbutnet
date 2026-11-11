@@ -1,6 +1,6 @@
 # API contract — implemented snapshot
 
-Audited November 10, 2026 against `develop` **55b077f** by importing `backend/main.py` and generating the same OpenAPI schema used by `/docs`. The live [Swagger UI](https://nothingbutnet-0l0a.onrender.com/docs) / [OpenAPI JSON](https://nothingbutnet-0l0a.onrender.com/openapi.json) did not respond to a 60-second request during this audit; **live parity is pending**, not verified.
+Audited November 10, 2026 against `develop` **55b077f** by importing `backend/main.py` and generating the same OpenAPI schema used by `/docs`. This branch also includes the user-authorized signup regression fix described below. The live [Swagger UI](https://nothingbutnet-0l0a.onrender.com/docs) / [OpenAPI JSON](https://nothingbutnet-0l0a.onrender.com/openapi.json) did not respond to a 60-second request during this audit; **live parity is pending**, not verified.
 
 Base URL: `http://localhost:8000` locally, or the configured deployment URL. UUIDs below are real UUID strings; human-readable IDs in old examples were placeholders.
 
@@ -45,18 +45,18 @@ Public diagnostic routes also registered: `GET /sessions/upload/ping`, `/session
 
 ### POST /auth/signup
 
-**Current wire shape is nested**, because the route has both a `SignupRequest` body and a separate optional body parameter:
+**The request is one flat JSON object**, matching the app. The optional username is part of `SignupRequest`, not a second body parameter:
 
 ```json
 {
-  "body": {"email":"player@example.com", "password":"example-password", "name":"Example Player"},
-  "username":"example_player"
+  "email":"player@example.com", "password":"example-password",
+  "name":"Example Player", "username":"example_player"
 }
 ```
 
-`body.email`, `body.password`, `body.name` are required strings. `username` is optional/null. An omitted username is derived from the name with a random three-digit suffix. Supplied usernames are lowercased and validated for 3–20 lowercase letters, digits or underscores. Email is lowercased. No password-length validator is currently declared in the schema.
+`email`, `password`, `name` are required strings. `username` is optional/null. An omitted username is derived from the name with a random three-digit suffix. Supplied usernames are lowercased and validated for 3–20 lowercase letters, digits or underscores. Email is lowercased. No password-length validator is currently declared in the schema.
 
-Returns `{"user_id":"<uuid>","token":"<jwt>"}`. Business errors: **400** `Email already registered`, `Username must be between 3 and 20 characters`, `Username must contain only lowercase letters, numbers, or underscores`, or `Username already taken`. Flat signup JSON currently returns **422** (required `body` missing). This disagrees with the existing app/tests and requires an application fix; documenting it does not endorse the mismatch.
+Returns `{"user_id":"<uuid>","token":"<jwt>"}`. Business errors: **400** `Email already registered`, `Username must be between 3 and 20 characters`, `Username must contain only lowercase letters, numbers, or underscores`, or `Username already taken`. Missing required fields or an invalid field type return **422**. The previous endpoint accidentally required a nested `body`; this branch fixes that regression without changing username normalization, validation or generated defaults.
 
 ### POST /auth/login
 

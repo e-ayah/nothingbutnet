@@ -87,18 +87,18 @@ Expected: both migrations complete and Uvicorn listens on port 8000. Keep this t
 
 ### Verify auth in Swagger
 
-The current signup endpoint requires this **nested** JSON body (see the [contract](api-contract.md#authentication)):
+The signup endpoint accepts this **flat** JSON body (see the [contract](api-contract.md#authentication)):
 
 ```json
 {
-  "body": { "email": "new-player@example.com", "password": "local-demo-password", "name": "New Player" },
-  "username": "new_player"
+  "email": "new-player@example.com", "password": "local-demo-password",
+  "name": "New Player", "username": "new_player"
 }
 ```
 
 Use your own disposable test identity. `POST /auth/signup` should return 200 with `user_id` and `token`; the optional username must be 3–20 letters/numbers/underscores. Login uses a flat `{ "email": "…", "password": "…" }` body. Click **Authorize** in Swagger and paste the returned token into its HTTPBearer value field; call `GET /auth/me` and `GET /sessions` (initially `[]`).
 
-**Known blocker:** the app and existing signup tests send flat signup data and get 422. Do not change the docs' nested example to make it match the broken client; the endpoint/client owners must agree on and fix one shape. The docs/CI ticket does not change application files.
+**Signup regression fixed on this branch:** the optional username now belongs to the same request model as email/password/name. This restores the app’s flat request shape; supplied usernames retain their validation and omitted usernames are still generated. An older deployment may still demand a nested `body`; deploy the matching server revision rather than changing the app to that obsolete shape.
 
 ## ML setup and tests
 
@@ -150,7 +150,7 @@ npm start
 
 Press **w** for web. For iPhone, scan the terminal QR code and open in compatible Expo Go. The API URL and Expo/Metro URL are different: don't use the Metro port as the API port. Restart Expo after `.env.local` changes. Never put Cloudinary secrets, database passwords or JWT signing keys in an `EXPO_PUBLIC_` variable; those are bundled into the app.
 
-The app should show onboarding only on first launch, then Login, or Home if a saved login exists. Blank saved-login storage can be reset through your browser's site data or the app's local storage. To test signup before its integration fix lands, use Swagger's nested signup first, then log in through the app.
+The app should show onboarding only on first launch, then Login, or Home if a saved login exists. Blank saved-login storage can be reset through your browser's site data or the app's local storage. Signup and login use the flat request examples above. A server still demanding a nested signup body is an older deployment.
 
 ### What connects to real data?
 
@@ -196,18 +196,18 @@ Use the same PostgreSQL user/password/port as your local server, but the databas
 | `createdb`/`psql` not found | PostgreSQL 16 `bin` must be on PATH. On macOS use the Homebrew PATH command above. |
 | PostgreSQL role missing | Use the account created by your PostgreSQL installer in `DATABASE_URL`; Homebrew normally uses your macOS username. |
 | `/health` says `db:false` | PostgreSQL running, database created, correct URL, migrations applied; restart the API after editing `.env`. |
-| Signup 422 mentions `body` | Existing signup-shape regression; use the nested Swagger example, then log in. |
+| Signup 422 mentions a nested `body` | The server is on an older revision; this branch restores flat signup JSON. Check the deployed commit and API URL. |
 | Cloudinary upload 502 | All three local Cloudinary variables must be valid; ask a PM privately. |
 | iPhone cannot connect | Use the computer's LAN IP, bind Uvicorn to `0.0.0.0`, check Wi-Fi/firewall. `npx expo start --tunnel` can help Metro but does not expose a localhost API. |
 | Expo reports incompatible SDK | Install a matching SDK 58 Expo Go build or use a development build; coordinate dependency upgrades with the team. |
 | OpenCV complains about `libGL`/`cv2` | Normalize to the single headless distribution above; don't add another OpenCV package. |
 | MediaPipe `NSOpenGLPixelFormat` on macOS | Run in a normal local terminal with graphics access; the sandboxed run failed while the normal run passed. Ubuntu CI uses the headless runtime. |
 | Friends/Leaderboard navigation or comparison fails | See the known integration/runtime gaps in the [API contract](api-contract.md#known-gaps-and-deployment-parity). |
-| API test job fails on signup | Read the assertion/422 detail. Don't weaken CI to conceal the frontend/server/test mismatch. |
+| API test job fails on signup | Confirm the flat-request fix and tests are in the checked-out revision. Read assertion/422 details rather than weakening CI. |
 
 ## Verification and teammate walkthrough
 
-The implementer verified installation into a new temporary Python 3.11 environment, PostgreSQL 16 startup, both Alembic migrations on an empty local database, and local OpenAPI generation on November 10, 2026. Local full-suite results: **ML 56 passed**; **API 35 passed, 3 failed, 4 errors**. The seven API failures/errors trace to flat signup requests versus the nested endpoint. Hosted Actions results must be checked on the PR; local results are not a hosted-green claim. The live API schema request timed out after 60 seconds, so deployment parity remains unverified.
+The implementer verified installation into a new temporary Python 3.11 environment, PostgreSQL 16 startup, both Alembic migrations on an empty local database, and local OpenAPI generation on November 10, 2026. Initial API results exposed seven signup-related failures/errors. With the user-authorized signup fix and eight new regression cases, local results are **API 50 passed**; the unchanged **ML suite passed all 56 tests**. The fix restores flat signup JSON and retains username validation/default generation. Hosted Actions results must be checked on the PR; local results are not a hosted-green claim. The live API schema request timed out after 60 seconds, so deployment parity remains unverified.
 
 **Required independent walkthrough — pending.** A teammate who has never configured all three parts must follow this guide on their own laptop. The implementer's isolated install does not satisfy that requirement. Give the reviewer this checklist and have them report the failing command, OS/version, expected vs actual output, and a redacted error for each obstacle:
 
@@ -216,7 +216,7 @@ The implementer verified installation into a new temporary Python 3.11 environme
 - [ ] Local database, `.env`, migrations and `/health` with `db:true`.
 - [ ] Swagger signup/login and authorized `/auth/me`.
 - [ ] Full ML suite and a local analysis command.
-- [ ] Full API suite; distinguish the documented signup failure from environment problems.
+- [ ] Full API suite, including the flat-signup/username regression cases.
 - [ ] Web login/upload/results with real credentials; phone API URL and Expo startup.
 - [ ] All obstacles documented and guide corrections re-tested; PM confirms final sign-off.
 

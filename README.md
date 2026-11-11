@@ -38,7 +38,7 @@ Press **w** for web; scan the QR code with a compatible Expo Go build for iPhone
 
 | Area | State on `develop` at the Finals #08 audit |
 |---|---|
-| Account and startup | Login/signup screens, persistent authentication, first-launch onboarding, profile and username endpoints. Signup currently has a frontend/server request-shape mismatch; see [API contract](docs/api-contract.md#authentication). |
+| Account and startup | Login/signup screens, persistent authentication, first-launch onboarding, profile and username endpoints. Signup accepts the app’s flat JSON body, including an optional username; see [API contract](docs/api-contract.md#authentication). |
 | Video analysis | Cloudinary upload, background analysis, session polling, annotated video, score and three angle checkpoints. Missing-shot detection marks the session failed with filming advice. |
 | History and comparison | Session history/results screens and a two-shot comparison screen/endpoint. The comparison client still uses mocks; the server's real comparison has model-field mismatches. |
 | Progress and insights | Progress endpoint and screen; progress and recurring-insight app calls still return mock data. The recurring endpoint needs a model-field fix. |

@@ -24,7 +24,7 @@ The server resizes clips to at most 480 pixels wide and analyzes the first 10 se
 
 Implemented pieces include onboarding, saved login, upload/background analysis, annotated results, history, profile/username APIs, progress, comparisons, recurring-feedback logic, friend requests and made/missed storage. The release status table in the [README](../../README.md#what-is-implemented) distinguishes API implementation, mock-backed screens and navigator registration.
 
-At this audit, signup's nested request shape disagrees with the app/older tests; real comparison reads fields from the wrong model; recurring insights uses the wrong feedback attribute; several social clients still return mocks. Friends UI PR #103 has not landed on audited develop and Friends/Leaderboard routes are unregistered. Goal/feedback CRUD, leaderboard API and session deletion are not implemented. PMs should update this paragraph after the feature owners' fixes merge, before describing the demo as end-to-end.
+The CI audit found a signup request-shape regression; this branch fixes it and adds username regression coverage with user approval. Real comparison reads fields from the wrong model; recurring insights uses the wrong feedback attribute; several social clients still return mocks. Friends UI PR #103 has not landed on audited develop and Friends/Leaderboard routes are unregistered. Goal/feedback CRUD, leaderboard API and session deletion are not implemented. PMs should update this paragraph after the feature owners' fixes merge, before describing the demo as end-to-end.
 
 ## Results — evidence and pending numbers
 
@@ -32,7 +32,7 @@ At this audit, signup's nested request shape disagrees with the app/older tests;
 |---|---|
 | Historical release accuracy, **not final** | 22.7-frame mean absolute error over 9 detected clips; 2/10 within ±2 frames; 1/10 missed detection. The historical answer key includes footage-quality concerns. [Valkyries report](../../testing/reports/accuracy.md). |
 | Historical server preprocessing measurement | Local macOS test on one 12-second 1080×1920 clip: 24.8 s / 925 MB without shrinking vs 11.0 s / 383 MB at 480 px and 10 s. Different input duration/frame count; not a production benchmark. [Deployment notes](../deploy.md). |
-| Current automated checks | Local full ML suite: **56 passed**. API: **35 passed, 3 failed, 4 errors**, driven by signup-shape mismatch. These checks are functional tests, not model-accuracy measurements. Hosted CI status belongs on the PR. |
+| Current automated checks | Local full ML suite: **56 passed**. API: **50 passed**, including eight new signup/username cases; the seven original signup-related failures/errors are fixed. These checks are functional tests, not model-accuracy measurements. Hosted CI status belongs on the PR. |
 | Finals #04: clean release evaluation | **[X]** clips / players; **[X]**-frame MAE; **[X]/[X]** within ±2 frames; **[X]** missed. Link to clean-answer-key report: **[X]**. |
 | Finals #03: live performance/validator | Cold/warm **[X] / [X] s**, peak **[X] MB**; invalid-clip rejection **[X] s** on **[X]** clips. Report/environment: **[X]**. |
 | Finals #09: dataset and rules vs makes | **[X]** labeled clips from **[X]** players; made/missed balance **[X]**; relationship/effect estimate **[X]** with uncertainty **[X]**. Report: **[X]**. |
@@ -47,7 +47,7 @@ The app/server boundary needs executable tests: changing signup's wire shape bro
 
 ## What's left
 
-Finals #01/#02 connect social screens and fix app regressions; #03 hardens performance/video validation; #04 and #09–#11 supply final evaluation evidence; #05/#06 supply demo backups and full regression results; #07 completes security/privacy review. This ticket adds full-suite CI, setup/architecture docs and the corrected source contract. Its remaining sign-offs are hosted-green checks after upstream fixes, comparison with responsive live `/docs`, and an independent new-contributor walkthrough of [setup](../setup.md#verification-and-teammate-walkthrough).
+Finals #01/#02 connect social screens and fix app regressions; #03 hardens performance/video validation; #04 and #09–#11 supply final evaluation evidence; #05/#06 supply demo backups and full regression results; #07 completes security/privacy review. This ticket adds full-suite CI, setup/architecture docs and the corrected source contract. Its remaining sign-offs are hosted-green checks on this branch, comparison with responsive live `/docs`, and an independent new-contributor walkthrough of [setup](../setup.md#verification-and-teammate-walkthrough).
 
 ## Team
 

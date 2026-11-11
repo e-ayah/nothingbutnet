@@ -57,7 +57,7 @@ A single process-local lock serializes ML work within each API process. There is
 - Render starts `uvicorn main:app --app-dir backend`; its free plan is configured in `backend/render.yaml`. PostgreSQL connection and Cloudinary values are supplied through private environment settings. The deployment guide describes Supabase-backed hosting.
 - Vercel serves the Expo web export; Expo Go/development builds run on phones. Both use the public `EXPO_PUBLIC_API_URL`; `localhost` must be replaced with a reachable LAN URL on physical devices.
 - The primary auth/upload/session/analysis clients use real requests. Progress remains mocked, as do comparison/made/leaderboard services; recurring insights currently always returns mocks. Friends UI and navigation registration are pending.
-- Local source includes signup, comparison and recurring-insight integration defects. Planned leaderboard/goals/feedback CRUD and session-delete routes must not be mistaken for registered endpoints. See the [contract](api-contract.md).
+- This branch fixes the flat-signup regression. Comparison and recurring-insight integration defects remain in the audited source. Planned leaderboard/goals/feedback CRUD and session-delete routes must not be mistaken for registered endpoints. See the [contract](api-contract.md).
 
 ## Data and measurement limits
 
