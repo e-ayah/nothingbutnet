@@ -1,0 +1,9 @@
+filename,player,made,side,release_frame,fps,elbow_at_release,knee_at_release,shoulder_at_release,min_knee_before_release,min_elbow_before_release,dip_to_release_s,pose_coverage,arm_visibility_at_release
+Anisha_Made_01.mp4,Anisha,1,left,49,60.397830018083184,136.6,143.7,138.1,103.5,58.8,0.811,1.0,0.968
+Anisha_Made_02.mp4,Anisha,1,left,36,60.41379310344828,143.1,136.9,143.4,128.2,60.2,0.364,1.0,0.977
+Abby_made_01.mp4,Abby,1,left,172,57.42513121333745,32.8,,23.3,164.3,4.7,2.96,0.948,0.735
+Abby_made_03.mp4,Abby,1,left,80,57.45928338762215,136.8,151.6,140.5,26.8,52.5,1.079,0.952,0.943
+Veronica_missed_01.mp4,Veronica,0,right,68,46.06525911708253,24.0,,45.0,135.5,0.2,0.304,0.715,0.844
+Veronica_missed_02.mp4,Veronica,0,right,173,46.05577689243028,159.2,161.7,5.2,131.0,84.9,3.409,0.955,0.941
+Ryan_missed_01.mp4,Ryan,0,right,391,53.89507154213037,174.7,179.8,18.0,142.5,14.9,2.857,0.647,0.985
+Ryan_missed_02.mp4,Ryan,0,right,112,47.242990654205606,128.5,175.3,56.0,169.8,82.0,2.371,0.929,0.937
