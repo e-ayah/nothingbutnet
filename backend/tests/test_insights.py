@@ -12,7 +12,7 @@ def make_session(session_id):
 def make_feedback(session_id, status):
     return SimpleNamespace(
         session_id=session_id,
-        checkpoint="elbow_alignment",
+        checkpoint_name="elbow_alignment",  # same field name as the real FeedbackItem model
         status=status,
         tip=f"Tip from session {session_id}"
     )
@@ -109,3 +109,23 @@ def test_fewer_than_three_sessions_returns_empty():
     result = run_recurring_test(sessions, feedback)
 
     assert result == []
+
+
+def test_recurring_with_real_database_rows(client, token, db_session):
+    # Uses real FeedbackItem rows (not fakes), so a wrong field name fails here.
+    from uuid import UUID
+    from models import ShotSession, FeedbackItem
+    headers = {"Authorization": f"Bearer {token}"}
+    me = client.get("/auth/me", headers=headers).json()
+    for i in range(3):
+        s = ShotSession(user_id=UUID(me["id"]), video_url="v.mp4", status="done")
+        db_session.add(s)
+        db_session.flush()
+        db_session.add(FeedbackItem(session_id=s.id, checkpoint_name="elbow_alignment",
+                                    angle_value=120, status="needs_work", tip=f"tip {i}"))
+    db_session.commit()
+
+    response = client.get("/insights/recurring", headers=headers)
+    assert response.status_code == 200, response.text
+    assert response.json()[0]["checkpoint"] == "elbow_alignment"
+    assert response.json()[0]["count"] == 3
