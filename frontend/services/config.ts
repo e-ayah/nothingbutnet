@@ -8,7 +8,7 @@ export const MOCKS = {
   upload: false,
   sessions: false,
   analysis: false,
-  progress: true, // GET /progress is built in Sprint 6 — flip this to false then
+  progress: false, // GET /progress is built in Sprint 6 — flip this to false then
 };
 
 // Older name kept so History.tsx still compiles (it checks it before loading sessions).
