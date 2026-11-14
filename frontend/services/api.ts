@@ -67,9 +67,6 @@ export const getSessions = async (token: string): Promise<SessionSummary[]> =>
     ? mock(mockSessions)
     : (await client.get('/sessions', authHeader(token))).data;
 
-export const getMe = async (token: string) =>
-  (await client.get('/auth/me', authHeader(token))).data;
-
 export const getSession = async (id: string, token: string): Promise<SessionDetail> =>
   MOCKS.sessions
     ? mock(mockSession)
@@ -108,7 +105,7 @@ export const sendFeedback = async (
 
 export const getMe = async (
   token: string
-): Promise<{ id: string; name: string; email: string }> =>
+): Promise<{ id: string; name: string; email: string; username?: string | null }> =>
   MOCKS.auth
     ? mock(mockMe)
     : (await client.get('/auth/me', authHeader(token))).data;
