@@ -19,6 +19,8 @@ import CompareScreen from "./screens/Compare";
 import GoalsScreen from "./screens/Goals";
 import OnboardingScreen from "./screens/Onboarding";
 import FeedbackScreen from "./screens/Feedback";
+import FriendsScreen from "./screens/Friends";
+import LeaderboardScreen from "./screens/Leaderboard";
 
 const Stack = createNativeStackNavigator();
 
@@ -70,6 +72,8 @@ export default function App() {
             <Stack.Screen name="Compare" component={CompareScreen} />
             <Stack.Screen name="Goals" component={GoalsScreen} />
             <Stack.Screen name="Feedback" component={FeedbackScreen} />
+            <Stack.Screen name="Friends" component={FriendsScreen} />
+            <Stack.Screen name="Leaderboard" component={LeaderboardScreen} />
           </Stack.Group>
         )}
       </Stack.Navigator>

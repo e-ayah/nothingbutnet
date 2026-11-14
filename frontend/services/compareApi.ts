@@ -26,7 +26,7 @@ export type CompareResult = {
   };
 };
 
-const USE_MOCK = true;
+const USE_MOCK = false;
 
 const MOCK_COMPARE: CompareResult = {
   a: {
