@@ -14,6 +14,12 @@ import type { Friend, Requests } from '../services/friendsApi';
 import { useStore } from '../store/useStore';
 
 function actionError(error: unknown): string {
+  // The server's own message is the most useful here (e.g. "No user with that username");
+  // friendlyError would turn every 404 into "We couldn't find that."
+  if (axios.isAxiosError(error)) {
+    const detail = (error.response?.data as { detail?: unknown } | undefined)?.detail;
+    if (typeof detail === 'string') return detail;
+  }
   const friendly = friendlyError(error);
   // Mock errors carry the exact user-facing message from the ticket.
   return error instanceof Error && !axios.isAxiosError(error) ? error.message : friendly;
