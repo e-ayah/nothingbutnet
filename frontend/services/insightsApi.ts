@@ -1,5 +1,7 @@
 
-import { API_URL, MOCKS } from "./config";
+import { API_URL } from "./config";
+
+const USE_MOCK = false;
 
 export type RecurringMistake = {
   checkpoint: string;
@@ -22,7 +24,7 @@ const MOCK_RECURRING: RecurringMistake[] = [
 export async function getRecurring(
   token: string
 ): Promise<RecurringMistake[]> {
-  if (MOCKS) {
+  if (USE_MOCK) {
     return MOCK_RECURRING;
   }
 

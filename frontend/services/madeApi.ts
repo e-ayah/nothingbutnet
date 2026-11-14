@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { API_URL } from './config';
 
-const USE_MOCK = true;
+const USE_MOCK = false;
 const wait = (ms: number) => new Promise((r) => setTimeout(r, ms));
 const auth = (token: string | null) => ({ headers: { Authorization: `Bearer ${token}` } });
 
