@@ -1,5 +1,5 @@
 import uuid
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Body
 from sqlalchemy.orm import Session
 from database import get_db
 from models import ShotSession, AnalysisResult, FeedbackItem
@@ -64,3 +64,21 @@ def get_session(session_id: uuid.UUID, user=Depends(get_current_user), db: Sessi
         status=s.status,
         error=s.error,
     )
+
+@router.patch("/{session_id}")
+def patch_session(session_id: uuid.UUID, made: bool = Body(..., embed=True), user = Depends(get_current_user), db: Session = Depends(get_db)):
+    s = db.get(ShotSession, session_id)
+    if s is None or s.user_id != user.id:
+        raise HTTPException(status_code=404, detail="Session not found")
+    setattr(s, "made", made)
+    db.commit()
+    db.refresh(s)
+    return {
+        "session_id": str(s.id),
+        "video_url": s.video_url,
+        "annotated_video_url": s.annotated_video_url,
+        "score": s.overall_score,
+        "status": s.status,
+        "error": s.error,
+        "made": s.made
+    }

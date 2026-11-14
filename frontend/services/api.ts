@@ -2,7 +2,7 @@ import axios from "axios";
 import { API_URL, MOCKS } from './config';
 import {
   mockAuth, mockUpload, mockAnalysis, mockSessions, mockSession,
-  mockProgress, mockGoals, mockGoal,
+  mockProgress, mockGoals, mockGoal, mockMe,
 } from './mocks';
 import {
   AuthResponse, UploadResponse, Analysis, SessionSummary, SessionDetail,
@@ -20,10 +20,10 @@ const authHeader = (token?:string) =>
 const mock = <T>(data: T): Promise<T> =>
   new Promise((resolve) => setTimeout(() => resolve(data), 500));
 
-export const signup = async (email: string, password: string, name: string): Promise<AuthResponse> =>
+export const signup = async (email: string, password: string, name: string, username?: string): Promise<AuthResponse> =>
   MOCKS.auth
     ? mock(mockAuth)
-    : (await client.post('/auth/signup', { email, password, name })).data;
+    : (await client.post('/auth/signup', { email, password, name, username })).data;
 
 export const login = async (email: string, password: string): Promise<AuthResponse> =>
   MOCKS.auth
@@ -102,3 +102,10 @@ export const sendFeedback = async (
   MOCKS.sessions
     ? mock(undefined)
     : (await client.post('/feedback', data, authHeader(token))).data;
+
+export const getMe = async (
+  token: string
+): Promise<{ id: string; name: string; email: string; username?: string | null }> =>
+  MOCKS.auth
+    ? mock(mockMe)
+    : (await client.get('/auth/me', authHeader(token))).data;

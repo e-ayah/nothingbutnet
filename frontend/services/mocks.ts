@@ -82,3 +82,5 @@ export const mockGoals: Goal[] = [
 
 // POST /goals returns the created goal
 export const mockGoal: Goal = mockGoals[0];
+
+export const mockMe = { id: 'mock-user', name: 'OpenProject', email: 'openproject@berkeley.edu' };
