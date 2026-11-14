@@ -1,8 +1,8 @@
 import axios from 'axios';
 import { API_URL } from './config';
 
-// Sprint 8 switches this off when the friends endpoints are live.
-const USE_MOCK = true;
+// The friends endpoints are live (Finals#01), so this uses the real server.
+const USE_MOCK = false;
 const wait = () => new Promise<void>((resolve) => setTimeout(resolve, 300));
 const auth = (token: string | null) => ({ headers: { Authorization: `Bearer ${token}` } });
 
