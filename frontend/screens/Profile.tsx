@@ -19,7 +19,11 @@ const REG = 'Inter_400Regular';
 export default function ProfileScreen() {
   const token = useStore((s) => s.token);
   const logout = useStore((s) => s.logout);
-  const [me, setMe] = useState<{ name: string; email: string } | null>(null);
+  const [me, setMe] = useState<{
+    name: string;
+    email: string;
+    username?: string | null;
+  } | null>(null);
   const [count, setCount] = useState<number | null>(null);
 
   // reload name + shot count every time the screen opens
@@ -55,6 +59,9 @@ export default function ProfileScreen() {
         <Text style={{ fontFamily: BOLD, fontSize: 14, letterSpacing: 2, color: C.lightOrange, marginTop: 16 }}>PROFILE</Text>
         <Text style={{ fontFamily: BOLD, fontSize: 45, lineHeight: 48, color: C.light }} numberOfLines={2}>{me?.name ?? '—'}</Text>
         <Text style={{ fontFamily: REG, fontSize: 16, color: C.lightOrange }}>{me?.email ?? ''}</Text>
+        <Text style={{ fontFamily: REG, fontSize: 14, color: C.lightOrange, marginTop: 6 }}>
+          Username: {me?.username ?? '—'}
+        </Text>
 
         {/* stat card */}
         <View style={{ marginTop: 56, backgroundColor: C.navy, borderRadius: 24, padding: 24, flexDirection: 'row', alignItems: 'center' }}>
