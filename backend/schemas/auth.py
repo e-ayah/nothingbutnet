@@ -6,6 +6,7 @@ class SignupRequest(BaseModel):
     email: str
     password: str
     name: str
+    username: str | None = None
 
 class LoginRequest(BaseModel):
     email: str

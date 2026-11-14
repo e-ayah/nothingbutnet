@@ -1,6 +1,5 @@
 import re
 import random
-from typing import Optional
 from fastapi import APIRouter, Depends, HTTPException, Body
 from sqlalchemy.orm import Session
 from database import get_db
@@ -12,7 +11,8 @@ from services.deps import get_current_user
 router = APIRouter()
  
 @router.post("/signup", response_model=AuthResponse)
-def signup(body: SignupRequest, username: Optional[str] = Body(None), db: Session = Depends(get_db)):
+def signup(body: SignupRequest, db: Session = Depends(get_db)):
+    username = body.username
     email = body.email.lower()
     if db.query(User).filter(User.email == email).first():
         raise HTTPException(status_code=400, detail="Email already registered")
