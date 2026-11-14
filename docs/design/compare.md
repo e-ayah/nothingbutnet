@@ -17,4 +17,4 @@ I chose warm cream and burnt orange for a simple, sporty feel. Dates and scores 
 
 The target ranges and practice values are illustrative. These are editable mockups, not working session selectors. Figma sync verified: the latest designs were checked in the browser and match the desktop file.
 
-**For developers:** the app's real target ranges are in `ml/feedback_rules.py` (`ANGLE_RANGES`: elbow 85–100°, knee 150–175°, shoulder 45–75°). Use those, not the illustrative values above.
+**For developers:** the app's real target ranges are in `ml/feedback_rules.py` (`ANGLE_RANGES`) and `frontend/constants/ranges.ts`. Use those, not the illustrative values above — they change as the ranges are calibrated (Sixers#02 measured them from real made shots).

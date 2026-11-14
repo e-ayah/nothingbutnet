@@ -73,7 +73,7 @@ To rerun: download the clips into one folder, then from the repo root run `pytho
 
 **Tests:** updated 3 asserts in `ml/tests/test_release_frame.py` (14 → 13). They encoded the old skip-missing-frames behavior, which this ticket replaces with gap filling.
 
-**Not done yet:** 480 px measurements; Part 2 (ranges from 20+ made shots at hand-marked release frames) — ANGLE_RANGES unchanged.
+**Not done yet:** 480 px measurements. (Part 2, the new ranges, is done — see "Sixers#02 Part 2: feedback ranges" below.)
 
 ### Sixers#02 Part 2: feedback ranges
 
