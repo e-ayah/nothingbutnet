@@ -56,7 +56,9 @@ def upload(
         raise
 
     except Exception as exc:
-        print(f"Cloudinary upload failed: {type(exc).__name__}")
+        # Keep the message: it says what went wrong ("Invalid api_key", "File size too large")
+        # and never contains the API secret. Shows up in the Render logs.
+        print(f"Cloudinary upload failed: {type(exc).__name__}: {exc}")
         raise HTTPException(
             status_code=502,
             detail="Couldn't save the video. Try again.",
