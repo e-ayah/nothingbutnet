@@ -91,3 +91,17 @@ def test_sessions_returned_newest_first(client, token, db_session):
     assert len(sessions) == 2
     assert sessions[0]["session_id"] == str(newer.id)
     assert sessions[1]["session_id"] == str(older.id)
+
+
+def test_made_answer_is_returned_when_reopening_a_session(client, token, db_session):
+    # 'Did it go in?' must still show the player's answer when Results is opened again.
+    headers = {"Authorization": f"Bearer {token}"}
+    me = client.get("/auth/me", headers=headers).json()
+    session = ShotSession(user_id=UUID(me["id"]), video_url="test_video.mp4", status="done")
+    db_session.add(session)
+    db_session.commit()
+    db_session.refresh(session)
+
+    assert client.get(f"/sessions/{session.id}", headers=headers).json()["made"] is None
+    assert client.patch(f"/sessions/{session.id}", json={"made": True}, headers=headers).status_code == 200
+    assert client.get(f"/sessions/{session.id}", headers=headers).json()["made"] is True
