@@ -1,5 +1,7 @@
 from ml.trend_analyzer import trends
 
+# Sixers#02: elbow values shifted +65 to fit the new elbow range (115-165)
+
 
 def make_session(elbow_angle):
     return {
@@ -11,10 +13,10 @@ def make_session(elbow_angle):
 
 def test_improving():
     sessions = [
-        make_session(110),
-        make_session(105),
-        make_session(102),
-        make_session(98),
+        make_session(175),
+        make_session(170),
+        make_session(167),
+        make_session(163),
     ]
 
     result = trends(sessions)
@@ -24,10 +26,10 @@ def test_improving():
 
 def test_declining():
     sessions = [
-        make_session(98),
-        make_session(102),
-        make_session(105),
-        make_session(110),
+        make_session(163),
+        make_session(167),
+        make_session(170),
+        make_session(175),
     ]
 
     result = trends(sessions)
@@ -37,10 +39,10 @@ def test_declining():
 
 def test_flat():
     sessions = [
-        make_session(90),
-        make_session(92),
-        make_session(95),
-        make_session(98),
+        make_session(155),
+        make_session(157),
+        make_session(160),
+        make_session(163),
     ]
 
     result = trends(sessions)
@@ -61,30 +63,30 @@ def test_not_enough_data():
 
 def test_none_value_is_skipped():
     sessions = [
-        make_session(110),
+        make_session(175),
         make_session(None),
-        make_session(105),
-        make_session(102),
-        make_session(98),
+        make_session(170),
+        make_session(167),
+        make_session(163),
     ]
 
     result = trends(sessions)
 
     assert result["labels"]["elbow_angle"] == "improving"
-    assert result["trends"]["elbow_angle"] == [110, 105, 102, 98]
+    assert result["trends"]["elbow_angle"] == [175, 170, 167, 163]
 
 def test_session_without_angles_is_skipped():
     # processing/failed sessions have angles=None
     sessions = [
-        make_session(110),
+        make_session(175),
         {"angles": None},
-        make_session(105),
-        make_session(102),
+        make_session(170),
+        make_session(167),
     ]
 
     result = trends(sessions)
 
-    assert result["trends"]["elbow_angle"] == [110, 105, 102]
+    assert result["trends"]["elbow_angle"] == [175, 170, 167]
     assert result["labels"]["elbow_angle"] == "improving"
 
 
