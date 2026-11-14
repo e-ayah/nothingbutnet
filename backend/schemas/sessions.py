@@ -23,3 +23,4 @@ class SessionDetail(BaseModel):
     score: Optional[float] = None  # null while processing
     status: Literal['processing', 'done', 'failed']
     error: Optional[str] = None
+    made: Optional[bool] = None  # 'Did it go in?' answer; null until the player answers
