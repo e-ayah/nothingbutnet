@@ -63,6 +63,7 @@ def get_session(session_id: uuid.UUID, user=Depends(get_current_user), db: Sessi
         score=s.overall_score,
         status=s.status,
         error=s.error,
+        made=s.made,
     )
 
 @router.patch("/{session_id}")

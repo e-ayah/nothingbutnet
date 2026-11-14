@@ -18,12 +18,12 @@ def recurring(db: Session = Depends(get_db), user=Depends(get_current_user)):
         return []
     ids = [s.id for s in recent]
     rows = db.query(FeedbackItem).filter(FeedbackItem.session_id.in_(ids)).all()
-    counts = Counter(r.checkpoint for r in rows if r.status == "needs_work")
+    counts = Counter(r.checkpoint_name for r in rows if r.status == "needs_work")  # FeedbackItem stores it as checkpoint_name
     out = []
     for checkpoint, n in counts.most_common():
         if n >= 3:
             latest = next(r for s in recent for r in rows
-                          if r.session_id == s.id and r.checkpoint == checkpoint)
+                          if r.session_id == s.id and r.checkpoint_name == checkpoint)
             out.append({"checkpoint": checkpoint, "label": LABELS.get(checkpoint, checkpoint),
                         "count": n, "out_of": len(recent), "latest_tip": latest.tip})
     return out
