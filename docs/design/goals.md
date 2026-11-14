@@ -18,4 +18,4 @@ Sample values and optimal ranges are illustrative. Progress is the portion of th
 
 These are editable design mockups, not working forms. Figma sync verified: the latest designs were checked in the browser and match the desktop file.
 
-**For developers:** the app's real target ranges are in `ml/feedback_rules.py` (`ANGLE_RANGES`: elbow 85–100°, knee 150–175°, shoulder 45–75°). Use those, not the illustrative values above.
+**For developers:** the app's real target ranges are in `ml/feedback_rules.py` (`ANGLE_RANGES`) and `frontend/constants/ranges.ts`. Use those, not the illustrative values above — they change as the ranges are calibrated (Sixers#02 measured them from real made shots).
