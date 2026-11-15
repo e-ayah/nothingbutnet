@@ -74,6 +74,14 @@ export default function ResultsScreen({ route }: { route: any }) {
       setShareError("Sharing isn't available here.");
     }
   };
+  const onBack = () => {
+    if (navigation.canGoBack()) navigation.goBack();
+    else navigation.navigate('Home');
+  };
+
+  const onContinue = () => {
+    navigation.navigate('Home');
+  };
 
   if (loading) return <LoadingSpinner />;
 
@@ -167,7 +175,7 @@ export default function ResultsScreen({ route }: { route: any }) {
 
         <View className={isMobile ? "w-full justify-center px-6 mt-10 flex-col space-y-3 items-center" : "flex-row space-x-12 mt-10 w-full justify-center max-w-[1000px] px-6"}>
           {!isMobile && (
-            <TouchableOpacity className="bg-[#A34A00] px-10 py-3 rounded-xl mr-[25rem]">
+            <TouchableOpacity onPress={onBack} className="bg-[#A34A00] px-10 py-3 rounded-xl mr-[25rem]">
               <Text className="text-white text-base font-sans font-bold">Back</Text>
             </TouchableOpacity>
           )}
@@ -177,7 +185,9 @@ export default function ResultsScreen({ route }: { route: any }) {
           >
             <Text className="text-[#A34A00] text-base font-sans font-bold">Share</Text>
           </TouchableOpacity>
-          <TouchableOpacity className={isMobile ? "bg-[#A34A00] py-4 rounded-2xl items-center justify-center w-full max-w-[340px]" : "bg-[#A34A00] px-10 py-3 rounded-xl"}>
+          <TouchableOpacity 
+            onPress={onContinue}
+            className={isMobile ? "bg-[#A34A00] py-4 rounded-2xl items-center justify-center w-full max-w-[340px]" : "bg-[#A34A00] px-10 py-3 rounded-xl"}>
             <Text className="text-white text-base font-sans font-bold">Continue</Text>
           </TouchableOpacity>
         </View>
