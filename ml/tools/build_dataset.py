@@ -12,15 +12,19 @@ def arm_visibility(frame, side):
     return round(sum(lm[i]["visibility"] for i in ARM[side]) / 3, 3)
 
 clips_dir, key_path, out_path = Path(sys.argv[1]).expanduser(), sys.argv[2], sys.argv[3]
-rows, skipped = [], []
+rows, skipped_no_pose, skipped_missing_video = [], [], []
 for r in csv.DictReader(open(key_path)):
     folder = "made" if r["made"] == "1" else "missed"
-    pose = extract_pose(str(clips_dir / folder / r["filename"]))
+    try:
+        pose = extract_pose(str(clips_dir / folder / r["filename"]))
+    except ValueError:
+        skipped_missing_video.append(r["filename"])
+        continue
     frames, fps = pose["frames"], pose["fps"] or 30
     rel = int(r["release_frame"])
     per = angles_for_video(frames)
     if rel >= len(per) or per[rel]["elbow_angle"] is None:
-        skipped.append(r["filename"])
+        skipped_no_pose.append(r["filename"])
         continue
     before = per[:rel + 1]
     knees = [(a["knee_angle"], a["frame"]) for a in before if a["knee_angle"] is not None]
@@ -42,5 +46,6 @@ with open(out_path, "w", newline="") as f:
     w = csv.DictWriter(f, fieldnames=list(rows[0]))
     w.writeheader()
     w.writerows(rows)
-print(f"wrote {len(rows)} rows, skipped {len(skipped)}: {skipped}")
-
+print(f"wrote {len(rows)} rows")
+print(f"skipped (no pose at release) {len(skipped_no_pose)}: {skipped_no_pose}")
+print(f"skipped (video not available locally) {len(skipped_missing_video)}: {skipped_missing_video}")

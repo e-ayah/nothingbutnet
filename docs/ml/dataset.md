@@ -7,6 +7,13 @@ frame where the ball visibly leaves the shooter's fingertips. `made`/`player`
 are parsed from each filename (e.g. `Veronica_made_05.mp4` -> player
 `Veronica`, made `1`).
 
+`data/release_frames_all.csv` (185 clips) is Veronica Ting's labeling work
+from an earlier, unmerged `ml/sixers-dataset` branch (Sixers#09, which never
+got an owner at the time), picked up and finished here since it is far more
+complete than the ~20 clips originally labeled for this ticket. Where it
+overlaps with our own labels, the release frames matched within 1-3 frames
+in every case but one.
+
 ## Columns in features.csv
 - `filename`, `player`, `made` (1/0), `side`, `release_frame`, `fps`
 - `elbow_at_release`, `knee_at_release`, `shoulder_at_release`
@@ -15,26 +22,29 @@ are parsed from each filename (e.g. `Veronica_made_05.mp4` -> player
   shooting shoulder, elbow and wrist at the release frame
 - `pose_coverage`: share of frames in the clip where MediaPipe found a pose
 
-## Made/missed counts per player (release_frames_all.csv, 20 clips labeled so far)
-- Veronica: 3 made, 4 missed
-- Anisha: 3 made, 0 missed
-- Abby: 3 made, 0 missed
-- Rijul: 1 made, 1 missed
-- Kelvin_Huang: 0 made, 2 missed
-- Manoj: 0 made, 1 missed
-- Ryan: 0 made, 2 missed
+`arm_visibility_at_release` was added in this ticket's `build_dataset.py` -
+Veronica's original script did not compute it, and Finals#10/#11 rely on
+this exact column name.
 
-## Skipped clips
-- `Abby_made_02.mp4`, `Rijul_made_03.mp4`: no clean elbow angle detected at
-  the labeled release frame (pose lost or occluded), so `build_dataset.py`
-  skipped them rather than guess.
+## Status: 21 of 185 labeled clips currently in features.csv
+- 33 of the 185 labeled clips have video files available locally so far.
+- Of those 33, 21 produced usable features; 12 were skipped for having no
+  detectable pose/elbow angle right at the labeled release frame (listed in
+  `build_dataset.py`'s output; every one of these 12 also appears in
+  Veronica's own skipped-clip list, which is a good consistency check).
+- The remaining 152 labeled clips (covering Audrey, David, Freya,
+  Kelvin_Huang, Manoj, most of Rijul/Ryan/Veronica's made shots, and the
+  generic make/miss clips) still need their video files downloaded before
+  `build_dataset.py` can process them.
 
 ## What's left
-- 10 of the 20 labeled clips (the original answer-key set) still need their
-  video files downloaded individually from the Drive links in
-  `testing/test-videos.md` before they can be run through `build_dataset.py`.
-- Roughly 19 more downloaded clips in `~/clips/made` and `~/clips/missed`
-  still need release frames hand-marked.
-- `features.csv` currently has 8 rows; it will grow as the above gets
-  finished before Sunday's deadline.
-  
+- Track down the full clips folder (Veronica likely still has it locally,
+  or it's in the team Drive) and download the remaining 152 clips so the
+  full dataset can be processed.
+- Re-run `python -m ml.tools.build_dataset.py ~/clips data/release_frames_all.csv data/features.csv`
+  once those are downloaded.
+- Note for the team: Finals#10 (Experiments B) and #11 (Experiments C)
+  both ran against an earlier, much smaller features.csv (8 rows) and
+  Experiments C explicitly flagged C1 as blocked by insufficient data -
+  worth re-running those once the fuller dataset lands, even though it's
+  past the original deadline.
