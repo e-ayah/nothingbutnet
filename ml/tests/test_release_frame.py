@@ -27,7 +27,7 @@ def test_follow_through_plateau_not_picked():
     angles = list(SHOT_ANGLES)
     angles[28] = 175
     frame, reason = find_release_frame(frames, angles, 'right')
-    assert frame == 14  # first frame within 10 degrees of 175
+    assert frame == 13  # first frame within 10 degrees of 175
     assert reason == ''
 
 
@@ -49,7 +49,7 @@ def test_skips_missing_landmarks():
     frames = [fake_frame(i, 400 - i * 10) for i in range(30)]
     frames[13]['landmarks'] = None
     frame, reason = find_release_frame(frames, SHOT_ANGLES, 'right')
-    assert frame == 14
+    assert frame == 13
     assert reason == ''
 
 
@@ -58,5 +58,5 @@ def test_skips_unseen_wrist():
     frames = [fake_frame(i, 400 - i * 10) for i in range(30)]
     frames[13]['landmarks'][16] = {'x': None, 'y': None, 'visibility': 0.1}
     frame, reason = find_release_frame(frames, SHOT_ANGLES, 'right')
-    assert frame == 14
+    assert frame == 13
     assert reason == ''

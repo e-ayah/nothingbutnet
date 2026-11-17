@@ -12,6 +12,7 @@ from services.cloudinary import upload_video
 from services.deps import get_current_user
 
 router = APIRouter()
+MAX_VIDEO_SIZE = 100 * 1024 * 1024
 
 
 @router.get("/upload/ping")
@@ -39,13 +40,24 @@ def upload(
         with tempfile.NamedTemporaryFile(delete=False, suffix=suffix) as temp_file:
             temp_path = temp_file.name
 
+            size = 0
             while chunk := file.file.read(1024 * 1024):
+                size += len(chunk)
+                if size > MAX_VIDEO_SIZE:
+                    raise HTTPException(
+                        status_code=400,
+                        detail="This video is too big — keep clips under 10 seconds.",
+                    )
                 temp_file.write(chunk)
 
         video_url = upload_video(temp_path)
 
-    
+    except HTTPException:
+        raise
+
     except Exception as exc:
+        # Keep the message: it says what went wrong ("Invalid api_key", "File size too large")
+        # and never contains the API secret. Shows up in the Render logs.
         print(f"Cloudinary upload failed: {type(exc).__name__}: {exc}")
         raise HTTPException(
             status_code=502,
