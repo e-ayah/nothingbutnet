@@ -14,6 +14,13 @@ complete than the ~20 clips originally labeled for this ticket. Where it
 overlaps with our own labels, the release frames matched within 1-3 frames
 in every case but one.
 
+One labeling inconsistency was found and fixed while finishing this: Kelvin
+Huang's made clips were labeled with player `Kelvin_Huang` but his missed
+clips were labeled `Kelvin` — same person, inconsistent name. Left as-is,
+this would have looked like two separate, fully-confounded players (one
+all-makes, one all-misses). Normalized to `Kelvin_Huang` for all 19 of his
+clips.
+
 ## Columns in features.csv
 - `filename`, `player`, `made` (1/0), `side`, `release_frame`, `fps`
 - `elbow_at_release`, `knee_at_release`, `shoulder_at_release`
@@ -26,25 +33,24 @@ in every case but one.
 Veronica's original script did not compute it, and Finals#10/#11 rely on
 this exact column name.
 
-## Status: 21 of 185 labeled clips currently in features.csv
-- 33 of the 185 labeled clips have video files available locally so far.
-- Of those 33, 21 produced usable features; 12 were skipped for having no
+## Status: complete — 89 of 185 labeled clips in features.csv
+- All 185 labeled clips now have video files available locally.
+- Of those 185, 89 produced usable features; 96 were skipped for having no
   detectable pose/elbow angle right at the labeled release frame (listed in
-  `build_dataset.py`'s output; every one of these 12 also appears in
-  Veronica's own skipped-clip list, which is a good consistency check).
-- The remaining 152 labeled clips (covering Audrey, David, Freya,
-  Kelvin_Huang, Manoj, most of Rijul/Ryan/Veronica's made shots, and the
-  generic make/miss clips) still need their video files downloaded before
-  `build_dataset.py` can process them.
+  `build_dataset.py`'s output). This skip count is almost an exact match for
+  Veronica's own independently-reported skip count from her original
+  branch, which is a good consistency check on the pipeline.
+- Every one of the 11 players represented has a mix of made and missed
+  shots, so player and outcome are no longer confounded the way they were
+  in the earlier partial (21-row) version of this dataset.
 
 ## What's left
-- Track down the full clips folder (Veronica likely still has it locally,
-  or it's in the team Drive) and download the remaining 152 clips so the
-  full dataset can be processed.
-- Re-run `python -m ml.tools.build_dataset.py ~/clips data/release_frames_all.csv data/features.csv`
-  once those are downloaded.
-- Note for the team: Finals#10 (Experiments B) and #11 (Experiments C)
-  both ran against an earlier, much smaller features.csv (8 rows) and
-  Experiments C explicitly flagged C1 as blocked by insufficient data -
-  worth re-running those once the fuller dataset lands, even though it's
-  past the original deadline.
+- Finals#10 (Experiments B) and #11 (Experiments C) both ran against an
+  earlier, much smaller features.csv (8 rows) and Experiments C explicitly
+  flagged C1 as blocked by insufficient data - worth re-running those now
+  that the full 89-row dataset is available, even though it's past the
+  original deadline.
+- The 96 skipped clips are a real data loss, not just a formatting
+  problem - if a future ticket wants to shrink that number, it would need
+  to look at why MediaPipe fails to find a pose at those specific release
+  frames (camera angle, occlusion, etc.), not just re-run the same pipeline.
