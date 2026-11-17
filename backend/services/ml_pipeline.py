@@ -20,39 +20,54 @@ def shrink_video(src: str) -> str:
             "-y", "-i", src,
             "-t", str(MAX_SECONDS),
             "-vf", f"scale='min({MAX_WIDTH},iw)':-2",
-            "-an", out
+            "-an", out,
         ],
         check=True,
-        capture_output=True
+        capture_output=True,
     )
 
     return out
- 
-# make the repo root importable so `import ml...` works when uvicorn runs from backend/
+
+
+# Make the repo root importable when uvicorn runs from backend/.
 sys.path.append(str(Path(__file__).resolve().parents[2]))
 from ml.analysis_pipeline import analyze
+from ml.video_validator import validate
 from services.cloudinary import upload_video
- 
+
+
+class VideoValidationError(Exception):
+    """The validator rejected the clip with a user-facing reason."""
+
+
 def run(video_url: str, session_id: str) -> dict:
-    """Download the video, run the ML pipeline, upload the annotated video.
-    Returns the contract's analysis dict. Raises on failure (the router marks the session failed)."""
+    """Download, validate, and analyze the clip, then upload the annotated video."""
     src = tempfile.NamedTemporaryFile(suffix=".mp4", delete=False).name
+    small = None
     annotated = None
+
     try:
         with requests.get(video_url, stream=True, timeout=60) as r:
             r.raise_for_status()
             with open(src, "wb") as f:
                 for chunk in r.iter_content(1 << 20):
                     f.write(chunk)
+
+        ok, reason = validate(src)
+        if not ok:
+            raise VideoValidationError(reason or "We couldn't validate this video.")
+
         small = shrink_video(src)
         output = analyze(small)
         if isinstance(output, tuple) and len(output) == 2:
             result, annotated = output
         else:
             result = output
-            annotated = None
+
         result["session_id"] = session_id
-        result["annotated_video_url"] = upload_video(annotated) if annotated and annotated != src else video_url
+        result["annotated_video_url"] = (
+            upload_video(annotated) if annotated and annotated != src else video_url
+        )
         return result
     finally:
         for p in (src, small, annotated):

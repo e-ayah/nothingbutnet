@@ -70,14 +70,19 @@ def run_analysis(session_id, video_url):
         session.error = None
         db.commit()
 
-    except Exception:
-        traceback.print_exc()
+    except Exception as exc:
+        if isinstance(exc, ml_pipeline.VideoValidationError):
+            error_message = str(exc)
+        else:
+            traceback.print_exc()
+            error_message = RETRY_ERROR
+
         db.rollback()
 
         session = db.get(ShotSession, session_id)
         if session is not None:
             session.status = "failed"
-            session.error = RETRY_ERROR  # download/upload/server problem - retrying can work
+            session.error = error_message
             db.commit()
     finally:
         db.close()
