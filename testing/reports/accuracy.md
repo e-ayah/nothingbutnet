@@ -93,3 +93,67 @@ Updated in `ml/feedback_rules.py` (ANGLE_RANGES) and `frontend/constants/ranges.
 - Anisha_Made_06 (frame 8) and Freya_Made_5 (frame 3) were marked very early in the clip — worth a second look.
 
 **Tests updated for the new ranges:** `test_feedback_rules.py` (elbow values), plus `test_comparator.py` (1 test) and `test_trends.py` (elbow values +65) — these two aren't on the ticket's file list but hard-coded the old 85–100 elbow range.
+
+## Finals#04: clean answer key, honest accuracy
+
+**Clean answer key.** I picked 11 clips on footage quality alone, before running the detector: whole body and ball in frame, filmed from the side, sharp at the release, one continuous take, not rotated. Six come from the old key and five are new (Freya_Made_7, Kelvin_Huang_04/06/09_Make, Veronica_made_04). The new five are hand-labeled with the same rule as the old ones: the first frame where there's a visible gap between the ball and the fingertips. I spot-checked the six existing clean labels, and Freya_Made_7 and Kelvin_Huang_04_Make were re-checked in `frame_viewer.py`. The 4 bad clips are flagged in `testing/test-videos.md` and stay in the CSV. Two more were picked from the Drive and then dropped: Freya_Made_8 is the same free throw as Freya_Made_7, and Freya_Made_6, Kelvin_Huang_01/05_Make and Veronica_made_02/06/07/08 have spliced intros. All the David_* and Anisha_* clips are rotated 90°.
+
+**Measured on:** MacBook Pro (Apple M3 Pro), MediaPipe 0.10.21, with `python ~/clips/mac_eval.py`. It uses the same functions as `ml/tools/eval_release.py`. "Before" = Sixers#02 detector (release rule only); "after" = Finals#04 Path A checks. 480 px = 480 wide, encoded with `-fps_mode passthrough` so frame numbers match the key. **MediaPipe output differs between machines.** A Linux run gave different per-clip results; the conclusion was the same.
+
+### Per clip, as filmed (full broadcast frame)
+Each cell is the detected frame, with the error in brackets.
+
+| Clip | Quality | Hand label | Before full | Before 480 | After full | After 480 | Why None (after, full size) |
+|---|---|---:|---|---|---|---|---|
+| Veronica_made_05 | bad | 84 | 44 (40) | 45 (39) | 44 (40) | None |  |
+| Kelvin_Huang_05_Missed | clean | 63 | 118 (55) | 3 (60) | None | None | Pose lost near the release |
+| Veronica_made_03 | clean | 183 | 185 (2) | 105 (78) | None | 105 (78) | Tracked person jumps / changes |
+| Veronica_made_01 | clean | 56 | None | 8 (48) | None | None | Wrist never goes above the shoulder |
+| Veronica_missed_03 | clean | 83 | 96 (13) | 185 (102) | 96 (13) | None |  |
+| Kelvin_Huang_08_Missed | clean | 96 | 72 (24) | 114 (18) | None | None | Tracked person jumps / changes |
+| Anisha_Made_05 | bad | 77 | 104 (27) | 103 (26) | None | None | Video looks sideways |
+| Rijul_missed_05 | bad | 71 | 90 (19) | None | None | None | Video looks sideways |
+| Veronica_missed_04 | bad | 31 | 14 (17) | 0 (31) | 14 (17) | 0 (31) |  |
+| Manoj_Missed_07 | clean | 115 | 116 (1) | 114 (1) | None | None | Tracked person jumps / changes |
+| Freya_Made_7 | clean | 24 | 115 (91) | None | None | None | Tracked person jumps / changes |
+| Kelvin_Huang_04_Make | clean | 91 | 24 (67) | 123 (32) | None | None | Pose lost near the release |
+| Kelvin_Huang_06_Make | clean | 182 | 2 (180) | 270 (88) | 2 (180) | 270 (88) |  |
+| Kelvin_Huang_09_Make | clean | 126 | 187 (61) | 96 (30) | 187 (61) | None |  |
+| Veronica_made_04 | clean | 59 | 185 (126) | 158 (99) | None | None | Tracked person jumps / changes |
+
+| Set (full broadcast frame) | Size | Within ±3 | Release found | Avg error (found only) |
+|---|---|---|---|---|
+| Clean, before | full / 480 | 2/11 / 1/11 | 10 / 10 | 62.0 / 55.6 |
+| Clean, after | full / 480 | 0/11 / 0/11 | 3 / 2 | 84.7 / 83.0 |
+| Bad, before | full / 480 | 0/4 / 0/4 | 4 / 3 | 25.8 / 32.0 |
+| Bad, after | full / 480 | 0/4 / 0/4 | 2 / 1 | 28.5 / 31.0 |
+| All 15, before | full / 480 | 2/15 / 1/15 | 14 / 13 | 51.6 / 50.2 |
+| All 15, after | full / 480 | 0/15 / 0/15 | 5 / 3 | 62.2 / 65.7 |
+
+**Why clean clips fail as filmed: the pose is on the wrong player.** Broadcast footage has 8 to 10 people on screen, and MediaPipe Pose tracks one of them, often not the shooter. On a Linux run I checked the 15 frames before each hand label to see whether the tracked body was the shooter. It was in only 3 runs, and all 3 were **2 frames off**. Every other run was on another player or had no pose. See `docs/writeups/img/wrong_person_Veronica_made_01.jpg`.
+
+### Clean clips with only the shooter in frame (what the app asks users to film)
+Same 11 clips, cropped to 30% of the width around the shooter and scaled to 480 px. `ml/tests/test_release_accuracy.py` builds exactly this.
+
+| Clip | Hand label | Before (rule only) | After (Path A) | Why None |
+|---|---:|---|---|---|
+| Kelvin_Huang_05_Missed | 63 | 65 (2) | None | Tracked person jumps / changes |
+| Veronica_made_03 | 183 | 184 (1) | 184 (1) |  |
+| Veronica_made_01 | 56 | 51 (5) | 51 (5) |  |
+| Veronica_missed_03 | 83 | 83 (0) | 83 (0) |  |
+| Kelvin_Huang_08_Missed | 96 | 99 (3) | 99 (3) |  |
+| Manoj_Missed_07 | 115 | None | None | Wrist never goes above the shoulder |
+| Freya_Made_7 | 24 | 26 (2) | 26 (2) |  |
+| Kelvin_Huang_04_Make | 91 | 93 (2) | 93 (2) |  |
+| Kelvin_Huang_06_Make | 182 | 185 (3) | 185 (3) |  |
+| Kelvin_Huang_09_Make | 126 | 127 (1) | None | Tracked person jumps / changes |
+| Veronica_made_04 | 59 | 70 (11) | 70 (11) |  |
+
+| Shooter only, 480 px | Within ±3 | Release found | Avg error (found only) |
+|---|---|---|---|
+| Before (rule only) | **8/11** | 10/11 | **3.0** |
+| After (Path A) | **6/11** | 8/11 | **3.4** |
+
+**Verdict: with only the shooter in view, the detector is good: 8 of 11 within ±3, average 3.0 frames.** The error comes from upstream: who the pose model tracks, plus rotated and spliced footage. → **Path A:** stop tuning the release rule, make bad footage fail gracefully, and require "only the shooter in frame" when filming.
+
+**Cost of Path A on clean footage:** the person-switch check also refused 2 correct answers (Kelvin_Huang_05: 2 off, Kelvin_Huang_09: 1 off), because a teammate or defender is still in the crop. In exchange, it refuses the rotated clips and most wrong-player tracks on the full broadcast frame. If the PM prefers fewer refusals, raise `SPLICE_JUMP` in `ml/release_frame_detector.py`.
