@@ -5,7 +5,7 @@ The release-frame detector averaged about 22 frames off on the 10-clip answer ke
 
 ## What we found
 - **Clean answer key.** 11 clips picked on footage alone, before running the detector: whole body and ball in frame, side view, sharp at the release, one continuous take, not rotated. Each is hand-labeled with one rule: the first frame where there's a gap between ball and fingertips. Bad clips are flagged in `testing/test-videos.md` and kept for testing failure handling.
-- **The release rule isn't the main problem.** All our test clips are NBA/WNBA broadcasts with 8 to 10 people in view, and MediaPipe Pose tracks one person, often a bystander. Every time the pose *was* on the shooter, the detected release was **2 frames** off.
+- **The release rule isn't the main problem.** All our test clips are NBA/WNBA broadcasts with 8 to 10 people in view, and MediaPipe Pose tracks one person, often a bystander. Every time the pose *was* on the shooter, the detected release was **2 frames** off. With only the shooter in view, the existing rule gets **8 of 11 clips within ±3 frames, averaging 3.0 frames off**.
 
 ![Pose locked onto the wrong player](img/wrong_person_Veronica_made_01.jpg)
 
@@ -14,23 +14,25 @@ The release-frame detector averaged about 22 frames off on the 10-clip answer ke
   - the tracked body jumps more than 2.5 torso lengths in one frame, or changes size more than 1.8×, *and stays there*, which means a cut or a switch to another person. One-frame glitches that snap back are ignored.
   - more than 5 frames of pose are missing within ±8 frames of the release
 
-  I tuned the jump threshold on every run (49 detections). At 2.5 it refuses 1 of 19 correct answers and 7 of 30 wrong ones. At 1.5 it refused 4 correct answers.
+  I tuned the jump threshold on a Linux run (49 detections). At 2.5 it refused 1 of 19 correct answers and 7 of 30 wrong ones. At 1.5 it refused 4 correct answers.
 
 ## Numbers
+All Finals numbers are from a MacBook Pro (M3 Pro). The full per-clip tables are in `testing/reports/accuracy.md`.
+
 | Footage | Within ±3 | Release found | Avg error when found |
 |---|---|---|---|
-| Old 10-clip key, Sixers#02 (Mac) | 2/10 | 9/10 | 22.0 |
-| Clean clips, full broadcast frame, before | 2/11 | 6/11 | 51.3 |
-| Clean clips, full broadcast frame, after (Path A) | 2/11 | 3/11 | 33.7 |
-| **Clean clips, shooter only, 480 px (server size), after** | **5/11** | **6/11** | **3.5** |
-| Bad clips (rotated / spliced), before → after | 0/4 → 0/4 | 4 → 1 | 26.0 → 15.0 |
+| Old 10-clip key, Sixers#02 | 2/10 | 9/10 | 22.0 |
+| Clean clips, full broadcast frame, before → after | 2/11 → 0/11 | 10 → 3 | 62.0 → 84.7 |
+| **Clean clips, shooter only, 480 px (server size), before (rule only)** | **8/11** | **10/11** | **3.0** |
+| **Clean clips, shooter only, 480 px, after (Path A)** | **6/11** | **8/11** | **3.4** |
+| Bad clips (rotated / spliced), full size, before → after | 0/4 → 0/4 | 4 → 2 | 25.8 → 28.5 |
 
-Three of the four bad clips are now refused instead of being 15 to 40 frames off: both rotated clips, and the spliced Veronica_made_05.
+The two rotated clips are now refused instead of being 19 to 27 frames off. The spliced intros still slip through: Veronica_made_05 returns a frame 40 off, and Veronica_missed_04 one 17 off. Path A also refuses 2 correct answers on shooter-only footage (Kelvin_Huang_05 and Kelvin_Huang_09), because another player is still in the crop.
 
 ![Accuracy by sprint](img/accuracy_progress.png)
 ![Per-clip error, shooter only](img/per_clip_error.png)
 
-**Debug plots** (elbow angle and wrist height; dashed = hand label, orange = detected):
+**Debug plots** (Linux run; elbow angle and wrist height; dashed = hand label, orange = detected):
 
 ![Clean hit](img/debug_Freya_Made_7.png)
 ![Wrong player tracked](img/debug_Veronica_made_01.png)
@@ -53,5 +55,6 @@ Three of the four bad clips are now refused instead of being 15 to 40 frames off
 ## What's left
 - **Pose tracks the wrong person in crowded footage.** That's the biggest remaining error, and a person-switch is only caught if it happens *mid-clip*. A clip locked onto a bystander from the start still returns a wrong frame (Freya_Made_7 full frame: 97 off). Next step: run MediaPipe's multi-person `PoseLandmarker` and pick the body whose wrist rises above its head.
 - **We have no real "one person, side-on" phone clips.** Every clip in the Drive is broadcast footage, and the shooter-only numbers come from crops of it. A short session filming teammates would give the true number.
-- **The splice and intro check misses intros with no full-body pose.** Veronica_missed_04 opens on a face close-up and still returns a frame 15 off.
-- **Results vary by machine.** MediaPipe output differs between Mac and Linux by a few frames, and sometimes found vs None. The accuracy test allows 2 clips of slack.
+- **The splice and intro check misses intros with no full-body pose.** Veronica_made_05 and Veronica_missed_04 open on close-ups and still return a frame (40 and 17 off).
+- **Path A refuses some good clips.** 2 of 11 shooter-only clips were refused because a second player is in view. Raise `SPLICE_JUMP` if fewer refusals matter more.
+- **Results vary by machine.** MediaPipe output differs between Mac and Linux, by a few frames and sometimes between found and None. The accuracy test allows 2 clips of slack and passes on both.

@@ -5,8 +5,8 @@ on the answer-key clips that skip when the clips aren't downloaded
 (CLIPS_DIR, default ~/clips).
 
 Clean-set number this guards (Finals#04, testing/reports/accuracy.md):
-shooter-only 480 px clips -> 5/11 within ±3 frames; 6/11 get a release
-(average error 3.5 frames on those), the other 5 are refused with a reason.
+shooter-only 480 px clips (Mac, M3 Pro) -> 6/11 within ±3 frames; 8/11 get a
+release (average error 3.4 frames on those), the other 3 are refused with a reason.
 """
 import csv
 import os
@@ -36,9 +36,9 @@ SHOOTER_X = {
     "Kelvin_Huang_06_Make.mp4": 0.24, "Kelvin_Huang_09_Make.mp4": 0.25,
     "Veronica_made_04.mp4": 0.69,
 }
-FINAL_WITHIN_3 = 5      # of 11
-FINAL_AVG_ERROR = 3.5   # frames, over detected clips
-FINAL_REFUSED = 5       # clean clips returned as None
+FINAL_WITHIN_3 = 6      # of 11
+FINAL_AVG_ERROR = 3.4   # frames, over detected clips
+FINAL_REFUSED = 3       # clean clips returned as None
 WITHIN_3_SLACK = 2      # MediaPipe output differs a little between machines
 AVG_SLACK = 5.0
 
