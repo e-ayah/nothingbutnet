@@ -93,3 +93,91 @@ Updated in `ml/feedback_rules.py` (ANGLE_RANGES) and `frontend/constants/ranges.
 - Anisha_Made_06 (frame 8) and Freya_Made_5 (frame 3) were marked very early in the clip — worth a second look.
 
 **Tests updated for the new ranges:** `test_feedback_rules.py` (elbow values), plus `test_comparator.py` (1 test) and `test_trends.py` (elbow values +65) — these two aren't on the ticket's file list but hard-coded the old 85–100 elbow range.
+
+## Finals#04: clean answer key, honest accuracy
+
+**Clean answer key.** I picked 11 clips on footage quality alone, before running the detector: whole body and ball in frame, filmed from the side, sharp at the release, one continuous take, not rotated. Six come from the old key and five are new (Freya_Made_7, Kelvin_Huang_04/06/09_Make, Veronica_made_04). The new five are hand-labeled with the same rule as the old ones: the first frame where there's a visible gap between the ball and the fingertips. I spot-checked the six existing labels for clean clips and they follow the same rule. The 4 bad clips are flagged in `testing/test-videos.md` and stay in the CSV. Two more were picked from the Drive and then dropped: Freya_Made_8 is the same free throw as Freya_Made_7, and Freya_Made_6, Kelvin_Huang_01/05_Make and Veronica_made_02/06/07/08 have spliced intros. All the David_* and Anisha_* clips are rotated 90°.
+
+**Measured on:** Linux, MediaPipe 0.10.21, `-fps_mode passthrough` so frame numbers match the key. 480 px means 480 wide. **MediaPipe output differs a little between machines.** For example, Kelvin_Huang_05 was "118" on the Sixers#02 Mac run and is "None" here, so re-run on your machine before quoting single clips.
+
+### Per clip, as filmed (full broadcast frame)
+"Before" is the Sixers#02 detector and "after" is Finals#04 Path A. Each cell is the detected frame, with the error in brackets.
+
+| Clip | Quality | Hand label | Before full | Before 480 | After full | After 480 | Why None (after, full size) |
+|---|---|---:|---|---|---|---|---|
+| Veronica_made_05 | bad | 84 | 47 (37) | 124 (40) | None | None | Pose lost near the release |
+| Kelvin_Huang_05_Missed | clean | 63 | None | None | None | None | Wrist never goes above the shoulder |
+| Veronica_made_03 | clean | 183 | 185 (2) | None | 185 (2) | None |  |
+| Veronica_made_01 | clean | 56 | None | 0 (56) | None | 0 (56) | Wrist never goes above the shoulder |
+| Veronica_missed_03 | clean | 83 | 96 (13) | 149 (66) | None | None | Tracked person jumps / changes |
+| Kelvin_Huang_08_Missed | clean | 96 | 98 (2) | 54 (42) | 98 (2) | None |  |
+| Anisha_Made_05 | bad | 77 | 103 (26) | 103 (26) | None | None | Video looks sideways |
+| Rijul_missed_05 | bad | 71 | 97 (26) | None | None | None | Video looks sideways |
+| Veronica_missed_04 | bad | 31 | 16 (15) | 0 (31) | 16 (15) | 0 (31) |  |
+| Manoj_Missed_07 | clean | 115 | None | 117 (2) | None | None | Wrist never goes above the shoulder |
+| Freya_Made_7 | clean | 24 | 121 (97) | 129 (105) | 121 (97) | 129 (105) |  |
+| Kelvin_Huang_04_Make | clean | 91 | None | 217 (126) | None | 217 (126) | Wrist never goes above the shoulder |
+| Kelvin_Huang_06_Make | clean | 182 | None | 8 (174) | None | None | Wrist never goes above the shoulder |
+| Kelvin_Huang_09_Make | clean | 126 | 44 (82) | 186 (60) | None | None | Pose lost near the release |
+| Veronica_made_04 | clean | 59 | 171 (112) | 178 (119) | None | 178 (119) | Tracked person jumps / changes |
+
+| Set (full broadcast frame) | Size | Within ±3 | Release found | Avg error (found only) |
+|---|---|---|---|---|
+| Clean, before | full / 480 | 2/11 / 1/11 | 6 / 9 | 51.3 / 83.3 |
+| Clean, after | full / 480 | 2/11 / 0/11 | 3 / 4 | 33.7 / 101.5 |
+| Bad, before | full / 480 | 0/4 / 0/4 | 4 / 3 | 26.0 / 32.3 |
+| Bad, after | full / 480 | 0/4 / 0/4 | 1 / 1 | 15.0 / 31.0 |
+| All 15, before | full / 480 | 2/15 / 1/15 | 10 / 12 | 41.2 / 70.6 |
+
+**Why clean clips still fail: the pose is on the wrong player.** In broadcast footage there are 8 to 10 people on screen, and MediaPipe Pose tracks one of them, often not the shooter. I checked the 15 frames before each hand label to see whether the tracked body was the shooter. It was for only 3 runs, which were Veronica_made_03 (full size), Kelvin_08 (full size) and Manoj_07 (480). All 3 were **2 frames off**, and every other run was on another player or had no pose. So the "Wrist never goes above the shoulder" results are mostly a bystander standing still. See `docs/writeups/img/wrong_person_Veronica_made_01.jpg`.
+
+### Clean clips with only the shooter in frame (what the app asks users to film)
+Same 11 clips, cropped to 30% of the width around the shooter and scaled to 480 px. `ml/tests/test_release_accuracy.py` builds exactly this.
+
+| Clip | Hand label | Rule only | With Path A checks | Why None |
+|---|---:|---|---|---|
+| Kelvin_Huang_05_Missed | 63 | 73 (10) | None | Tracked person jumps / changes |
+| Veronica_made_03 | 183 | 185 (2) | 185 (2) |  |
+| Veronica_made_01 | 56 | None | None | Wrist never goes above the shoulder |
+| Veronica_missed_03 | 83 | None | None | Wrist never goes above the shoulder |
+| Kelvin_Huang_08_Missed | 96 | 98 (2) | 98 (2) |  |
+| Manoj_Missed_07 | 115 | None | None | Wrist never goes above the shoulder |
+| Freya_Made_7 | 24 | 26 (2) | 26 (2) |  |
+| Kelvin_Huang_04_Make | 91 | 92 (1) | 92 (1) |  |
+| Kelvin_Huang_06_Make | 182 | 185 (3) | 185 (3) |  |
+| Kelvin_Huang_09_Make | 126 | None | None | Wrist never goes above the shoulder |
+| Veronica_made_04 | 59 | 70 (11) | 70 (11) |  |
+
+**Shooter only, 480 px: 5/11 within ±3. A release is found on 6/11, and those 6 average 3.5 frames off (5 of them within ±3). The other 5 are refused with a reason instead of a wrong frame.** The crop still has a teammate or defender in view, so some refusals are the same wrong-person problem.
+
+
+### Re-run on a Mac (official step-7 command, Apple M3 Pro)
+`python -m ml.tools.eval_release ~/clips data/release_frames.csv`, after Path A, full broadcast frame:
+
+| Clip | Quality | Hand label | Detected (error) | Note |
+|---|---|---:|---|---|
+| Veronica_made_05 | bad | 84 | 44 (40) |  |
+| Kelvin_Huang_05_Missed | clean | 63 | None | Pose lost near the release |
+| Veronica_made_03 | clean | 183 | None | Tracked person jumps / changes |
+| Veronica_made_01 | clean | 56 | None | Wrist never goes above the shoulder |
+| Veronica_missed_03 | clean | 83 | 96 (13) |  |
+| Kelvin_Huang_08_Missed | clean | 96 | None | Tracked person jumps / changes |
+| Anisha_Made_05 | bad | 77 | None | Video looks sideways |
+| Rijul_missed_05 | bad | 71 | None | Video looks sideways |
+| Veronica_missed_04 | bad | 31 | 14 (17) |  |
+| Manoj_Missed_07 | clean | 115 | None | Tracked person jumps / changes |
+| Freya_Made_7 | clean | 24 | None | Tracked person jumps / changes |
+| Kelvin_Huang_04_Make | clean | 91 | None | Pose lost near the release |
+| Kelvin_Huang_06_Make | clean | 182 | 2 (180) |  |
+| Kelvin_Huang_09_Make | clean | 126 | 187 (61) |  |
+| Veronica_made_04 | clean | 59 | None | Tracked person jumps / changes |
+
+| Set (Mac, full frame) | Within ±3 | Release found | Avg error (found only) |
+|---|---|---|---|
+| Clean | 0/11 | 3/11 | 84.7 |
+| Bad | 0/4 | 2/4 | 28.5 |
+| All 15 | 0/15 | 5/15 | 62.2 |
+
+The Mac and Linux runs differ clip by clip because MediaPipe's pose output isn't identical across machines, but the picture is the same: on the full broadcast frame the pose is usually on the wrong player. The shooter-only accuracy test (`test_clean_set_release_accuracy`) **passes on the Mac**, meaning at least 3/11 within ±3 and at most 7 refused (64/64 tests pass).
+
+**Verdict:** when the pose is on the shooter, the release rule is within ±3 almost every time. The error is upstream, in who the pose model tracks, and in rotated or spliced footage. → **Path A:** stop tuning the release rule, make bad footage fail gracefully, and require "only the shooter in frame" when filming.
